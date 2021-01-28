@@ -50,9 +50,14 @@ function addTodo(event){
 function deleteCheck(e){
     /*console.log(e.target); 用這句可以發現， e.target 等於我們點的位置的 html 標籤*/
     const item = e.target;
-    //delete
-    if(item.classList[0] === 'trash-btn'){
+    //delete btn
+    if(item.classList[0] === 'trash-btn'){ //item 的第一層 class 為 trash-btn 時
         const todo = item.parentElement; //若直接打 item.remove() 移除的會是刪除鈕本身，因此須回到父層再刪除
         todo.remove();
+    }
+    //check btn
+    if(item.classList[0] === 'complete-btn'){
+        const todo = item.parentElement;
+        todo.classList.toggle('completed'); //在 todo 這個 div 加上 completed 的 class(再按一次會不見)
     }
 }

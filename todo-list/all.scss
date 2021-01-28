@@ -81,3 +81,7 @@ form button{
 .fa-trash, .fa-check{ //若未加這行，按到 icon 本身時，無法執行按鈕應有的功能
     pointer-events: none;
 }
+.completed{     //讓按完完成鍵後，透明度變淡且有線劃掉項目
+    text-decoration: line-through;
+    opacity: 0.5;
+}
