@@ -78,3 +78,6 @@ form button{
 .trash-btn{
     background: #ff6f47;
 }
+.fa-trash, .fa-check{ //若未加這行，按到 icon 本身時，無法執行按鈕應有的功能
+    pointer-events: none;
+}

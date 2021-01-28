@@ -108,4 +108,8 @@ form button:hover {
 .trash-btn {
   background: #ff6f47;
 }
+
+.fa-trash, .fa-check {
+  pointer-events: none;
+}
 /*# sourceMappingURL=all.css.map */

@@ -7,7 +7,7 @@ const todoList = document.querySelector('.todo-list');
 
 //event listeners
 todoButton.addEventListener('click',addTodo);
-
+todoList.addEventListener('click',deleteCheck);
 
 //functions
 function addTodo(event){
@@ -46,4 +46,13 @@ function addTodo(event){
     todoList.appendChild(todoDiv);
     //輸入並加到下方後，自動清空輸入欄位，讓使用者可以再輸入其他待辦事項
     todoInput.value = "";
+}
+function deleteCheck(e){
+    /*console.log(e.target); 用這句可以發現， e.target 等於我們點的位置的 html 標籤*/
+    const item = e.target;
+    //delete
+    if(item.classList[0] === 'trash-btn'){
+        const todo = item.parentElement; //若直接打 item.remove() 移除的會是刪除鈕本身，因此須回到父層再刪除
+        todo.remove();
+    }
 }
