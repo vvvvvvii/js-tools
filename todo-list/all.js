@@ -29,7 +29,7 @@ function addTodo(event){
 
     //建立 li 
     const newTodo = document.createElement('li');
-    newTodo.innerText = "todo";
+    newTodo.innerText = todoInput.value; //輸入什麼就呈現什麼
     newTodo.classList.add("todo-item");
     todoDiv.appendChild(newTodo); //把 newTodo 放到 todoDiv 的下方
     //check mark btn
