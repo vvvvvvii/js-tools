@@ -3,11 +3,12 @@ const todoInput = document.querySelector('.todo-input');
 const todoButton = document.querySelector('.todo-button');
 const todoList = document.querySelector('.todo-list');
 
-
+const filterOption = document.querySelector('.filter-todo');
 
 //event listeners
 todoButton.addEventListener('click',addTodo);
 todoList.addEventListener('click',deleteCheck);
+filterOption.addEventListener('click',filterTodo);
 
 //functions
 function addTodo(event){
@@ -63,4 +64,29 @@ function deleteCheck(e){
         const todo = item.parentElement;
         todo.classList.toggle('completed'); //在 todo 這個 div 加上 completed 的 class(再按一次會不見)
     }
+}
+//filter
+function filterTodo(e){
+    const todos = todoList.childNodes;
+    todos.forEach(function(todo){
+        switch(e.target.value){ //點擊時，跑迴圈並讓點擊的 value 值（會是 all completed uncompleted）進 switch 判斷式
+            case "all": //點 all 時
+                todo.style.display = 'flex'; //全都秀
+                break;
+            case "completed": //點 completed 時
+                if (todo.classList.contains('completed')){ //只秀出 class 中有加入 completed 這個 class 的
+                    todo.style.display = 'flex'; 
+                } else { //其他的不要秀
+                    todo.style.display = 'none';
+                }
+                break;
+            case "uncompleted": //點 uncompleted 時
+                if(!todo.classList.contains('completed')){
+                    todo.style.display = 'flex'; 
+                } else { //其他的不要秀
+                    todo.style.display = 'none';
+                }
+                break;
+        }
+    });
 }
