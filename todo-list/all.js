@@ -53,7 +53,10 @@ function deleteCheck(e){
     //delete btn
     if(item.classList[0] === 'trash-btn'){ //item 的第一層 class 為 trash-btn 時
         const todo = item.parentElement; //若直接打 item.remove() 移除的會是刪除鈕本身，因此須回到父層再刪除
-        todo.remove();
+        todo.classList.add("fall"); //在這邊加一個動畫效果，並用css設定動畫效果細節
+        todo.addEventListener('transitionend',function(){ //動畫效果結束後，才執行以下函式將 todo 本身移除
+            todo.remove();
+        });
     }
     //check btn
     if(item.classList[0] === 'complete-btn'){
