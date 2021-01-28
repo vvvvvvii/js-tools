@@ -40,7 +40,7 @@ function addTodo(event){
     //check trash btn
     const trashButton = document.createElement('button');
     trashButton.innerHTML = '<i class="fas fa-trash"></i>';
-    trashButton.classList.add('complete-btn');
+    trashButton.classList.add('trash-btn');
     todoDiv.appendChild(trashButton); //把 trashButton 放到 todoDiv 的下方    
     //把 todoDiv 放進 todoList 裡
     todoList.appendChild(todoDiv);
