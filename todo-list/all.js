@@ -44,4 +44,6 @@ function addTodo(event){
     todoDiv.appendChild(trashButton); //把 trashButton 放到 todoDiv 的下方    
     //把 todoDiv 放進 todoList 裡
     todoList.appendChild(todoDiv);
+    //輸入並加到下方後，自動清空輸入欄位，讓使用者可以再輸入其他待辦事項
+    todoInput.value = "";
 }
