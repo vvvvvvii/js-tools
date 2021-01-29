@@ -14,7 +14,8 @@ body {
 }
 
 header, form {
-  min-height: 20vh;
+  min-height: 10vh;
+  padding-top: 1rem;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -26,15 +27,55 @@ header, form {
           align-items: center;
 }
 
+@media (min-width: 992px) {
+  header, form {
+    min-height: 20vh;
+  }
+}
+
 header {
-  font-size: 2rem;
+  font-size: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  header {
+    font-size: 1.8rem;
+  }
+}
+
+@media (min-width: 992px) {
+  header {
+    font-size: 2rem;
+  }
+}
+
+form {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+@media (min-width: 768px) {
+  form {
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+  }
 }
 
 form input, form button {
   padding: 0.5rem;
-  font-size: 2rem;
+  font-size: 1.2rem;
   border: none;
   background: white;
+}
+
+@media (min-width: 992px) {
+  form input, form button {
+    font-size: 2rem;
+  }
 }
 
 form button {
@@ -138,11 +179,17 @@ form button:hover {
   background: #ff6f47;
   top: 0;
   right: 0;
-  padding: 1rem;
+  padding: .5rem;
   pointer-events: none;
   cursor: pointer;
   -webkit-transition: all 0.3s ease;
   transition: all 0.3s ease;
+}
+
+@media (min-width: 992px) {
+  .select::after {
+    padding: 1rem;
+  }
 }
 
 .select:hover::after {
@@ -162,7 +209,14 @@ select {
   background-image: none;
   color: #ff6f47;
   cursor: pointer;
-  width: 12rem;
-  padding: 1rem;
+  width: 10rem;
+  padding: .5rem;
+}
+
+@media (min-width: 992px) {
+  select {
+    width: 12rem;
+    padding: 1rem;
+  }
 }
 /*# sourceMappingURL=all.css.map */
