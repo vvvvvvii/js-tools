@@ -1,5 +1,15 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+@import "reset";
+@import "variables";
+@import "mixin";
 
+@import "grid";
+@import "font";
+@import "utils";
+
+
+
+
+/*
 *{
     margin: 0;
     padding: 0;
@@ -153,5 +163,5 @@ select{
         padding: 1rem;
     }
 }
-
+*/
 

@@ -1,0 +1,40 @@
+//center
+.m0-auto{
+    margin: 0 auto;
+}
+.text-center{
+    text-align: center;
+}
+//range
+.p-0{
+    padding: 0;
+}
+.mb-1{
+    margin-bottom: 40px;
+}
+//flex
+.d-none{
+    display: none;
+}
+.d-flex{
+    display: flex;
+}
+.d-md-block{
+    @media (min-width: 768px) {
+        display: block;
+    }
+}
+
+//bg-colors
+.bg-secondary{
+    background: $secondary;
+}
+.bg-safe{
+    background: $safe;
+}
+.bg-danger{
+    background: $danger;
+}
+.bg-info{
+    background: $info;
+}
