@@ -9,16 +9,38 @@
 </head>
 <body>
     <div class="container">
-        <div class="row mb-1">
+        <div class="row mb-40">
             <h1 class="h1 text-secondary font-bold m0-auto">待辦事項</h1>
         </div>
         <div class="row">
             <div class="col-md-8 col-12">
-                <form class="d-flex">
-                    <input type="text" class="todo-input h2 bg-secondary">
-                    <button type="submit" class="todo-button h2 bg-danger">
-                        <i class="fas fa-plus-square text-secondary"></i>
-                    </button>
+                <form>
+                    <div class="d-flex mb-1">
+                        <input type="text" class="todo-input h2 bg-secondary py-2 w-100">
+                        <button type="submit" class="todo-button h2 bg-danger">
+                            <i class="fas fa-plus-square text-secondary"></i>
+                        </button>
+                    </div>
+                    <ul class="d-flex">
+                        <li class="d-flex align-center bg-secondary w-100">
+                            <span class="pl-1 h5">
+                                <i class="far fa-calendar-alt text-dark"></i>
+                            </span>
+                            <input type="text" class="bg-secondary py-3 w-100">
+                        </li>
+                        <li class="d-flex align-center bg-secondary border-left-dark w-100">
+                            <span class="pl-1 h5">
+                                <i class="far fa-clock text-dark"></i>
+                            </span>
+                            <input type="text" class="bg-secondary py-3 w-100">
+                        </li>
+                        <li class="d-flex align-center bg-secondary border-left-dark w-100">
+                            <span class="pl-1 h5">
+                                <i class="fas fa-chart-pie text-dark"></i>
+                            </span>
+                            <input type="text" class="bg-secondary py-3 w-100">
+                        </li>
+                    </ul>
                 </form>
                 <div class="todo-container">
                     <ul class="todo-list"></ul>
