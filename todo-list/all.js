@@ -1,4 +1,6 @@
 //selectors
+const hamburgerMenu = document.querySelector('#hamburger-menu');
+
 const todoInput = document.querySelector('.todo-input');
 const todoButton = document.querySelector('.todo-button');
 const todoList = document.querySelector('.todo-list');
@@ -9,6 +11,7 @@ const filterOption = document.querySelector('.filter-todo');
 document.addEventListener('DOMContentLoaded',getTodos); //網頁載好時，執行 getTodos function
 todoButton.addEventListener('click',addTodo);
 todoList.addEventListener('click',deleteCheck);
+hamburgerMenu.addEventListener('click',toggleMenu);
 filterOption.addEventListener('click',filterTodo);
 
 //functions
@@ -72,6 +75,14 @@ function deleteCheck(e){
         todo.classList.toggle('completed'); //在 todo 這個 div 加上 completed 的 class(再按一次會不見)
     }
 }
+//hamburger menu
+function toggleMenu(){
+    let menu = document.getElementById('mobile-filter');
+    hamburgerMenu.addEventListener('click', function() {
+        menu.classList.toggle('hamburgerMenu-active');
+    });
+}
+
 //filter
 function filterTodo(e){
     const todos = todoList.childNodes;

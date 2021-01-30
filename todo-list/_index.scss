@@ -1,3 +1,6 @@
+.header{
+    z-index: 1;
+}
 .todo-button:hover{
     background: $dark-danger;
 }
@@ -44,4 +47,8 @@
 .fall{
     transform: translateY(8rem) rotateZ(20deg);
     opacity: 0;
+}
+
+.analyze:hover{
+    background: #03045e;
 }
