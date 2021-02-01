@@ -66,7 +66,7 @@
                 <li class="mb-3">
                     <h2 class="h3 mb-3 font-bold text-dark">Process Filter</h2>
                     <div class="dropdown">
-                        <select name="todos" class="filter-todo bg-primary py-2 px-2 h4 text-white w-100 pointer">
+                        <select name="todos" class="filter-status bg-primary py-2 px-2 h4 text-white w-100 pointer">
                             <option value="all">All</option>
                             <option value="completed">Completed</option>
                             <option value="uncompleted">Uncompleted</option>
@@ -76,7 +76,7 @@
                 <li class="mb-3">
                     <h2 class="h3 mb-3 font-bold text-dark">Date Filter</h2>
                     <div class="dropdown">
-                        <select name="todos" class="filter-todo bg-primary py-2 px-2 h4 text-white w-100 pointer">
+                        <select name="todos" class="filter-date bg-primary py-2 px-2 h4 text-white w-100 pointer">
                             <option value="allDate">All</option>
                             <option value=""></option>
                             <option value=""></option>
@@ -86,7 +86,7 @@
                 <li class="mb-8">
                     <h2 class="h3 mb-3 font-bold text-dark">Sort Filter</h2>
                     <div class="dropdown">
-                        <select name="todos" class="filter-todo bg-primary py-2 px-2 h4 text-white w-100 pointer">
+                        <select name="todos" class="filter-sort bg-primary py-2 px-2 h4 text-white w-100 pointer">
                             <option value="allSort">All</option>
                             <option value="jobSort">工作</option>
                             <option value="houseworkSort">家事</option>
@@ -96,10 +96,18 @@
                         </select>
                     </div>
                 </li>
-                <li class="d-flex justify-center">
-                    <button class="analyze bg-dark px-8 py-2 rounded pointer">
+                <li class="d-flex flex-row-lg flex-column justify-center">
+                    <button class="analyze bg-dark px-6 py-2 mb-lg-0 mb-3 rounded pointer">
                         <h3 class="h3 text-info text-center">
-                            <span>
+                            <span class="d-lg-block">
+                                <i class="fas fa-chart-pie"></i>
+                            </span>
+                            過濾
+                        </h3>
+                    </button>
+                    <button class="analyze bg-dark px-6 py-2 ml-lg-2 rounded pointer">
+                        <h3 class="h3 text-info text-center">
+                            <span class="d-lg-block">
                                 <i class="fas fa-chart-pie"></i>
                             </span>
                             分析

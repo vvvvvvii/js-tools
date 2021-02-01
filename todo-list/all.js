@@ -9,7 +9,10 @@ const todoList = document.querySelector('.todo-list');
 
 const taskSort = document.querySelector('#task-sort');
 
-const filterOption = document.querySelector('.filter-todo');
+const filterStatus = document.querySelector('.filter-status');
+const filterDate = document.querySelector('.filter-date');
+const filterSort = document.querySelector('filter-sort');
+const filterOption = document.querySelector('filter-option');
 
 //event listeners
 document.addEventListener('DOMContentLoaded',getTodos); //網頁載好時，執行 getTodos function
@@ -148,6 +151,7 @@ function toggleMenu(){
 function filterTodo(e){
     const todos = todoList.childNodes;
     todos.forEach(function(todo){
+        console.log(e.target.value);
         switch(e.target.value){ //點擊時，跑迴圈並讓點擊的 value 值（會是 all completed uncompleted）進 switch 判斷式
             case "all": //點 all 時
                 todo.style.display = 'flex'; //全都秀
