@@ -14,19 +14,59 @@
     font-size: 28px;
     color: $dark;
     transition: all 0.5s ease;
-    li{
-        flex:1;
-    }
 }
 .todo-item{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     padding: 10px 0 10px 15px;
+    flex:1;
+}
+.todo-date, .todo-time{
+    flex:1;
+    font-size: 20px;
+    @media (min-width: 992px) {
+        font-size: 26px;
+    }
+}
+.todo-time{
+    padding-left: 10px;
+}
+.todo-detail{
+    flex:5;
+    margin-left: 5px;
+    border-left: 1px solid $white;
+    padding-left: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    @media (min-width: 768px) {
+        font-size: 24px;
+    }
+    @media (min-width: 992px) {
+        font-size: 26px;
+    }
+}
+.todo-btn{
+    display: flex;
+    flex-direction: column;
+    @media (min-width: 768px) {
+        flex-direction: row;
+    }
 }
 .trash-btn, .complete-btn{
     color: white;
     border: none;
-    padding: 1rem;
+    padding: 16px 12px;
     cursor: pointer;
-    font-size: 1rem;
+    font-size: 12px;
+    @media (min-width: 375px) {
+        padding: 16px;
+        font-size: 16px;
+    }
+    @media (min-width: 768px) {
+        padding: 16px;
+        font-size: 16px;
+    }
 }
 .complete-btn{
     background: $safe;
