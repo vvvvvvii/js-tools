@@ -61,51 +61,62 @@ function addTodo(event){
     newTodoTime.innerText = timeInput.value; 
     newTodoDetail.innerText = todoInput.value; 
 
-    if(taskSort.value == "job"){
-        newTodoSort.innerHTML += `<i class="fas fa-briefcase"></i>`;
-    }else if(taskSort.value == "housework"){
-        newTodoSort.innerHTML += `<i class="fas fa-home"></i>`;
-    }else if(taskSort.value == "sport"){
-        newTodoSort.innerHTML += `<i class="far fa-futbol"></i>`;
-    }else if(taskSort.value == "routine"){
-        newTodoSort.innerHTML += `<i class="fas fa-hourglass"></i>`;
-    }else if(taskSort.value == "others"){
-        newTodoSort.innerHTML += `<i class="fas fa-palette"></i>`;
+    //如果沒有輸入內容跳警示，且無法加 task
+    if (todoInput.value == 0 || undefined || null){
+        alert("內容欄為必填");
+        return;
+    }else{
+        //選什麼種類就秀對應圖案
+        if(taskSort.value == "job"){
+            newTodoSort.innerHTML += `<i class="fas fa-briefcase"></i>`;
+        }else if(taskSort.value == "housework"){
+            newTodoSort.innerHTML += `<i class="fas fa-home"></i>`;
+        }else if(taskSort.value == "sport"){
+            newTodoSort.innerHTML += `<i class="far fa-futbol"></i>`;
+        }else if(taskSort.value == "routine"){
+            newTodoSort.innerHTML += `<i class="fas fa-hourglass"></i>`;
+        }else if(taskSort.value == "others"){
+            newTodoSort.innerHTML += `<i class="fas fa-palette"></i>`;
+        }else{
+            newTodoSort.innerHTML += `<i class="fas fa-times"></i>`;
+        };
+
+        newTodo.appendChild(newTodoDate); //把 newTodoDate 放到 newTodo 的下方
+        newTodo.appendChild(newTodoTime); //把 newTodoTime 放到 newTodo 的下方
+        newTodo.appendChild(newTodoSort); //把 newTodoSort 放到 newTodo 的下方
+        newTodo.appendChild(newTodoDetail); //把 newTodoDetail 放到 newTodo 的下方
+
+        //add todo to localstorage
+        let saveLocal = [dateInput.value,timeInput.value,taskSort.value,todoInput.value];
+        console.log(saveLocal);    
+        saveLocalTodos(saveLocal);
+
+        //建 div 放兩個 btn
+        const newTodoButton = document.createElement('div');
+        newTodoButton.classList.add("todo-btn");
+        todoLi.appendChild(newTodoButton); //把 newTodoButton 放到 todoLi 的下方    
+
+        //check mark btn
+        const completedButton = document.createElement('button');
+        completedButton.innerHTML = '<i class="fas fa-check"></i>';
+        completedButton.classList.add('complete-btn');
+        newTodoButton.appendChild(completedButton); //把 completedButton 放到 newTodoButton 的下方    
+
+        //check trash btn
+        const trashButton = document.createElement('button');
+        trashButton.innerHTML = '<i class="fas fa-trash"></i>';
+        trashButton.classList.add('trash-btn');
+        newTodoButton.appendChild(trashButton); //把 trashButton 放到 newTodoButton 的下方    
+
+        todoList.appendChild(todoLi);//把 todoLi 放進 todoList 裡
+
+        //輸入並加到下方後，自動清空輸入欄位，讓使用者可以再輸入其他待辦事項
+        dateInput.value = "";
+        timeInput.value = "";
+        todoInput.value = "";
     };
 
-    newTodo.appendChild(newTodoDate); //把 newTodoDate 放到 newTodo 的下方
-    newTodo.appendChild(newTodoTime); //把 newTodoTime 放到 newTodo 的下方
-    newTodo.appendChild(newTodoSort); //把 newTodoSort 放到 newTodo 的下方
-    newTodo.appendChild(newTodoDetail); //把 newTodoDetail 放到 newTodo 的下方
-
-    //add todo to localstorage
-    let saveLocal = [dateInput.value,timeInput.value,taskSort.value,todoInput.value];
-    console.log(saveLocal);    
-    saveLocalTodos(saveLocal);
-
-    //建 div 放兩個 btn
-    const newTodoButton = document.createElement('div');
-    newTodoButton.classList.add("todo-btn");
-    todoLi.appendChild(newTodoButton); //把 newTodoButton 放到 todoLi 的下方    
-
-    //check mark btn
-    const completedButton = document.createElement('button');
-    completedButton.innerHTML = '<i class="fas fa-check"></i>';
-    completedButton.classList.add('complete-btn');
-    newTodoButton.appendChild(completedButton); //把 completedButton 放到 newTodoButton 的下方    
     
-    //check trash btn
-    const trashButton = document.createElement('button');
-    trashButton.innerHTML = '<i class="fas fa-trash"></i>';
-    trashButton.classList.add('trash-btn');
-    newTodoButton.appendChild(trashButton); //把 trashButton 放到 newTodoButton 的下方    
-    
-    todoList.appendChild(todoLi);//把 todoLi 放進 todoList 裡
-    
-    //輸入並加到下方後，自動清空輸入欄位，讓使用者可以再輸入其他待辦事項
-    dateInput.value = "";
-    timeInput.value = "";
-    todoInput.value = "";
 }
 function deleteCheck(e){
     /*console.log(e.target); 用這句可以發現， e.target 等於我們點的位置的 html 標籤*/
@@ -207,6 +218,7 @@ function getTodos(){
         newTodoTime.innerText = todo[1]; //輸入什麼就呈現什麼
         newTodoDetail.innerText = todo[3]; //輸入什麼就呈現什麼
 
+        //看選到什麼種類，就秀相對應的圖案
         if(todo[2] == "job"){
             newTodoSort.innerHTML += `<i class="fas fa-briefcase"></i>`;
         }else if(todo[2] == "housework"){
@@ -217,6 +229,8 @@ function getTodos(){
             newTodoSort.innerHTML += `<i class="fas fa-hourglass"></i>`;
         }else if(todo[2] == "others"){
             newTodoSort.innerHTML += `<i class="fas fa-palette"></i>`;
+        }else{
+            newTodoSort.innerHTML += `<i class="fas fa-times"></i>`;
         };
 
         newTodo.appendChild(newTodoDate); //把 newTodoDate 放到 newTodo 的下方
