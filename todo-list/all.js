@@ -7,6 +7,8 @@ const todoInput = document.querySelector('.todo-input');
 const addButton = document.querySelector('.addlist-button');
 const todoList = document.querySelector('.todo-list');
 
+const taskSort = document.querySelector('#task-sort');
+
 const filterOption = document.querySelector('.filter-todo');
 
 //event listeners
@@ -30,6 +32,7 @@ function addTodo(event){
             <ul class="todo-item"> <!--變數名稱 newTodo-->
                 <li class="todo-date">Date</li> dateInput.value 輸入什麼就顯示什麼 <!--變數名稱 newTodoDate-->
                 <li class="todo-time">Time</li> timeInput.value 輸入什麼就顯示什麼 <!--變數名稱 newTodoTime-->
+                <li class="todo-sort">Sort</li> sortSelect.value 輸入什麼就顯示什麼 <!--變數名稱 newTodoSort-->
                 <li class="todo-detail">item detail</li> todoInput.value 輸入什麼就顯示什麼 <!--變數名稱 newTodoDetail-->
             </ul> 
             <div class="todo-btn"> <!--變數名稱 newTodoButton-->
@@ -47,21 +50,36 @@ function addTodo(event){
 
     const newTodoDate = document.createElement('li');
     const newTodoTime = document.createElement('li');
+    const newTodoSort = document.createElement('li');
     const newTodoDetail = document.createElement('li');
     newTodoDate.classList.add("todo-date");
     newTodoTime.classList.add("todo-time");
+    newTodoSort.classList.add("todo-sort");
     newTodoDetail.classList.add("todo-detail");
 
     newTodoDate.innerText = dateInput.value; //輸入什麼就呈現什麼
-    newTodoTime.innerText = timeInput.value; //輸入什麼就呈現什麼
-    newTodoDetail.innerText = todoInput.value; //輸入什麼就呈現什麼
+    newTodoTime.innerText = timeInput.value; 
+    newTodoDetail.innerText = todoInput.value; 
+
+    if(taskSort.value == "job"){
+        newTodoSort.innerHTML += `<i class="fas fa-briefcase"></i>`;
+    }else if(taskSort.value == "housework"){
+        newTodoSort.innerHTML += `<i class="fas fa-home"></i>`;
+    }else if(taskSort.value == "sport"){
+        newTodoSort.innerHTML += `<i class="far fa-futbol"></i>`;
+    }else if(taskSort.value == "routine"){
+        newTodoSort.innerHTML += `<i class="fas fa-hourglass"></i>`;
+    }else if(taskSort.value == "others"){
+        newTodoSort.innerHTML += `<i class="fas fa-palette"></i>`;
+    };
 
     newTodo.appendChild(newTodoDate); //把 newTodoDate 放到 newTodo 的下方
     newTodo.appendChild(newTodoTime); //把 newTodoTime 放到 newTodo 的下方
+    newTodo.appendChild(newTodoSort); //把 newTodoSort 放到 newTodo 的下方
     newTodo.appendChild(newTodoDetail); //把 newTodoDetail 放到 newTodo 的下方
 
     //add todo to localstorage
-    let saveLocal = [dateInput.value,timeInput.value,todoInput.value];
+    let saveLocal = [dateInput.value,timeInput.value,taskSort.value,todoInput.value];
     console.log(saveLocal);    
     saveLocalTodos(saveLocal);
 
@@ -178,17 +196,32 @@ function getTodos(){
 
         const newTodoDate = document.createElement('li');
         const newTodoTime = document.createElement('li');
+        const newTodoSort = document.createElement('li');
         const newTodoDetail = document.createElement('li');
         newTodoDate.classList.add("todo-date");
         newTodoTime.classList.add("todo-time");
+        newTodoSort.classList.add("todo-sort");
         newTodoDetail.classList.add("todo-detail");
 
         newTodoDate.innerText = todo[0]; //輸入什麼就呈現什麼
         newTodoTime.innerText = todo[1]; //輸入什麼就呈現什麼
-        newTodoDetail.innerText = todo[2]; //輸入什麼就呈現什麼
+        newTodoDetail.innerText = todo[3]; //輸入什麼就呈現什麼
+
+        if(todo[2] == "job"){
+            newTodoSort.innerHTML += `<i class="fas fa-briefcase"></i>`;
+        }else if(todo[2] == "housework"){
+            newTodoSort.innerHTML += `<i class="fas fa-home"></i>`;
+        }else if(todo[2] == "sport"){
+            newTodoSort.innerHTML += `<i class="far fa-futbol"></i>`;
+        }else if(todo[2] == "routine"){
+            newTodoSort.innerHTML += `<i class="fas fa-hourglass"></i>`;
+        }else if(todo[2] == "others"){
+            newTodoSort.innerHTML += `<i class="fas fa-palette"></i>`;
+        };
 
         newTodo.appendChild(newTodoDate); //把 newTodoDate 放到 newTodo 的下方
         newTodo.appendChild(newTodoTime); //把 newTodoTime 放到 newTodo 的下方
+        newTodo.appendChild(newTodoSort); //把 newTodoSort 放到 newTodo 的下方
         newTodo.appendChild(newTodoDetail); //把 newTodoDetail 放到 newTodo 的下方
 
         //建 div 放兩個 btn
