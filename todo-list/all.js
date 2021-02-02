@@ -11,8 +11,8 @@ const todoList = document.querySelector('.todo-list');
 const taskSort = document.querySelector('#task-sort');
 
 const filterStatus = document.querySelector('.filter-status');
-const filterDate = document.querySelector('.filter-date');
-//const filterSort = document.querySelector('filter-sort');
+const filterMonth = document.querySelector('.filter-month');
+const filterSort = document.querySelector('.filter-sort');
 
 //event listeners
 document.addEventListener('DOMContentLoaded',getTodos); //網頁載好時，執行 getTodos function
@@ -20,8 +20,8 @@ addButton.addEventListener('click',addTodo);
 todoList.addEventListener('click',deleteCheck);
 hamburgerMenu.addEventListener('click',toggleMenu);
 filterStatus.addEventListener('change',showFilterStatus); //使用change事件才能即時顯示過濾的項目，若使用click會變成第一次要點其他項目之前，就紀錄已經在第一項的那個項目（例如all是預設值，一點就會先記錄到all而不是點完的其他項目）
-filterDate.addEventListener('change',showFilterDate);
-//filterSort.addEventListener('change',showFilterSort);
+filterMonth.addEventListener('change',showFilterMonth);
+filterSort.addEventListener('change',showFilterSort);
 
 //functions
 function addTodo(event){
@@ -157,7 +157,6 @@ function toggleMenu(){
 //filter
 function showFilterStatus(e){
     const todos = todoList.childNodes; //可用console.log得知，這句可以取得所有在to do list的項目
-    console.log(todos);
     todos.forEach(function(todo){
         console.log(e.target.value);
         switch(e.target.value){ //點擊時，跑迴圈並讓點擊的 value 值（會是 all completed uncompleted）進 switch 判斷式
@@ -181,24 +180,95 @@ function showFilterStatus(e){
         }
     });
 }
-//讓 filter date 的 option 可以抓到使用者輸的日期
-function saveDateFilter(saveDate){
-    saveDate.forEach(function(){
-        const newDateOption = document.createElement('option');
-        newDateOption.innerHTML = saveDate; //option 內文等於使用者輸入的日期
-        newDateOption.value = saveDate; // option value 等於使用者輸的日期
-        filterDate.appendChild(newDateOption); //把 newDateOption 放到 filterDate 的下方
-    });
-}
-function showFilterDate(e){
+function showFilterMonth(e){
     const todos = todoList.childNodes; 
     todos.forEach(function(todo){
+    //console.log(todo.childNodes[0].childNodes[0]); 從這句找到月份所在 dom 位置
+    const month = todo.childNodes[0].childNodes[0].innerHTML;
+    console.log(month);
         switch(e.target.value){ 
-            case "allDate": //點 all 時
+            case "allMonth": //點 all 時
                 todo.style.display = 'flex'; //全都秀
                 break;
-            case "1/1":
-                if (todo.classList.contains('1/1')){ 
+            case "jan":
+                if (month == '01/'){ 
+                    todo.style.display = 'flex'; 
+                } else { //其他的不要秀
+                    todo.style.display = 'none';
+                }
+                break;
+            case "feb":
+                if (month == '02/'){ 
+                    todo.style.display = 'flex'; 
+                } else { //其他的不要秀
+                    todo.style.display = 'none';
+                }
+                break;
+            case "mar":
+                if (month == '03/'){ 
+                    todo.style.display = 'flex'; 
+                } else { //其他的不要秀
+                    todo.style.display = 'none';
+                }
+                break;
+            case "apr":
+                if (month == '04/'){ 
+                    todo.style.display = 'flex'; 
+                } else { //其他的不要秀
+                    todo.style.display = 'none';
+                }
+                break;
+            case "may":
+                if (month == '05/'){ 
+                    todo.style.display = 'flex'; 
+                } else { //其他的不要秀
+                    todo.style.display = 'none';
+                }
+                break;
+            case "jun":
+                if (month == '06/'){ 
+                    todo.style.display = 'flex'; 
+                } else { //其他的不要秀
+                    todo.style.display = 'none';
+                }
+                break;
+            case "jul":
+                if (month == '07/'){ 
+                    todo.style.display = 'flex'; 
+                } else { //其他的不要秀
+                    todo.style.display = 'none';
+                }
+                break;
+            case "aug":
+                if (month == '08/'){ 
+                    todo.style.display = 'flex'; 
+                } else { //其他的不要秀
+                    todo.style.display = 'none';
+                }
+                break;
+            case "sep":
+                if (month == '09/'){ 
+                    todo.style.display = 'flex'; 
+                } else { //其他的不要秀
+                    todo.style.display = 'none';
+                }
+                break;
+            case "oct":
+                if (month == '10/'){ 
+                    todo.style.display = 'flex'; 
+                } else { //其他的不要秀
+                    todo.style.display = 'none';
+                }
+                break;
+            case "nov":
+                if (month == '11/'){ 
+                    todo.style.display = 'flex'; 
+                } else { //其他的不要秀
+                    todo.style.display = 'none';
+                }
+                break;
+            case "dec":
+                if (month == '12/'){ 
                     todo.style.display = 'flex'; 
                 } else { //其他的不要秀
                     todo.style.display = 'none';
@@ -207,44 +277,45 @@ function showFilterDate(e){
         }
     });
 }
-/*
-function filterSo(e){
+function showFilterSort(e){
     const todos = todoList.childNodes;
     todos.forEach(function(todo){
+        const sort = todo.childNodes[0].childNodes[3].childNodes[0];
+        // console.log(todo.childNodes[0].childNodes[3].childNodes[0]); 從這句找 node 所在位置
         switch(e.target.value){ 
             case "allSort": //點 all 時
                 todo.style.display = 'flex'; //全都秀
                 break;
             case "jobSort": //點工作時
-                if (todo.classList.contains('completed')){ //只秀出 class 中有加入 completed 這個 class 的
+                if (sort.classList.contains('fa-briefcase')){ 
                     todo.style.display = 'flex'; 
                 } else { //其他的不要秀
                     todo.style.display = 'none';
                 }
                 break;
             case "houseworkSort": //點家事時
-                if(!todo.classList.contains('completed')){
+                if (sort.classList.contains('fa-home')){ 
                     todo.style.display = 'flex'; 
                 } else { //其他的不要秀
                     todo.style.display = 'none';
                 }
                 break;
             case "sportSort": //點運動時
-                if (todo.classList.contains('completed')){ 
+                if (sort.classList.contains('fa-futbol')){ 
                     todo.style.display = 'flex'; 
                 } else { //其他的不要秀
                     todo.style.display = 'none';
                 }
                 break;
             case "routineSort": //點例行公事時
-                if(!todo.classList.contains('completed')){
+                if(sort.classList.contains('fa-hourglass')){
                     todo.style.display = 'flex'; 
                 } else { //其他的不要秀
                     todo.style.display = 'none';
                 }
                 break;
             case "othersSort": //點其他時
-                if(!todo.classList.contains('completed')){
+                if(sort.classList.contains('fa-palette')){
                     todo.style.display = 'flex'; 
                 } else { //其他的不要秀
                     todo.style.display = 'none';
@@ -252,7 +323,7 @@ function filterSo(e){
                 break;
         }
     });
-}*/
+}
 
 //儲存本地端
 function saveLocalTodos(todo) {
