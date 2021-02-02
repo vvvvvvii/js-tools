@@ -22,16 +22,16 @@
     padding: 10px 0 10px 15px;
     flex:1;
 }
-.todo-date, .todo-time{
-    flex:1;
+.todo-month, .todo-date, .todo-time{
     font-size: 20px;
     @media (min-width: 992px) {
         font-size: 26px;
     }
 }
-.todo-time{
-    padding-left: 10px;
+.todo-date,.todo-time{
+    flex:1;
 }
+
 .todo-sort{
     flex:1;
     text-align: center;

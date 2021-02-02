@@ -1,6 +1,7 @@
 //selectors
 const hamburgerMenu = document.querySelector('#hamburger-menu');
 
+const monthInput = document.querySelector('#month-input');
 const dateInput = document.querySelector('#date-input');
 const timeInput = document.querySelector('#time-input');
 const todoInput = document.querySelector('.todo-input');
@@ -52,15 +53,18 @@ function addTodo(event){
     newTodo.classList.add("todo-item");
     todoLi.appendChild(newTodo); //把 newTodo 放到 todoLi 的下方
 
+    const newTodoMonth = document.createElement('li');
     const newTodoDate = document.createElement('li');
     const newTodoTime = document.createElement('li');
     const newTodoSort = document.createElement('li');
     const newTodoDetail = document.createElement('li');
+    newTodoMonth.classList.add("todo-month");
     newTodoDate.classList.add("todo-date");
     newTodoTime.classList.add("todo-time");
     newTodoSort.classList.add("todo-sort");
     newTodoDetail.classList.add("todo-detail");
 
+    newTodoMonth.innerText = `${monthInput.value}/`; //輸入什麼就呈現什麼
     newTodoDate.innerText = dateInput.value; //輸入什麼就呈現什麼
     newTodoTime.innerText = timeInput.value; 
     newTodoDetail.innerText = todoInput.value; 
@@ -85,19 +89,15 @@ function addTodo(event){
             newTodoSort.innerHTML += `<i class="fas fa-times"></i>`;
         };
 
+        newTodo.appendChild(newTodoMonth); //把 newTodoMonth 放到 newTodo 的下方
         newTodo.appendChild(newTodoDate); //把 newTodoDate 放到 newTodo 的下方
         newTodo.appendChild(newTodoTime); //把 newTodoTime 放到 newTodo 的下方
         newTodo.appendChild(newTodoSort); //把 newTodoSort 放到 newTodo 的下方
         newTodo.appendChild(newTodoDetail); //把 newTodoDetail 放到 newTodo 的下方
 
         //add todo to localstorage
-        let saveLocal = [dateInput.value,timeInput.value,taskSort.value,todoInput.value];
-        console.log(saveLocal);    
+        let saveLocal = [monthInput.value,dateInput.value,timeInput.value,taskSort.value,todoInput.value];
         saveLocalTodos(saveLocal);
-
-        //add todo date to date filter （讓 filter date 的 option 可以抓到使用者輸的日期）
-        let saveDate = [dateInput.value];
-        saveDateFilter(saveDate);
 
         //建 div 放兩個 btn
         const newTodoButton = document.createElement('div');
@@ -119,6 +119,7 @@ function addTodo(event){
         todoList.appendChild(todoLi);//把 todoLi 放進 todoList 裡
 
         //輸入並加到下方後，自動清空輸入欄位，讓使用者可以再輸入其他待辦事項
+        monthInput.value = "";
         dateInput.value = "";
         timeInput.value = "";
         todoInput.value = "";
@@ -181,11 +182,11 @@ function showFilterStatus(e){
     });
 }
 //讓 filter date 的 option 可以抓到使用者輸的日期
-function saveDateFilter(todo){
-    todo.forEach(function(){
-        console.log(todo);
+function saveDateFilter(saveDate){
+    saveDate.forEach(function(){
         const newDateOption = document.createElement('option');
-        newDateOption.innerHTML = todo;
+        newDateOption.innerHTML = saveDate; //option 內文等於使用者輸入的日期
+        newDateOption.value = saveDate; // option value 等於使用者輸的日期
         filterDate.appendChild(newDateOption); //把 newDateOption 放到 filterDate 的下方
     });
 }
@@ -195,6 +196,13 @@ function showFilterDate(e){
         switch(e.target.value){ 
             case "allDate": //點 all 時
                 todo.style.display = 'flex'; //全都秀
+                break;
+            case "1/1":
+                if (todo.classList.contains('1/1')){ 
+                    todo.style.display = 'flex'; 
+                } else { //其他的不要秀
+                    todo.style.display = 'none';
+                }
                 break;
         }
     });
@@ -282,34 +290,38 @@ function getTodos(){
         newTodo.classList.add("todo-item");
         todoLi.appendChild(newTodo); //把 newTodo 放到 todoLi 的下方
 
+        const newTodoMonth = document.createElement('li');
         const newTodoDate = document.createElement('li');
         const newTodoTime = document.createElement('li');
         const newTodoSort = document.createElement('li');
         const newTodoDetail = document.createElement('li');
+        newTodoMonth.classList.add("todo-month");
         newTodoDate.classList.add("todo-date");
         newTodoTime.classList.add("todo-time");
         newTodoSort.classList.add("todo-sort");
         newTodoDetail.classList.add("todo-detail");
-
-        newTodoDate.innerText = todo[0]; //輸入什麼就呈現什麼
-        newTodoTime.innerText = todo[1]; //輸入什麼就呈現什麼
-        newTodoDetail.innerText = todo[3]; //輸入什麼就呈現什麼
+        
+        newTodoMonth.innerText = `${todo[0]}/`; //輸入什麼就呈現什麼
+        newTodoDate.innerText = todo[1]; //輸入什麼就呈現什麼
+        newTodoTime.innerText = todo[2]; //輸入什麼就呈現什麼
+        newTodoDetail.innerText = todo[4]; //輸入什麼就呈現什麼
 
         //看選到什麼種類，就秀相對應的圖案
-        if(todo[2] == "job"){
+        if(todo[3] == "job"){
             newTodoSort.innerHTML += `<i class="fas fa-briefcase"></i>`;
-        }else if(todo[2] == "housework"){
+        }else if(todo[3] == "housework"){
             newTodoSort.innerHTML += `<i class="fas fa-home"></i>`;
-        }else if(todo[2] == "sport"){
+        }else if(todo[3] == "sport"){
             newTodoSort.innerHTML += `<i class="far fa-futbol"></i>`;
-        }else if(todo[2] == "routine"){
+        }else if(todo[3] == "routine"){
             newTodoSort.innerHTML += `<i class="fas fa-hourglass"></i>`;
-        }else if(todo[2] == "others"){
+        }else if(todo[3] == "others"){
             newTodoSort.innerHTML += `<i class="fas fa-palette"></i>`;
         }else{
             newTodoSort.innerHTML += `<i class="fas fa-times"></i>`;
         };
 
+        newTodo.appendChild(newTodoMonth); //把 newTodoMonth 放到 newTodo 的下方
         newTodo.appendChild(newTodoDate); //把 newTodoDate 放到 newTodo 的下方
         newTodo.appendChild(newTodoTime); //把 newTodoTime 放到 newTodo 的下方
         newTodo.appendChild(newTodoSort); //把 newTodoSort 放到 newTodo 的下方
@@ -335,6 +347,7 @@ function getTodos(){
         todoList.appendChild(todoLi);//把 todoLi 放進 todoList 裡
     
         //輸入並加到下方後，自動清空輸入欄位，讓使用者可以再輸入其他待辦事項
+        monthInput.value = "";
         dateInput.value = "";
         timeInput.value = "";
         todoInput.value = "";

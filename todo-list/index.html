@@ -22,10 +22,12 @@
                     <!--Date Time Sort input-->
                     <ul class="d-flex mb-1">
                         <li class="d-flex align-center bg-primary w-100">
-                            <label for="date-input" class="pl-1 h5">
+                            <label for="month-input" class="pl-1 h5">
                                 <i class="far fa-calendar-alt text-dark"></i>
                             </label>
-                            <input type="text" class="bg-primary py-3 pl-3 text-dark h5 w-100" id="date-input" placeholder="12/30">
+                            <input type="text" class="bg-primary py-3 pl-3 text-dark h5 w-100" id="month-input" placeholder="01">
+                            <span class="pr-3">|</span>
+                            <input type="text" class="bg-primary py-3 pl-3 text-dark h5 w-100" id="date-input" placeholder="31">
                         </li>
                         <li class="d-flex align-center bg-primary border-left-secondary w-100">
                             <label for="time-input" class="pl-1 h5">
@@ -74,11 +76,22 @@
                     </div>
                 </li>
                 <li class="mb-3">
-                    <h2 class="h3 mb-3 font-bold text-dark">Date Filter</h2>
+                    <h2 class="h3 mb-3 font-bold text-dark">Month Filter</h2>
                     <div class="dropdown">
-                        <select name="todos" class="filter-date bg-primary py-2 px-2 h4 text-white w-100 pointer">
-                            <option value="allDate">All</option>
-                            
+                        <select name="todos" class="filter-month bg-primary py-2 px-2 h4 text-white w-100 pointer">
+                            <option value="allmonth">All</option>
+                            <option value="jan">一月</option>
+                            <option value="feb">二月</option>
+                            <option value="mar">三月</option>
+                            <option value="apr">四月</option>
+                            <option value="may">五月</option>
+                            <option value="jun">六月</option>
+                            <option value="jul">七月</option>
+                            <option value="aug">八月</option>
+                            <option value="sep">九月</option>
+                            <option value="oct">十月</option>
+                            <option value="nov">十一月</option>
+                            <option value="dec">十二月</option>
                         </select>
                     </div>
                 </li>
