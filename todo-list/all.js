@@ -14,6 +14,8 @@ const filterStatus = document.querySelector('.filter-status');
 const filterMonth = document.querySelector('.filter-month');
 const filterSort = document.querySelector('.filter-sort');
 
+const deleteAll = document.querySelector('.deleteAll');
+
 //event listeners
 document.addEventListener('DOMContentLoaded',getTodos); //網頁載好時，執行 getTodos function
 addButton.addEventListener('click',addTodo);
@@ -22,6 +24,7 @@ hamburgerMenu.addEventListener('click',toggleMenu);
 filterStatus.addEventListener('change',showFilterStatus); //使用change事件才能即時顯示過濾的項目，若使用click會變成第一次要點其他項目之前，就紀錄已經在第一項的那個項目（例如all是預設值，一點就會先記錄到all而不是點完的其他項目）
 filterMonth.addEventListener('change',showFilterMonth);
 filterSort.addEventListener('change',showFilterSort);
+deleteAll.addEventListener('click',deleteAllTask);
 
 //functions
 function addTodo(event){
@@ -69,9 +72,19 @@ function addTodo(event){
     newTodoTime.innerText = timeInput.value; 
     newTodoDetail.innerText = todoInput.value; 
 
-    //如果沒有輸入內容跳警示，且無法加 task
-    if (todoInput.value == 0 || undefined || null){
+    const monthCheck = parseInt(monthInput.value);
+    console.log(monthCheck);
+    //用這句確認有轉成數字，並確認轉乘的數字長怎樣 console.log(monthCheck);
+    const dateCheck = parseInt(dateInput.value);
+    //如果沒有輸入內容或月份日期格式錯誤需跳警示，且無法加 task
+    if (todoInput.value == 0 || todoInput.value == undefined || todoInput.value == null){
         alert("內容欄為必填");
+        return;
+    }else if(monthCheck <=0 || monthCheck >=13){
+        alert("月份格式錯誤");
+        return;
+    }else if(dateCheck <=0 || dateCheck >=32){
+        alert("日期格式錯誤");
         return;
     }else{
         //選什麼種類就秀對應圖案
@@ -113,7 +126,7 @@ function addTodo(event){
         //check trash btn
         const trashButton = document.createElement('button');
         trashButton.innerHTML = '<i class="fas fa-trash"></i>';
-        trashButton.classList.add('trash-btn');
+        trashButton.classList.add('danger-btn');
         newTodoButton.appendChild(trashButton); //把 trashButton 放到 newTodoButton 的下方    
 
         todoList.appendChild(todoLi);//把 todoLi 放進 todoList 裡
@@ -131,7 +144,7 @@ function deleteCheck(e){
     /*console.log(e.target); 用這句可以發現， e.target 等於我們點的位置的 html 標籤*/
     const item = e.target;
     //delete btn
-    if(item.classList[0] === 'trash-btn'){ //item 的第一層 class 為 trash-btn 時
+    if(item.classList[0] === 'danger-btn'){ //item 的第一層 class 為 danger-btn 時
         const todo = item.parentElement.parentElement; //若直接打 item.remove() 移除的會是刪除鈕本身，因此須回到父層再刪除
         todo.classList.add("fall"); //在這邊加一個動畫效果，並用css設定動畫效果細節
         removeLocalTodos(todo); //執行 removeLocalTodos 函式，讓本地端儲存的資料一併刪除
@@ -143,6 +156,16 @@ function deleteCheck(e){
     if(item.classList[0] === 'complete-btn'){
         const todo = item.parentElement.parentElement;
         todo.classList.toggle('completed'); //在 todo 這個 div 加上 completed 的 class(再按一次會不見)
+    }
+}
+//刪除全部 task
+function deleteAllTask(){
+    if(confirm("確定刪除所有代辦事項？")){
+        todoList.innerText = "";
+        localStorage.clear(); //連同本地端一起清空
+        return; 
+    }else{
+        return;
     }
 }
 
@@ -412,7 +435,7 @@ function getTodos(){
         //check trash btn
         const trashButton = document.createElement('button');
         trashButton.innerHTML = '<i class="fas fa-trash"></i>';
-        trashButton.classList.add('trash-btn');
+        trashButton.classList.add('danger-btn');
         newTodoButton.appendChild(trashButton); //把 trashButton 放到 newTodoButton 的下方    
     
         todoList.appendChild(todoLi);//把 todoLi 放進 todoList 裡
@@ -439,7 +462,7 @@ function removeLocalTodos(todo){
 
     /*
     console.log(todo); //藉由這句知道，當我們點擊刪除按鈕， todo 這個參數對應到的是 .todo-btn fall 這個 div
-    console.log(todo.children); //todo.children 這個參數對應到的是一個陣列，包含：li.todo-item、button.complete-btn、button.trash-btn，裡面又各自包了很多東西，可以發現我們要刪除的項目資料放在 todoitem 的 innerText / innerHTML 底下
+    console.log(todo.children); //todo.children 這個參數對應到的是一個陣列，包含：li.todo-item、button.complete-btn、button.danger-btn，裡面又各自包了很多東西，可以發現我們要刪除的項目資料放在 todoitem 的 innerText / innerHTML 底下
     console.log(todo.children[0].innerText); //再次確認，用 children[0].innerText 的確能拿到要刪除的資料
     console.log(todos.indexOf('real')); //這個詞在陣列上是第幾個位置
     */

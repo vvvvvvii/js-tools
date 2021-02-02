@@ -65,7 +65,7 @@
         flex-direction: row;
     }
 }
-.trash-btn, .complete-btn{
+.danger-btn, .complete-btn{
     color: white;
     border: none;
     padding: 16px 12px;
@@ -86,7 +86,7 @@
         background: $dark-safe;
     }
 }
-.trash-btn{
+.danger-btn{
     background: $danger;
     &:hover{
         background: $dark-danger;
@@ -101,6 +101,6 @@
     opacity: 0;
 }
 
-.analyze:hover{
+.toolbtn:hover{
     background: #03045e;
 }

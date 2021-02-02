@@ -219,6 +219,10 @@ select {
   padding-bottom: 40px;
 }
 
+.ml-1 {
+  margin-left: 5px;
+}
+
 @media (min-width: 992px) {
   .ml-lg-2 {
     margin-left: 10px;
@@ -349,6 +353,10 @@ select {
 
 .w-80 {
   width: 80%;
+}
+
+.w-40 {
+  width: 40%;
 }
 
 .flex-1 {
@@ -526,7 +534,7 @@ select {
   }
 }
 
-.trash-btn, .complete-btn {
+.danger-btn, .complete-btn {
   color: white;
   border: none;
   padding: 16px 12px;
@@ -535,14 +543,14 @@ select {
 }
 
 @media (min-width: 375px) {
-  .trash-btn, .complete-btn {
+  .danger-btn, .complete-btn {
     padding: 16px;
     font-size: 16px;
   }
 }
 
 @media (min-width: 768px) {
-  .trash-btn, .complete-btn {
+  .danger-btn, .complete-btn {
     padding: 16px;
     font-size: 16px;
   }
@@ -556,11 +564,11 @@ select {
   background: #006d77;
 }
 
-.trash-btn {
+.danger-btn {
   background: #db7472;
 }
 
-.trash-btn:hover {
+.danger-btn:hover {
   background: #ff334b;
 }
 
@@ -575,7 +583,7 @@ select {
   opacity: 0;
 }
 
-.analyze:hover {
+.toolbtn:hover {
   background: #03045e;
 }
 
