@@ -10,16 +10,17 @@ const todoList = document.querySelector('.todo-list');
 const taskSort = document.querySelector('#task-sort');
 
 const filterStatus = document.querySelector('.filter-status');
-const filterDate = document.querySelector('.filter-date');
-const filterSort = document.querySelector('filter-sort');
-const filterOption = document.querySelector('filter-option');
+//const filterDate = document.querySelector('.filter-date');
+//const filterSort = document.querySelector('filter-sort');
 
 //event listeners
 document.addEventListener('DOMContentLoaded',getTodos); //網頁載好時，執行 getTodos function
 addButton.addEventListener('click',addTodo);
 todoList.addEventListener('click',deleteCheck);
 hamburgerMenu.addEventListener('click',toggleMenu);
-filterOption.addEventListener('click',filterTodo);
+filterStatus.addEventListener('change',filterSt); //使用change事件才能即時顯示過濾的項目，若使用click會變成第一次要點其他項目之前，就紀錄已經在第一項的那個項目（例如all是預設值，一點就會先記錄到all而不是點完的其他項目）
+//filterDate.addEventListener('change',filterD);
+//filterSort.addEventListener('change',filterSo);
 
 //functions
 function addTodo(event){
@@ -135,10 +136,11 @@ function deleteCheck(e){
     }
     //check btn
     if(item.classList[0] === 'complete-btn'){
-        const todo = item.parentElement;
+        const todo = item.parentElement.parentElement;
         todo.classList.toggle('completed'); //在 todo 這個 div 加上 completed 的 class(再按一次會不見)
     }
 }
+
 //hamburger menu
 function toggleMenu(){
     let menu = document.getElementById('mobile-filter');
@@ -148,8 +150,9 @@ function toggleMenu(){
 }
 
 //filter
-function filterTodo(e){
-    const todos = todoList.childNodes;
+function filterSt(e){
+    const todos = todoList.childNodes; //可用console.log得知，這句可以取得所有在to do list的項目
+    console.log(todos);
     todos.forEach(function(todo){
         console.log(e.target.value);
         switch(e.target.value){ //點擊時，跑迴圈並讓點擊的 value 值（會是 all completed uncompleted）進 switch 判斷式
@@ -173,7 +176,63 @@ function filterTodo(e){
         }
     });
 }
+/*function filterD(e){
+    const todos = todoList.childNodes; 
+    todos.forEach(function(todo){
+        switch(e.target.value){ 
+            case "allDate": //點 all 時
+                todo.style.display = 'flex'; //全都秀
+                break;
+        }
+    });
+}
+function filterSo(e){
+    const todos = todoList.childNodes;
+    todos.forEach(function(todo){
+        switch(e.target.value){ 
+            case "allSort": //點 all 時
+                todo.style.display = 'flex'; //全都秀
+                break;
+            case "jobSort": //點工作時
+                if (todo.classList.contains('completed')){ //只秀出 class 中有加入 completed 這個 class 的
+                    todo.style.display = 'flex'; 
+                } else { //其他的不要秀
+                    todo.style.display = 'none';
+                }
+                break;
+            case "houseworkSort": //點家事時
+                if(!todo.classList.contains('completed')){
+                    todo.style.display = 'flex'; 
+                } else { //其他的不要秀
+                    todo.style.display = 'none';
+                }
+                break;
+            case "sportSort": //點運動時
+                if (todo.classList.contains('completed')){ 
+                    todo.style.display = 'flex'; 
+                } else { //其他的不要秀
+                    todo.style.display = 'none';
+                }
+                break;
+            case "routineSort": //點例行公事時
+                if(!todo.classList.contains('completed')){
+                    todo.style.display = 'flex'; 
+                } else { //其他的不要秀
+                    todo.style.display = 'none';
+                }
+                break;
+            case "othersSort": //點其他時
+                if(!todo.classList.contains('completed')){
+                    todo.style.display = 'flex'; 
+                } else { //其他的不要秀
+                    todo.style.display = 'none';
+                }
+                break;
+        }
+    });
+}*/
 
+//儲存本地端
 function saveLocalTodos(todo) {
     let todos;
     //確認本地端有沒有已存在的todo
