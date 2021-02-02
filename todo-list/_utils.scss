@@ -22,11 +22,21 @@
 .pl-3{
     padding-left: 15px;
 }
+.pl-md-3{
+    @media (min-width: 768px) {
+        padding-left: 15px;
+    }
+}
+.pr-1{
+    padding-right: 5px;
+}
 .pr-2{
     padding-right: 10px;
 }
-.pr-3{
-    padding-right: 15px;
+.pr-md-3{
+    @media (min-width: 768px) {
+        padding-right: 15px;
+    }
 }
 .px-2{
     padding-left: 10px;
@@ -72,6 +82,11 @@
 .mb-8{
     margin-bottom: 40px;
 }
+.mb-md-0{
+    @media (min-width: 768px) {
+        margin-bottom: 0;
+    }
+}
 .mb-lg-0{
     @media (min-width: 992px) {
         margin-bottom: 0;
@@ -104,6 +119,11 @@
 }
 .flex-column{
     flex-direction: column;
+}
+.flex-md-row{
+    @media (min-width: 768px) {
+        flex-direction: row;
+    }
 }
 .flex-row-lg{
     @media (min-width: 992px) {
@@ -139,8 +159,16 @@
     background: $white;
 }
 //border
+.border-0{
+    border: 0;
+}
 .border-left-secondary{
     border-left: 2px solid $secondary;
+}
+.border-left-md-secondary{
+    @media (min-width: 768px) {
+        border-left: 2px solid $secondary;
+    }
 }
 .rounded{
     border-radius: 5px;
