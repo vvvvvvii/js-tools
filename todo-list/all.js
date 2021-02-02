@@ -10,7 +10,7 @@ const todoList = document.querySelector('.todo-list');
 const taskSort = document.querySelector('#task-sort');
 
 const filterStatus = document.querySelector('.filter-status');
-//const filterDate = document.querySelector('.filter-date');
+const filterDate = document.querySelector('.filter-date');
 //const filterSort = document.querySelector('filter-sort');
 
 //event listeners
@@ -18,9 +18,9 @@ document.addEventListener('DOMContentLoaded',getTodos); //網頁載好時，執�
 addButton.addEventListener('click',addTodo);
 todoList.addEventListener('click',deleteCheck);
 hamburgerMenu.addEventListener('click',toggleMenu);
-filterStatus.addEventListener('change',filterSt); //使用change事件才能即時顯示過濾的項目，若使用click會變成第一次要點其他項目之前，就紀錄已經在第一項的那個項目（例如all是預設值，一點就會先記錄到all而不是點完的其他項目）
-//filterDate.addEventListener('change',filterD);
-//filterSort.addEventListener('change',filterSo);
+filterStatus.addEventListener('change',showFilterStatus); //使用change事件才能即時顯示過濾的項目，若使用click會變成第一次要點其他項目之前，就紀錄已經在第一項的那個項目（例如all是預設值，一點就會先記錄到all而不是點完的其他項目）
+filterDate.addEventListener('change',showFilterDate);
+//filterSort.addEventListener('change',showFilterSort);
 
 //functions
 function addTodo(event){
@@ -95,6 +95,10 @@ function addTodo(event){
         console.log(saveLocal);    
         saveLocalTodos(saveLocal);
 
+        //add todo date to date filter （讓 filter date 的 option 可以抓到使用者輸的日期）
+        let saveDate = [dateInput.value];
+        saveDateFilter(saveDate);
+
         //建 div 放兩個 btn
         const newTodoButton = document.createElement('div');
         newTodoButton.classList.add("todo-btn");
@@ -150,7 +154,7 @@ function toggleMenu(){
 }
 
 //filter
-function filterSt(e){
+function showFilterStatus(e){
     const todos = todoList.childNodes; //可用console.log得知，這句可以取得所有在to do list的項目
     console.log(todos);
     todos.forEach(function(todo){
@@ -176,7 +180,16 @@ function filterSt(e){
         }
     });
 }
-/*function filterD(e){
+//讓 filter date 的 option 可以抓到使用者輸的日期
+function saveDateFilter(todo){
+    todo.forEach(function(){
+        console.log(todo);
+        const newDateOption = document.createElement('option');
+        newDateOption.innerHTML = todo;
+        filterDate.appendChild(newDateOption); //把 newDateOption 放到 filterDate 的下方
+    });
+}
+function showFilterDate(e){
     const todos = todoList.childNodes; 
     todos.forEach(function(todo){
         switch(e.target.value){ 
@@ -186,6 +199,7 @@ function filterSt(e){
         }
     });
 }
+/*
 function filterSo(e){
     const todos = todoList.childNodes;
     todos.forEach(function(todo){
