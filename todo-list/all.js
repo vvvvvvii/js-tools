@@ -10,21 +10,28 @@ const todoList = document.querySelector('.todo-list');
 
 const taskSort = document.querySelector('#task-sort');
 
-const filterStatus = document.querySelector('.filter-status');
-const filterMonth = document.querySelector('.filter-month');
-const filterSort = document.querySelector('.filter-sort');
-
-const deleteAll = document.querySelector('.deleteAll');
+const filterStatus = document.querySelectorAll('.filter-status');
+const filterMonth = document.querySelectorAll('.filter-month');
+const filterSort = document.querySelectorAll('.filter-sort');
+const deleteAll = document.querySelectorAll('.deleteAll');
 
 //event listeners
 document.addEventListener('DOMContentLoaded',getTodos); //網頁載好時，執行 getTodos function
 addButton.addEventListener('click',addTodo);
 todoList.addEventListener('click',deleteCheck);
 hamburgerMenu.addEventListener('click',toggleMenu);
-filterStatus.addEventListener('change',showFilterStatus); //使用change事件才能即時顯示過濾的項目，若使用click會變成第一次要點其他項目之前，就紀錄已經在第一項的那個項目（例如all是預設值，一點就會先記錄到all而不是點完的其他項目）
-filterMonth.addEventListener('change',showFilterMonth);
-filterSort.addEventListener('change',showFilterSort);
-deleteAll.addEventListener('click',deleteAllTask);
+filterStatus.forEach(function(i){ //前面因為不只一項而使用 querySelectorAll ，會把資料已陣列方式儲存，所以這裡要用 forEach 不然會有錯誤
+    i.addEventListener('change',showFilterStatus); //使用change事件才能即時顯示過濾的項目，若使用click會變成第一次要點其他項目之前，就紀錄已經在第一項的那個項目（例如all是預設值，一點就會先記錄到all而不是點完的其他項目）
+});
+filterMonth.forEach(function(i){
+    i.addEventListener('change',showFilterMonth);
+});
+filterSort.forEach(function(i){
+    i.addEventListener('change',showFilterSort);
+});
+deleteAll.forEach(function(i){
+    i.addEventListener('click',deleteAllTask);
+});
 
 //functions
 function addTodo(event){
@@ -73,7 +80,6 @@ function addTodo(event){
     newTodoDetail.innerText = todoInput.value; 
 
     const monthCheck = parseInt(monthInput.value);
-    console.log(monthCheck);
     //用這句確認有轉成數字，並確認轉乘的數字長怎樣 console.log(monthCheck);
     const dateCheck = parseInt(dateInput.value);
     //如果沒有輸入內容或月份日期格式錯誤需跳警示，且無法加 task
@@ -181,7 +187,7 @@ function toggleMenu(){
 function showFilterStatus(e){
     const todos = todoList.childNodes; //可用console.log得知，這句可以取得所有在to do list的項目
     todos.forEach(function(todo){
-        console.log(e.target.value);
+        //console.log(e.target.value);
         switch(e.target.value){ //點擊時，跑迴圈並讓點擊的 value 值（會是 all completed uncompleted）進 switch 判斷式
             case "all": //點 all 時
                 todo.style.display = 'flex'; //全都秀
