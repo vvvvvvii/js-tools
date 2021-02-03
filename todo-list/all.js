@@ -1,5 +1,6 @@
 //selectors
-const hamburgerMenu = document.querySelector('#hamburger-menu');
+const hamburgerMenu = document.querySelector('#hamburger-menu-icon');
+const hamburgerExit = document.querySelector('#hamburger-menu-exit');
 
 const monthInput = document.querySelector('#month-input');
 const dateInput = document.querySelector('#date-input');
@@ -19,7 +20,8 @@ const deleteAll = document.querySelectorAll('.deleteAll');
 document.addEventListener('DOMContentLoaded',getTodos); //網頁載好時，執行 getTodos function
 addButton.addEventListener('click',addTodo);
 todoList.addEventListener('click',deleteCheck);
-hamburgerMenu.addEventListener('click',toggleMenu);
+hamburgerMenu.addEventListener('click',openMenu);
+hamburgerExit.addEventListener('click',closeMenu);
 filterStatus.forEach(function(i){ //前面因為不只一項而使用 querySelectorAll ，會把資料已陣列方式儲存，所以這裡要用 forEach 不然會有錯誤
     i.addEventListener('change',showFilterStatus); //使用change事件才能即時顯示過濾的項目，若使用click會變成第一次要點其他項目之前，就紀錄已經在第一項的那個項目（例如all是預設值，一點就會先記錄到all而不是點完的其他項目）
 });
@@ -176,10 +178,15 @@ function deleteAllTask(){
 }
 
 //hamburger menu
-function toggleMenu(){
+function openMenu(){
     let menu = document.getElementById('mobile-filter');
-    hamburgerMenu.addEventListener('click', function() {
-        menu.classList.toggle('hamburgerMenu-active');
+    menu.classList.add('hamburgerMenu-active');
+}
+function closeMenu(){
+    hamburgerExit.classList.toggle('hamburgerMenuExit-active');
+    hamburgerExit.addEventListener('animationend',function(){
+        let menu = document.getElementById('mobile-filter');
+        menu.classList.remove('hamburgerMenu-active');
     });
 }
 
