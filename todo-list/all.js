@@ -75,17 +75,14 @@ function addTodo(event){
     newTodoSort.classList.add("todo-sort");
     newTodoDetail.classList.add("todo-detail");
 
-    const monthCheck = parseInt(monthInput.value);
-    //用這句確認有轉成數字，並確認轉乘的數字長怎樣 console.log(monthCheck);
-    const dateCheck = parseInt(dateInput.value);
     //如果沒有輸入內容或月份日期格式錯誤需跳警示，且無法加 task
     if (todoInput.value == 0 || todoInput.value == undefined || todoInput.value == null){
         alert("內容欄為必填");
         return;
-    }else if(monthCheck <=0 || monthCheck >=13 || monthInput.value == undefined || monthInput.value == null){
+    }else if(monthInput.value <= 0 || monthInput.value >= 13 || monthInput.value == undefined || monthInput.value == null){
         alert("月份格式錯誤");
         return;
-    }else if(dateCheck <=0 || dateCheck >=32 || dateInput.value == undefined || dateInput.value == null){
+    }else if(dateInput.value <=0 || dateInput.value >=32 || dateInput.value == undefined || dateInput.value == null){
         alert("日期格式錯誤");
         return;
     }else{
