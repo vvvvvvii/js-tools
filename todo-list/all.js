@@ -7,7 +7,7 @@ const dateInput = document.querySelector('#date-input');
 const timeInput = document.querySelector('#time-input');
 const todoInput = document.querySelector('.todo-input');
 const addButton = document.querySelector('.addlist-button');
-const todoList = document.querySelector('.todo-list');
+const todoList = document.querySelector('#todoList');
 
 const taskSort = document.querySelector('#task-sort');
 
@@ -488,3 +488,26 @@ function removeLocalTodos(todo){
     //最後，把結果傳回本地端
     localStorage.setItem("todos",JSON.stringify(todos));
 }
+
+//sortable setting
+new Sortable(todoList, {
+    animation: 150,
+    ghostClass: 'sortable-ghost' //拖曳時的 css 樣式名稱
+  });
+      
+  /*想讓架構呈現如下
+    <ul class="todo-list" id="todo-list">
+        <li class="todo"> <!--變數名稱 todoLi-->
+            <ul class="todo-item"> <!--變數名稱 newTodo-->
+                <li class="todo-date">Date</li> dateInput.value 輸入什麼就顯示什麼 <!--變數名稱 newTodoDate-->
+                <li class="todo-time">Time</li> timeInput.value 輸入什麼就顯示什麼 <!--變數名稱 newTodoTime-->
+                <li class="todo-sort">Sort</li> sortSelect.value 輸入什麼就顯示什麼 <!--變數名稱 newTodoSort-->
+                <li class="todo-detail">item detail</li> todoInput.value 輸入什麼就顯示什麼 <!--變數名稱 newTodoDetail-->
+            </ul> 
+            <div class="todo-btn"> <!--變數名稱 newTodoButton-->
+                <button class="complete-btn"></button> <!--變數名稱 completedButton-->
+                <button class="complete-btn"></button> <!--變數名稱 trashButton-->
+            </div>        
+        </li>
+    </ul>
+    */

@@ -21,6 +21,11 @@
     align-items: center;
     padding: 10px 0 10px 15px;
     flex:1;
+    cursor: move;
+    &:hover, &:active{
+        color: $primary;
+        background: $dark;
+    }
 }
 .todo-month, .todo-date, .todo-time{
     font-size: 20px;
