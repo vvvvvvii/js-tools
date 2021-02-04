@@ -18,7 +18,7 @@
         <div class="row">
             <!--to do list-->
             <div class="col-md-8 col-12">
-                <form>
+                <form class="mb-3">
                     <!--Date Time Sort input-->
                     <ul class="d-flex flex-md-row flex-column mb-1">
                         <li class="d-flex mb-md-0 mb-1">
@@ -61,6 +61,10 @@
                         </button>
                     </div>
                 </form>
+                <div class="d-flex justify-center align-end">
+                    <p class="text-info font-bold h5" id="completedNum"></p>
+                    <p class="text-dark-danger font-bold h6 ml-1 pointer danger" id="clearCompleteNum">重新做人</p>
+                </div>
                 <div class="todo-container">
                     <ul class="todo-list" id="todoList"></ul>
                 </div>

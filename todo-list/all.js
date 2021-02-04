@@ -9,6 +9,8 @@ const todoInput = document.querySelector('.todo-input');
 const addButton = document.querySelector('.addlist-button');
 const todoList = document.querySelector('#todoList');
 
+const completedNum = document.querySelector('#completedNum');
+const clearCompleteNum = document.querySelector('#clearCompleteNum');
 const taskSort = document.querySelector('#task-sort');
 
 const filterStatus = document.querySelectorAll('.filter-status');
@@ -34,6 +36,7 @@ filterSort.forEach(function(i){
 deleteAll.forEach(function(i){
     i.addEventListener('click',deleteAllTask);
 });
+clearCompleteNum.addEventListener('click',clearNumCheck);
 
 //functions
 function addTodo(event){
@@ -84,6 +87,9 @@ function addTodo(event){
         return;
     }else if(dateInput.value <=0 || dateInput.value >=32 || dateInput.value == undefined || dateInput.value == null){
         alert("日期格式錯誤");
+        return;
+    }else if(timeInput.value >=2460 || timeInput.value == undefined || timeInput.value == null){
+        alert("時間格式錯誤");
         return;
     }else{
         newTodoMonth.innerText = `${monthInput.value}/`; //輸入什麼就呈現什麼 + / 
@@ -140,8 +146,6 @@ function addTodo(event){
         timeInput.value = "";
         todoInput.value = "";
     };
-
-    
 }
 function deleteCheck(e){
     /*console.log(e.target); 用這句可以發現， e.target 等於我們點的位置的 html 標籤*/
@@ -158,14 +162,34 @@ function deleteCheck(e){
     //check btn
     if(item.classList[0] === 'complete-btn'){
         const todo = item.parentElement.parentElement;
-        todo.classList.toggle('completed'); //在 todo 這個 div 加上 completed 的 class(再按一次會不見)
+        todo.classList.add('completed'); //在 todo 這個 div 加上 completed 的 class
+        calculateTasks(todo);
+        removeLocalTodos(todo); //讓本地端儲存的資料一併刪除，但紀錄完成了哪些事
+    }
+}
+//完成的工作數量會被紀錄
+let completedTotalNum = 0;
+completedNum.innerHTML= `已完成 ${completedTotalNum} 項工作！`;
+function calculateTasks(){
+    completedTotalNum += 1;
+    completedNum.innerHTML = `已完成 ${completedTotalNum} 項工作！`;
+    saveLocalComplete();
+}
+function clearNumCheck(){
+    if(confirm("確定刪除已完成的豐功偉業數量？")){
+        completedTotalNum = 0;
+        completedNum.innerHTML= `尚未有完成的工作`;
+        localStorage.removeItem('completeTask'); //連同本地端一起清空
+        return; 
+    }else{
+        return;
     }
 }
 //刪除全部 task
 function deleteAllTask(){
     if(confirm("確定刪除所有代辦事項？")){
         todoList.innerText = "";
-        localStorage.clear(); //連同本地端一起清空
+        localStorage.removeItem('todos'); //連同本地端一起清空
         return; 
     }else{
         return;
@@ -371,8 +395,13 @@ function saveLocalTodos(todo) {
     //將 todos 資料轉回字串，更新到資料庫中
     localStorage.setItem("todos", JSON.stringify(todos));
 }
-
-//叫出存在本地端的 todo-date 、 todo-time 、 todos 
+function saveLocalComplete(){
+    let completedNum;
+    completedNum = completedTotalNum;
+    //把結果傳回本地端
+    localStorage.setItem("completeTask",JSON.stringify(completedNum));
+}
+//叫出存在本地端的 todo-date 、 todo-time 、 todos 、完成數目
 function getTodos(){
     //確認本地端有沒有已存在的todo
     let todos;
@@ -453,9 +482,15 @@ function getTodos(){
         dateInput.value = "";
         timeInput.value = "";
         todoInput.value = "";
-      });
+    });
+    if(localStorage.getItem('completeTask') === null){
+        completedNum.innerHTML = `尚未有完成的工作`;
+        completedTotalNum = 0;
+    }else{
+        completedTotalNum = JSON.parse(localStorage.getItem('completeTask'));
+        completedNum.innerHTML = `已完成 ${completedTotalNum} 項工作！`;
+    }
 };
-
 function removeLocalTodos(todo){
     //確認本地端有沒有已存在的todo
     let todos;
@@ -467,7 +502,6 @@ function removeLocalTodos(todo){
         todos = JSON.parse(localStorage.getItem('todos'));
     }
     
-
     /*
     console.log(todo); //藉由這句知道，當我們點擊刪除按鈕， todo 這個參數對應到的是 .todo-btn fall 這個 div
     console.log(todo.children); //todo.children 這個參數對應到的是一個陣列，包含：li.todo-item、button.complete-btn、button.danger-btn，裡面又各自包了很多東西，可以發現我們要刪除的項目資料放在 todoitem 的 innerText / innerHTML 底下

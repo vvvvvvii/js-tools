@@ -114,6 +114,10 @@ select {
   color: #ade8f4;
 }
 
+.text-dark-danger {
+  color: #ff334b;
+}
+
 .text-info {
   color: #d3ba4d;
 }
@@ -347,6 +351,12 @@ select {
           align-items: center;
 }
 
+.align-end {
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+}
+
 .bg-primary {
   background: #00b4d8;
 }
@@ -419,6 +429,11 @@ select {
 
 .pointer {
   cursor: pointer;
+}
+
+.danger:hover {
+  color: #db7472;
+  text-decoration: underline;
 }
 
 .sortable-ghost {

@@ -139,6 +139,9 @@
 .align-center{
     align-items: center;
 }
+.align-end{
+    align-items: flex-end;
+}
 //bg-colors
 .bg-primary{
     background: $primary;
@@ -192,7 +195,11 @@
 .flex-5{
     flex:5;
 }
-//cursor: pointer
+//hover&pointer
 .pointer{
     cursor: pointer;
+}
+.danger:hover{
+    color: $danger;
+    text-decoration: underline;
 }
