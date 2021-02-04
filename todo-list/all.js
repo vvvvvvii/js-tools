@@ -57,8 +57,7 @@ function addTodo(event){
                 <button class="complete-btn"></button> <!--變數名稱 trashButton-->
             </div>        
         </li>
-    </ul>
-    */
+    </ul>*/
 
     //建立 li 
     const newTodo = document.createElement('ul');
@@ -76,11 +75,6 @@ function addTodo(event){
     newTodoSort.classList.add("todo-sort");
     newTodoDetail.classList.add("todo-detail");
 
-    newTodoMonth.innerText = `${monthInput.value}/`; //輸入什麼就呈現什麼
-    newTodoDate.innerText = dateInput.value; //輸入什麼就呈現什麼
-    newTodoTime.innerText = timeInput.value; 
-    newTodoDetail.innerText = todoInput.value; 
-
     const monthCheck = parseInt(monthInput.value);
     //用這句確認有轉成數字，並確認轉乘的數字長怎樣 console.log(monthCheck);
     const dateCheck = parseInt(dateInput.value);
@@ -88,13 +82,17 @@ function addTodo(event){
     if (todoInput.value == 0 || todoInput.value == undefined || todoInput.value == null){
         alert("內容欄為必填");
         return;
-    }else if(monthCheck <=0 || monthCheck >=13){
+    }else if(monthCheck <=0 || monthCheck >=13 || monthInput.value == undefined || monthInput.value == null){
         alert("月份格式錯誤");
         return;
-    }else if(dateCheck <=0 || dateCheck >=32){
+    }else if(dateCheck <=0 || dateCheck >=32 || dateInput.value == undefined || dateInput.value == null){
         alert("日期格式錯誤");
         return;
     }else{
+        newTodoMonth.innerText = `${monthInput.value}/`; //輸入什麼就呈現什麼 + / 
+        newTodoDate.innerText = dateInput.value; //輸入什麼就呈現什麼
+        newTodoTime.innerText = timeInput.value; 
+        newTodoDetail.innerText = todoInput.value;
         //選什麼種類就秀對應圖案
         if(taskSort.value == "job"){
             newTodoSort.innerHTML += `<i class="fas fa-briefcase"></i>`;
@@ -221,7 +219,7 @@ function showFilterMonth(e){
     todos.forEach(function(todo){
     //console.log(todo.childNodes[0].childNodes[0]); 從這句找到月份所在 dom 位置
     const month = todo.childNodes[0].childNodes[0].innerHTML;
-    console.log(month);
+    //console.log(month);
         switch(e.target.value){ 
             case "allMonth": //點 all 時
                 todo.style.display = 'flex'; //全都秀
@@ -493,21 +491,4 @@ function removeLocalTodos(todo){
 new Sortable(todoList, {
     animation: 150,
     ghostClass: 'sortable-ghost' //拖曳時的 css 樣式名稱
-  });
-      
-  /*想讓架構呈現如下
-    <ul class="todo-list" id="todo-list">
-        <li class="todo"> <!--變數名稱 todoLi-->
-            <ul class="todo-item"> <!--變數名稱 newTodo-->
-                <li class="todo-date">Date</li> dateInput.value 輸入什麼就顯示什麼 <!--變數名稱 newTodoDate-->
-                <li class="todo-time">Time</li> timeInput.value 輸入什麼就顯示什麼 <!--變數名稱 newTodoTime-->
-                <li class="todo-sort">Sort</li> sortSelect.value 輸入什麼就顯示什麼 <!--變數名稱 newTodoSort-->
-                <li class="todo-detail">item detail</li> todoInput.value 輸入什麼就顯示什麼 <!--變數名稱 newTodoDetail-->
-            </ul> 
-            <div class="todo-btn"> <!--變數名稱 newTodoButton-->
-                <button class="complete-btn"></button> <!--變數名稱 completedButton-->
-                <button class="complete-btn"></button> <!--變數名稱 trashButton-->
-            </div>        
-        </li>
-    </ul>
-    */
+});

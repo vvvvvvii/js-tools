@@ -26,15 +26,15 @@
                                 <label for="month-input" class="pl-1 h5">
                                     <i class="far fa-calendar-alt text-dark"></i>
                                 </label>
-                                <input type="text" class="bg-primary py-3 pl-md-3 pl-1 text-dark h5 w-100" id="month-input" placeholder="01">
+                                <input type="number" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))" class="bg-primary py-3 pl-md-3 pl-1 text-dark h5 w-100" id="month-input" placeholder="01"> <!--用 onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))" 限制不可輸入加減乘除小數點和e-->
                                 <span class="pr-md-3 pr-1">|</span>
-                                <input type="text" class="bg-primary py-3 pl-md-3 pl-1 text-dark h5 w-100" id="date-input" placeholder="31">
+                                <input type="number" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))" class="bg-primary py-3 pl-md-3 pl-1 text-dark h5 w-100" id="date-input" placeholder="31">
                             </div>
                             <div class="d-flex align-center bg-primary border-left-secondary w-100">
                                 <label for="time-input" class="pl-1 h5">
                                     <i class="far fa-clock text-dark"></i>
                                 </label>
-                                <input type="text" class="bg-primary py-3 pl-3 text-dark h5 w-100" id="time-input" placeholder="17:30">
+                                <input type="number" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))" class="bg-primary py-3 pl-3 text-dark h5 w-100" id="time-input" placeholder="1730">
                             </div>
                         </li>
                         <li class="d-flex align-center bg-primary border-left-md-secondary border-0 w-100">
