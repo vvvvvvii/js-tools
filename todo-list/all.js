@@ -480,15 +480,22 @@ function getTodos(){
         //把目前日期和時間放進陣列中，用樣板字串把月、日，還有時、分組合起來，讓排列方式跟本地端存的方式一樣
         let thismonth = parseInt(`${d.getMonth()+1}`); 
         let today = parseInt(`${d.getDate()}`); 
-        let now = parseInt(`${d.getHours()}${d.getMinutes()}`);
+        let hourNow = parseInt(`${d.getHours()}`);
+        let minNow = parseInt(`${d.getMinutes()}`);
         let taskDate= todo[0];
         taskDate = taskDate.split("/",2); //以 / 開始拆開前後的月份和日期
         let taskMonth = taskDate[0];
         let taskDay = taskDate[1];
-        let taskTime= todo[1];
+
+        let taskTime = todo[1];
+        taskTime = taskTime.split(":",2); //以 : 開始拆開前後的月份和日期
+        //taskTime = taskTime.replace(/[\:]/g,""); //讓時間的冒號去除
+        let taskHour = taskTime[0]; 
+        let taskMin = taskTime[1];
+
         console.log(taskMonth);console.log(taskDay);console.log(taskTime);
-        taskTime = taskTime.replace(/[\:]/g,""); //讓時間的冒號去除
-        if(taskMonth <= thismonth && taskDay <= today && taskTime < now){ //若過期
+        console.log(hourNow);console.log(minNow);
+        if(taskMonth <= thismonth && taskDay <= today && taskHour < hourNow && taskMin < minNow){ //若過期
             todoLi.classList.remove("todo");
             todoLi.classList.add("overdue-todo");
         }
