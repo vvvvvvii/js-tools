@@ -17,7 +17,6 @@
 }
 .todo-item{
     display: flex;
-    justify-content: space-between;
     align-items: center;
     padding: 10px 0 10px 15px;
     flex:1;
@@ -27,18 +26,17 @@
         background: $dark;
     }
 }
-.todo-month, .todo-date, .todo-time{
+.todo-date, .todo-time{
     font-size: 20px;
     @media (min-width: 992px) {
         font-size: 26px;
     }
 }
-.todo-date,.todo-time{
-    flex:1;
+.todo-time{
+    margin-left: 15px;
 }
-
 .todo-sort{
-    flex:1;
+    margin-left: 15px;
     text-align: center;
     padding: 0 5px;
     font-size: 16px;
@@ -50,8 +48,7 @@
     }
 }
 .todo-detail{
-    flex:5;
-    margin-left: 5px;
+    margin-left: 15px;
     border-left: 1px solid $white;
     padding-left: 10px;
     font-size: 20px;
@@ -91,15 +88,15 @@
         background: $dark-safe;
     }
 }
+.completed{     //讓按完完成鍵後，透明度變淡且有線劃掉項目
+    text-decoration: line-through;
+    opacity: 0.5;
+}
 .danger-btn{
     background: $danger;
     &:hover{
         background: $dark-danger;
     }
-}
-.completed{     //讓按完完成鍵後，透明度變淡且有線劃掉項目
-    text-decoration: line-through;
-    opacity: 0.5;
 }
 .fall{
     transform: translateY(8rem) rotateZ(20deg);

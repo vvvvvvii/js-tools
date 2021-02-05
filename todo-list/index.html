@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha512-9BwLAVqqt6oFdXohPLuNHxhx36BVj5uGSGmizkmGkgl3uMSgNalKc/smum+GJU/TTP0jy0+ruwC3xNAk3F759A==" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <link rel="stylesheet" href="./all.css">
+    <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/confetti.css">
+    <link rel="stylesheet" href="./scss/all.css">
     <title>To Do List</title>
 </head>
 <body>
@@ -24,18 +25,16 @@
                     <ul class="d-flex flex-md-row flex-column mb-1">
                         <li class="d-flex mb-md-0 mb-1">
                             <div class="d-flex align-center bg-primary w-100">
-                                <label for="month-input" class="pl-1 h5">
+                                <label for="date-input" class="pl-1 h5">
                                     <i class="far fa-calendar-alt text-dark"></i>
                                 </label>
-                                <input type="number" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))" class="bg-primary py-3 pl-md-3 pl-1 text-dark h5 w-100" id="month-input" placeholder="01"> <!--用 onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))" 限制不可輸入加減乘除小數點和e-->
-                                <span class="pr-md-3 pr-1">|</span>
-                                <input type="number" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))" class="bg-primary py-3 pl-md-3 pl-1 text-dark h5 w-100" id="date-input" placeholder="31">
+                                <input type="text" id="date-input" placeholder="2021-01-01" class="bg-primary py-3 pl-md-3 pl-1 text-dark h5 w-100 pointer">    
                             </div>
                             <div class="d-flex align-center bg-primary border-left-secondary w-100">
                                 <label for="time-input" class="pl-1 h5">
                                     <i class="far fa-clock text-dark"></i>
                                 </label>
-                                <input type="number" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))" class="bg-primary py-3 pl-3 text-dark h5 w-100" id="time-input" placeholder="1730">
+                                <input type="text" id="time-input" placeholder="00:00" class="bg-primary py-3 pl-md-3 pl-1 text-dark h5 w-100 pointer">
                             </div>
                         </li>
                         <li class="d-flex align-center bg-primary border-left-md-secondary border-0 w-100">
@@ -85,7 +84,7 @@
                 <li class="mb-3">
                     <h2 class="h3 mb-3 font-bold text-dark">月份篩選</h2>
                     <div class="dropdown">
-                        <select name="todos" class="filter-month bg-primary py-2 px-2 h4 text-white w-100 pointer">
+                        <select name="todos" class="filter-date bg-primary py-2 px-2 h4 text-white w-100 pointer">
                             <option value="allMonth">顯示全部</option>
                             <option value="jan">一月</option>
                             <option value="feb">二月</option>

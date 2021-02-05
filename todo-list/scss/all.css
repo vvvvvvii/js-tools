@@ -556,9 +556,6 @@ select {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
@@ -574,26 +571,22 @@ select {
   background: #023e8a;
 }
 
-.todo-month, .todo-date, .todo-time {
+.todo-date, .todo-time {
   font-size: 20px;
 }
 
 @media (min-width: 992px) {
-  .todo-month, .todo-date, .todo-time {
+  .todo-date, .todo-time {
     font-size: 26px;
   }
 }
 
-.todo-date, .todo-time {
-  -webkit-box-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
+.todo-time {
+  margin-left: 15px;
 }
 
 .todo-sort {
-  -webkit-box-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
+  margin-left: 15px;
   text-align: center;
   padding: 0 5px;
   font-size: 16px;
@@ -612,10 +605,7 @@ select {
 }
 
 .todo-detail {
-  -webkit-box-flex: 5;
-      -ms-flex: 5;
-          flex: 5;
-  margin-left: 5px;
+  margin-left: 15px;
   border-left: 1px solid #ffffff;
   padding-left: 10px;
   font-size: 20px;
@@ -683,17 +673,17 @@ select {
   background: #006d77;
 }
 
+.completed {
+  text-decoration: line-through;
+  opacity: 0.5;
+}
+
 .danger-btn {
   background: #db7472;
 }
 
 .danger-btn:hover {
   background: #ff334b;
-}
-
-.completed {
-  text-decoration: line-through;
-  opacity: 0.5;
 }
 
 .fall {

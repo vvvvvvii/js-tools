@@ -1,8 +1,20 @@
+/* 
+MIT License
+Copyright (c) 2019 All contributors to Sortable
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+Copyright (c) 2017 Gregory Petrosyan
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
 //selectors
 const hamburgerMenu = document.querySelector('#hamburger-menu-icon');
 const hamburgerExit = document.querySelector('#hamburger-menu-exit');
 
-const monthInput = document.querySelector('#month-input');
 const dateInput = document.querySelector('#date-input');
 const timeInput = document.querySelector('#time-input');
 const todoInput = document.querySelector('.todo-input');
@@ -14,7 +26,7 @@ const clearCompleteNum = document.querySelector('#clearCompleteNum');
 const taskSort = document.querySelector('#task-sort');
 
 const filterStatus = document.querySelectorAll('.filter-status');
-const filterMonth = document.querySelectorAll('.filter-month');
+const filterDate = document.querySelectorAll('.filter-date');
 const filterSort = document.querySelectorAll('.filter-sort');
 const deleteAll = document.querySelectorAll('.deleteAll');
 
@@ -27,8 +39,8 @@ hamburgerExit.addEventListener('click',closeMenu);
 filterStatus.forEach(function(i){ //前面因為不只一項而使用 querySelectorAll ，會把資料已陣列方式儲存，所以這裡要用 forEach 不然會有錯誤
     i.addEventListener('change',showFilterStatus); //使用change事件才能即時顯示過濾的項目，若使用click會變成第一次要點其他項目之前，就紀錄已經在第一項的那個項目（例如all是預設值，一點就會先記錄到all而不是點完的其他項目）
 });
-filterMonth.forEach(function(i){
-    i.addEventListener('change',showFilterMonth);
+filterDate.forEach(function(i){
+    i.addEventListener('change',showFilterDate);
 });
 filterSort.forEach(function(i){
     i.addEventListener('change',showFilterSort);
@@ -67,12 +79,10 @@ function addTodo(event){
     newTodo.classList.add("todo-item");
     todoLi.appendChild(newTodo); //把 newTodo 放到 todoLi 的下方
 
-    const newTodoMonth = document.createElement('li');
     const newTodoDate = document.createElement('li');
     const newTodoTime = document.createElement('li');
     const newTodoSort = document.createElement('li');
     const newTodoDetail = document.createElement('li');
-    newTodoMonth.classList.add("todo-month");
     newTodoDate.classList.add("todo-date");
     newTodoTime.classList.add("todo-time");
     newTodoSort.classList.add("todo-sort");
@@ -81,14 +91,11 @@ function addTodo(event){
     //如果沒有輸入內容或月份日期格式錯誤需跳警示，且無法加 task
     if (todoInput.value == 0 || todoInput.value == undefined || todoInput.value == null){
         alert("內容欄為必填");
-    }else if(monthInput.value <= 0 || monthInput.value >= 13 || monthInput.value == undefined || monthInput.value == null){
-        alert("月份格式錯誤");
-    }else if(dateInput.value <=0 || dateInput.value >=32 || dateInput.value == undefined || dateInput.value == null){
-        alert("日期格式錯誤");
-    }else if(timeInput.value >=2460 || timeInput.value == undefined || timeInput.value == null){
-        alert("時間格式錯誤");
+    }else if(dateInput.value ==0 || dateInput.value == undefined || dateInput.value == null){
+        alert("日期欄為必填");
+    }else if(timeInput.value == 0 || timeInput.value == undefined || timeInput.value == null){
+        alert("時間欄為必填");
     }else{
-        newTodoMonth.innerText = `${monthInput.value}/`; //輸入什麼就呈現什麼 + / 
         newTodoDate.innerText = dateInput.value; //輸入什麼就呈現什麼
         newTodoTime.innerText = timeInput.value; 
         newTodoDetail.innerText = todoInput.value;
@@ -107,14 +114,13 @@ function addTodo(event){
             newTodoSort.innerHTML += `<i class="fas fa-times"></i>`;
         };
 
-        newTodo.appendChild(newTodoMonth); //把 newTodoMonth 放到 newTodo 的下方
         newTodo.appendChild(newTodoDate); //把 newTodoDate 放到 newTodo 的下方
         newTodo.appendChild(newTodoTime); //把 newTodoTime 放到 newTodo 的下方
         newTodo.appendChild(newTodoSort); //把 newTodoSort 放到 newTodo 的下方
         newTodo.appendChild(newTodoDetail); //把 newTodoDetail 放到 newTodo 的下方
 
         //add todo to localstorage
-        let saveLocal = [monthInput.value,dateInput.value,timeInput.value,taskSort.value,todoInput.value];
+        let saveLocal = [dateInput.value,timeInput.value,taskSort.value,todoInput.value];
         saveLocalTodos(saveLocal);
 
         //建 div 放兩個 btn
@@ -137,7 +143,6 @@ function addTodo(event){
         todoList.appendChild(todoLi);//把 todoLi 放進 todoList 裡
 
         //輸入並加到下方後，自動清空輸入欄位，讓使用者可以再輸入其他待辦事項
-        monthInput.value = "";
         dateInput.value = "";
         timeInput.value = "";
         todoInput.value = "";
@@ -170,6 +175,9 @@ function calculateTasks(){
     completedTotalNum += 1;
     completedNum.innerHTML = `已完成 ${completedTotalNum} 項工作！`;
     saveLocalComplete();
+    window.setTimeout(function () { //按完計算完成的數量後 500ms 重整一次
+        window.location.reload();
+    }, 500);
 }
 function clearNumCheck(){
     if(confirm("確定刪除已完成的豐功偉業數量？")){
@@ -231,7 +239,7 @@ function showFilterStatus(e){
         }
     });
 }
-function showFilterMonth(e){
+function showFilterDate(e){
     const todos = todoList.childNodes; 
     todos.forEach(function(todo){
     //console.log(todo.childNodes[0].childNodes[0]); 從這句找到月份所在 dom 位置
@@ -242,84 +250,84 @@ function showFilterMonth(e){
                 todo.style.display = 'flex'; //全都秀
                 break;
             case "jan":
-                if (month == '01/'){ 
+                if (month.includes('01/')){ 
                     todo.style.display = 'flex'; 
                 } else { //其他的不要秀
                     todo.style.display = 'none';
                 }
                 break;
             case "feb":
-                if (month == '02/'){ 
+                if (month.includes('02/')){ 
                     todo.style.display = 'flex'; 
                 } else { //其他的不要秀
                     todo.style.display = 'none';
                 }
                 break;
             case "mar":
-                if (month == '03/'){ 
+                if (month.includes('03/')){ 
                     todo.style.display = 'flex'; 
                 } else { //其他的不要秀
                     todo.style.display = 'none';
                 }
                 break;
             case "apr":
-                if (month == '04/'){ 
+                if (month.includes('04/')){ 
                     todo.style.display = 'flex'; 
                 } else { //其他的不要秀
                     todo.style.display = 'none';
                 }
                 break;
             case "may":
-                if (month == '05/'){ 
+                if (month.includes('05/')){ 
                     todo.style.display = 'flex'; 
                 } else { //其他的不要秀
                     todo.style.display = 'none';
                 }
                 break;
             case "jun":
-                if (month == '06/'){ 
+                if (month.includes('06/')){ 
                     todo.style.display = 'flex'; 
                 } else { //其他的不要秀
                     todo.style.display = 'none';
                 }
                 break;
             case "jul":
-                if (month == '07/'){ 
+                if (month.includes('07/')){ 
                     todo.style.display = 'flex'; 
                 } else { //其他的不要秀
                     todo.style.display = 'none';
                 }
                 break;
             case "aug":
-                if (month == '08/'){ 
+                if (month.includes('08/')){ 
                     todo.style.display = 'flex'; 
                 } else { //其他的不要秀
                     todo.style.display = 'none';
                 }
                 break;
             case "sep":
-                if (month == '09/'){ 
+                if (month.includes('09/')){ 
                     todo.style.display = 'flex'; 
                 } else { //其他的不要秀
                     todo.style.display = 'none';
                 }
                 break;
             case "oct":
-                if (month == '10/'){ 
+                if (month.includes('10/')){ 
                     todo.style.display = 'flex'; 
                 } else { //其他的不要秀
                     todo.style.display = 'none';
                 }
                 break;
             case "nov":
-                if (month == '11/'){ 
+                if (month.includes('11/')){ 
                     todo.style.display = 'flex'; 
                 } else { //其他的不要秀
                     todo.style.display = 'none';
                 }
                 break;
             case "dec":
-                if (month == '12/'){ 
+                if (month.includes('12/')){ 
                     todo.style.display = 'flex'; 
                 } else { //其他的不要秀
                     todo.style.display = 'none';
@@ -417,38 +425,34 @@ function getTodos(){
         newTodo.classList.add("todo-item");
         todoLi.appendChild(newTodo); //把 newTodo 放到 todoLi 的下方
 
-        const newTodoMonth = document.createElement('li');
         const newTodoDate = document.createElement('li');
         const newTodoTime = document.createElement('li');
         const newTodoSort = document.createElement('li');
         const newTodoDetail = document.createElement('li');
-        newTodoMonth.classList.add("todo-month");
         newTodoDate.classList.add("todo-date");
         newTodoTime.classList.add("todo-time");
         newTodoSort.classList.add("todo-sort");
         newTodoDetail.classList.add("todo-detail");
-        
-        newTodoMonth.innerText = `${todo[0]}/`; //輸入什麼就呈現什麼
-        newTodoDate.innerText = todo[1]; //輸入什麼就呈現什麼
-        newTodoTime.innerText = todo[2]; //輸入什麼就呈現什麼
-        newTodoDetail.innerText = todo[4]; //輸入什麼就呈現什麼
+        console.log(todo);
+        newTodoDate.innerText = todo[0]; //輸入什麼就呈現什麼
+        newTodoTime.innerText = todo[1]; //輸入什麼就呈現什麼
+        newTodoDetail.innerText = todo[3]; //輸入什麼就呈現什麼
 
         //看選到什麼種類，就秀相對應的圖案
-        if(todo[3] == "job"){
+        if(todo[2] == "job"){
             newTodoSort.innerHTML += `<i class="fas fa-briefcase"></i>`;
-        }else if(todo[3] == "housework"){
+        }else if(todo[2] == "housework"){
             newTodoSort.innerHTML += `<i class="fas fa-home"></i>`;
-        }else if(todo[3] == "sport"){
+        }else if(todo[2] == "sport"){
             newTodoSort.innerHTML += `<i class="far fa-futbol"></i>`;
-        }else if(todo[3] == "routine"){
+        }else if(todo[2] == "routine"){
             newTodoSort.innerHTML += `<i class="fas fa-hourglass"></i>`;
-        }else if(todo[3] == "others"){
+        }else if(todo[2] == "others"){
             newTodoSort.innerHTML += `<i class="fas fa-palette"></i>`;
         }else{
             newTodoSort.innerHTML += `<i class="fas fa-times"></i>`;
         };
 
-        newTodo.appendChild(newTodoMonth); //把 newTodoMonth 放到 newTodo 的下方
         newTodo.appendChild(newTodoDate); //把 newTodoDate 放到 newTodo 的下方
         newTodo.appendChild(newTodoTime); //把 newTodoTime 放到 newTodo 的下方
         newTodo.appendChild(newTodoSort); //把 newTodoSort 放到 newTodo 的下方
@@ -474,7 +478,6 @@ function getTodos(){
         todoList.appendChild(todoLi);//把 todoLi 放進 todoList 裡
     
         //輸入並加到下方後，自動清空輸入欄位，讓使用者可以再輸入其他待辦事項
-        monthInput.value = "";
         dateInput.value = "";
         timeInput.value = "";
         todoInput.value = "";
@@ -514,8 +517,24 @@ function removeLocalTodos(todo){
     localStorage.setItem("todos",JSON.stringify(todos));
 }
 
-//sortable setting
+//sortable setting 外掛
 new Sortable(todoList, {
     animation: 150,
     ghostClass: 'sortable-ghost' //拖曳時的 css 樣式名稱
+});
+
+//flatpickr 外掛
+flatpickr(dateInput,{
+    altInput: true,
+    altFormat: "n/j",
+    dateFormat: "m/d",
+    minDate: "today", //限定只能選今天以後的日期
+    disableMobile: "true"
+});
+flatpickr(timeInput,{
+    enableTime: true,
+    noCalendar: true,
+    dateFormat: "H:i",
+    time_24hr: true,
+    disableMobile: "true"
 });
