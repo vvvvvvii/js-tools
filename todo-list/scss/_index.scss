@@ -4,16 +4,30 @@
 .todo-button:hover{
     background: $dark-danger;
 }
-.todo{
+.todo,.overdue-todo{
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-top: 28px;
     margin-bottom: 28px;
-    background: $primary;
     font-size: 28px;
-    color: $dark;
     transition: all 0.5s ease;
+}
+.todo{
+    background: $primary;
+    color: $dark;
+    &:hover, &:active{
+        color: $primary;
+        background: $dark;
+    }
+}
+.overdue-todo{
+    background: $danger;
+    color: $dark-danger;
+    &:hover, &:active{
+        color: $danger;
+        background: $dark-danger;
+    }
 }
 .todo-item{
     display: flex;
@@ -21,10 +35,7 @@
     padding: 10px 0 10px 15px;
     flex:1;
     cursor: move;
-    &:hover, &:active{
-        color: $primary;
-        background: $dark;
-    }
+    
 }
 .todo-date, .todo-time{
     font-size: 20px;

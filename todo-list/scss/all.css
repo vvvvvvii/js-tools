@@ -533,7 +533,7 @@ select {
   background: #ff334b;
 }
 
-.todo {
+.todo, .overdue-todo {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -545,11 +545,29 @@ select {
           align-items: center;
   margin-top: 28px;
   margin-bottom: 28px;
-  background: #00b4d8;
   font-size: 28px;
-  color: #023e8a;
   -webkit-transition: all 0.5s ease;
   transition: all 0.5s ease;
+}
+
+.todo {
+  background: #00b4d8;
+  color: #023e8a;
+}
+
+.todo:hover, .todo:active {
+  color: #00b4d8;
+  background: #023e8a;
+}
+
+.overdue-todo {
+  background: #db7472;
+  color: #ff334b;
+}
+
+.overdue-todo:hover, .overdue-todo:active {
+  color: #db7472;
+  background: #ff334b;
 }
 
 .todo-item {
@@ -564,11 +582,6 @@ select {
       -ms-flex: 1;
           flex: 1;
   cursor: move;
-}
-
-.todo-item:hover, .todo-item:active {
-  color: #00b4d8;
-  background: #023e8a;
 }
 
 .todo-date, .todo-time {

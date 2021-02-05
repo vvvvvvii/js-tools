@@ -418,13 +418,13 @@ function getTodos(){
     }
     //console.log(todos); 檢查 todo 有被分成一條task一個陣列的狀態
     todos.forEach(function(todo) {
+        //建立 li 
         const todoLi = document.createElement('li');
         todoLi.classList.add("todo");
-        //建立 li 
         const newTodo = document.createElement('ul');
         newTodo.classList.add("todo-item");
         todoLi.appendChild(newTodo); //把 newTodo 放到 todoLi 的下方
-
+        
         const newTodoDate = document.createElement('li');
         const newTodoTime = document.createElement('li');
         const newTodoSort = document.createElement('li');
@@ -433,11 +433,10 @@ function getTodos(){
         newTodoTime.classList.add("todo-time");
         newTodoSort.classList.add("todo-sort");
         newTodoDetail.classList.add("todo-detail");
-        console.log(todo);
         newTodoDate.innerText = todo[0]; //輸入什麼就呈現什麼
         newTodoTime.innerText = todo[1]; //輸入什麼就呈現什麼
         newTodoDetail.innerText = todo[3]; //輸入什麼就呈現什麼
-
+        
         //看選到什麼種類，就秀相對應的圖案
         if(todo[2] == "job"){
             newTodoSort.innerHTML += `<i class="fas fa-briefcase"></i>`;
@@ -452,35 +451,47 @@ function getTodos(){
         }else{
             newTodoSort.innerHTML += `<i class="fas fa-times"></i>`;
         };
-
+        
         newTodo.appendChild(newTodoDate); //把 newTodoDate 放到 newTodo 的下方
         newTodo.appendChild(newTodoTime); //把 newTodoTime 放到 newTodo 的下方
         newTodo.appendChild(newTodoSort); //把 newTodoSort 放到 newTodo 的下方
         newTodo.appendChild(newTodoDetail); //把 newTodoDetail 放到 newTodo 的下方
-
+        
         //建 div 放兩個 btn
         const newTodoButton = document.createElement('div');
         newTodoButton.classList.add("todo-btn");
         todoLi.appendChild(newTodoButton); //把 newTodoButton 放到 todoLi 的下方    
-
+        
         //check mark btn
         const completedButton = document.createElement('button');
         completedButton.innerHTML = '<i class="fas fa-check"></i>';
         completedButton.classList.add('complete-btn');
         newTodoButton.appendChild(completedButton); //把 completedButton 放到 newTodoButton 的下方    
-    
+            
         //check trash btn
         const trashButton = document.createElement('button');
         trashButton.innerHTML = '<i class="fas fa-trash"></i>';
         trashButton.classList.add('danger-btn');
         newTodoButton.appendChild(trashButton); //把 trashButton 放到 newTodoButton 的下方    
-    
         todoList.appendChild(todoLi);//把 todoLi 放進 todoList 裡
-    
-        //輸入並加到下方後，自動清空輸入欄位，讓使用者可以再輸入其他待辦事項
-        dateInput.value = "";
-        timeInput.value = "";
-        todoInput.value = "";
+                
+        //取得目前日期與時間
+        let d = new Date();
+        //把目前日期和時間放進陣列中，用樣板字串把月、日，還有時、分組合起來，讓排列方式跟本地端存的方式一樣
+        let thismonth = parseInt(`${d.getMonth()+1}`); 
+        let today = parseInt(`${d.getDate()}`); 
+        let now = parseInt(`${d.getHours()}${d.getMinutes()}`);
+        let taskDate= todo[0];
+        taskDate = taskDate.split("/",2); //以 / 開始拆開前後的月份和日期
+        let taskMonth = taskDate[0];
+        let taskDay = taskDate[1];
+        let taskTime= todo[1];
+        console.log(taskMonth);console.log(taskDay);console.log(taskTime);
+        taskTime = taskTime.replace(/[\:]/g,""); //讓時間的冒號去除
+        if(taskMonth <= thismonth && taskDay <= today && taskTime < now){ //若過期
+            todoLi.classList.remove("todo");
+            todoLi.classList.add("overdue-todo");
+        }
     });
     if(localStorage.getItem('completeTask') === null){
         completedNum.innerHTML = `尚未有完成的工作`;
