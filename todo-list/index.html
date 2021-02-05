@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha512-9BwLAVqqt6oFdXohPLuNHxhx36BVj5uGSGmizkmGkgl3uMSgNalKc/smum+GJU/TTP0jy0+ruwC3xNAk3F759A==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="./all.css">
     <title>To Do List</title>
 </head>
@@ -63,7 +64,7 @@
                 </form>
                 <div class="d-flex justify-center align-end">
                     <p class="text-info font-bold h5" id="completedNum"></p>
-                    <p class="text-dark-danger font-bold h6 ml-1 pointer danger" id="clearCompleteNum">重新做人</p>
+                    <p class="text-dark-danger font-bold h6 ml-1 pointer danger" id="clearCompleteNum">重新計算</p>
                 </div>
                 <div class="todo-container">
                     <ul class="todo-list" id="todoList"></ul>
@@ -127,7 +128,7 @@
                 <li class="w-100 mb-8">
                     <button class="deleteAll danger-btn w-100 py-2 rounded pointer">
                         <h3 class="h5 text-center">
-                            阿姨我不想努力了
+                            刪除全部事項
                         </h3>
                     </button>
                 </li>
@@ -192,13 +193,14 @@
                 </button>
                 <button class="deleteAll danger-btn w-40 py-2 ml-1 rounded pointer">
                     <h3 class="h6 text-center">
-                        阿姨<br>我不想努力了
+                        刪除全部事項
                     </h3>
                 </button>
             </li>
         </ul>
     </div>
     <script src="https://raw.githack.com/SortableJS/Sortable/master/Sortable.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="./all.js"></script>
 </body>
 </html>

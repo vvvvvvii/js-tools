@@ -81,16 +81,12 @@ function addTodo(event){
     //如果沒有輸入內容或月份日期格式錯誤需跳警示，且無法加 task
     if (todoInput.value == 0 || todoInput.value == undefined || todoInput.value == null){
         alert("內容欄為必填");
-        return;
     }else if(monthInput.value <= 0 || monthInput.value >= 13 || monthInput.value == undefined || monthInput.value == null){
         alert("月份格式錯誤");
-        return;
     }else if(dateInput.value <=0 || dateInput.value >=32 || dateInput.value == undefined || dateInput.value == null){
         alert("日期格式錯誤");
-        return;
     }else if(timeInput.value >=2460 || timeInput.value == undefined || timeInput.value == null){
         alert("時間格式錯誤");
-        return;
     }else{
         newTodoMonth.innerText = `${monthInput.value}/`; //輸入什麼就呈現什麼 + / 
         newTodoDate.innerText = dateInput.value; //輸入什麼就呈現什麼
