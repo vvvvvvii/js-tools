@@ -54,9 +54,10 @@ clearCompleteNum.addEventListener('click',clearNumCheck);
 function addTodo(event){
     //避免 form 照著原本屬性規定的，直接 submit
     event.preventDefault();
-    //建立 to do div 把上方輸入的東西擺進裡面
+    //建立 to do li 把上方輸入的東西擺進裡面
     const todoLi = document.createElement('li');
     todoLi.classList.add("todo");
+    console.log(todoLi);
 
     /*想讓架構呈現如下
     <ul class="todo-list">
@@ -141,6 +142,7 @@ function addTodo(event){
         newTodoButton.appendChild(trashButton); //把 trashButton 放到 newTodoButton 的下方    
 
         todoList.appendChild(todoLi);//把 todoLi 放進 todoList 裡
+        location.reload();
 
         //輸入並加到下方後，自動清空輸入欄位，讓使用者可以再輸入其他待辦事項
         dateInput.value = "";
@@ -416,6 +418,7 @@ function getTodos(){
     }else{
         todos = JSON.parse(localStorage.getItem('todos'));
     }
+    todos.sort();
     //console.log(todos); 檢查 todo 有被分成一條task一個陣列的狀態
     todos.forEach(function(todo) {
         //建立 li 
@@ -474,14 +477,16 @@ function getTodos(){
         trashButton.classList.add('danger-btn');
         newTodoButton.appendChild(trashButton); //把 trashButton 放到 newTodoButton 的下方    
         todoList.appendChild(todoLi);//把 todoLi 放進 todoList 裡
-                
+        
+        //過期呈現紅色
         //取得目前日期與時間
         let d = new Date();
-        //把目前日期和時間放進陣列中，用樣板字串把月、日，還有時、分組合起來，讓排列方式跟本地端存的方式一樣
+        //把目前日期和時間轉成數字
         let thismonth = parseInt(`${d.getMonth()+1}`); 
         let today = parseInt(`${d.getDate()}`); 
         let hourNow = parseInt(`${d.getHours()}`);
         let minNow = parseInt(`${d.getMinutes()}`);
+
         let taskDate= todo[0];
         taskDate = taskDate.split("/",2); //以 / 開始拆開前後的月份和日期
         let taskMonth = taskDate[0];
@@ -489,12 +494,9 @@ function getTodos(){
 
         let taskTime = todo[1];
         taskTime = taskTime.split(":",2); //以 : 開始拆開前後的月份和日期
-        //taskTime = taskTime.replace(/[\:]/g,""); //讓時間的冒號去除
         let taskHour = taskTime[0]; 
         let taskMin = taskTime[1];
 
-        console.log(taskMonth);console.log(taskDay);console.log(taskTime);
-        console.log(hourNow);console.log(minNow);
         if(taskMonth <= thismonth && taskDay <= today && taskHour < hourNow && taskMin < minNow){ //若過期
             todoLi.classList.remove("todo");
             todoLi.classList.add("overdue-todo");
