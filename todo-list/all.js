@@ -547,6 +547,7 @@ flatpickr(dateInput,{
     altFormat: "n/j",
     dateFormat: "m/d",
     minDate: "today", //限定只能選今天以後的日期
+    maxDate: "12/31", //限定只能選今年
     disableMobile: "true"
 });
 flatpickr(timeInput,{

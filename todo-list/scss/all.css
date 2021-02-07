@@ -562,11 +562,10 @@ select {
 
 .overdue-todo {
   background: #db7472;
-  color: #ff334b;
+  color: #ffffff;
 }
 
 .overdue-todo:hover, .overdue-todo:active {
-  color: #db7472;
   background: #ff334b;
 }
 

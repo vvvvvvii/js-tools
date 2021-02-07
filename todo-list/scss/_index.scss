@@ -23,9 +23,8 @@
 }
 .overdue-todo{
     background: $danger;
-    color: $dark-danger;
+    color: $white;
     &:hover, &:active{
-        color: $danger;
         background: $dark-danger;
     }
 }
