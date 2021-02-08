@@ -94,7 +94,7 @@ function addTodo(event){
     newTodoTime.classList.add("todo-time");
     newTodoSort.classList.add("todo-sort");
     newTodoDetail.classList.add("todo-detail");
-
+    
     //如果沒有輸入內容或月份日期格式錯誤需跳警示，且無法加 task
     if (todoInput.value == 0 || todoInput.value == undefined || todoInput.value == null){
         alert("內容欄為必填");
@@ -159,9 +159,9 @@ function addTodo(event){
 function deleteCheck(e){
     /*console.log(e.target); 用這句可以發現， e.target 等於我們點的位置的 html 標籤*/
     const item = e.target;
+    const todo = item.parentElement.parentElement; //若直接打 item.remove() 移除的會是刪除鈕本身，因此須回到父層再刪除
     //delete btn
     if(item.classList[0] === 'danger-btn'){ //item 的第一層 class 為 danger-btn 時
-        const todo = item.parentElement.parentElement; //若直接打 item.remove() 移除的會是刪除鈕本身，因此須回到父層再刪除
         todo.classList.add("fall"); //在這邊加一個動畫效果，並用css設定動畫效果細節
         removeLocalTodos(todo); //執行 removeLocalTodos 函式，讓本地端儲存的資料一併刪除
         todo.addEventListener('transitionend',function(){ //動畫效果結束後，才執行以下函式將 todo 本身移除
@@ -170,10 +170,28 @@ function deleteCheck(e){
     }
     //check btn
     if(item.classList[0] === 'complete-btn'){
-        const todo = item.parentElement.parentElement;
         todo.classList.add('completed'); //在 todo 這個 div 加上 completed 的 class
-        calculateTasks(todo);
-        removeLocalTodos(todo); //讓本地端儲存的資料一併刪除，但紀錄完成了哪些事
+        //console.log(todo.children[0].innerText);
+        let date = todo.querySelector(".todo-date").innerText;
+        let time = todo.querySelector(".todo-time").innerText;
+        let detail = todo.querySelector(".todo-detail").innerText;
+        let sort = todo.querySelector(".todo-sort").innerHTML;
+        if (sort == `<i class="fas fa-briefcase"></i>`){
+            sort = "job";
+        }else if(sort == `<i class="fas fa-home"></i>`){
+            sort = "housework";
+        }else if(sort == `<i class="far fa-futbol"></i>`){
+            sort = "sport";
+        }else if(sort == `<i class="fas fa-hourglass"></i>`){
+            sort = "routine";
+        }else{
+            sort = "others";
+        };
+        //讓本地端儲存的資料一併刪除，但紀錄完成了哪些事
+        calculateTasks();
+        removeLocalTodos(todo); 
+        let saveLocalComplete = [date,time,sort,detail];
+        saveLocalCompleteTodos(saveLocalComplete);
     }
 }
 //完成的工作數量會被紀錄
@@ -182,7 +200,7 @@ completedNum.innerHTML= `已完成 ${completedTotalNum} 項工作！`;
 function calculateTasks(){
     completedTotalNum += 1;
     completedNum.innerHTML = `已完成 ${completedTotalNum} 項工作！`;
-    saveLocalComplete();
+    saveLocalCompleteNum();
     window.setTimeout(function () { //按完計算完成的數量後 500ms 重整一次
         window.location.reload();
     }, 500);
@@ -463,11 +481,26 @@ function saveLocalTodos(todo) {
       todos = JSON.parse(localStorage.getItem("todos"));
     }
     //不論剛剛有沒有拿到東西，把參數 push 進 todos 陣列
+    console.log(todo);
     todos.push(todo);
     //將 todos 資料轉回字串，更新到資料庫中
     localStorage.setItem("todos", JSON.stringify(todos));
 }
-function saveLocalComplete(){
+function saveLocalCompleteTodos(todo){
+    let completeTodos;
+    //確認本地端有沒有已存在的todo
+    if (localStorage.getItem("complete") === null) {
+      completeTodos = [];
+    //若本地端已有，用 json 把已存在的 todos 拿來，並建立內容相同的陣列
+    } else {
+      completeTodos = JSON.parse(localStorage.getItem("complete"));
+    }
+    //不論剛剛有沒有拿到東西，把參數 push 進 todos 陣列
+    completeTodos.push(todo);
+    //將 todos 資料轉回字串，更新到資料庫中
+    localStorage.setItem("complete", JSON.stringify(completeTodos));
+}
+function saveLocalCompleteNum(){
     let completedNum;
     completedNum = completedTotalNum;
     //把結果傳回本地端
@@ -593,10 +626,10 @@ function removeLocalTodos(todo){
     console.log(todo.children[0].innerText); //再次確認，用 children[0].innerText 的確能拿到要刪除的資料
     console.log(todos.indexOf('real')); //這個詞在陣列上是第幾個位置
     */
-
     //把 todo 的文字叫出來，找到他在陣列上是第幾個位置，然後用 slice 把它切掉
+    console.log(todos);
     const todoIndex = todo.children[0].innerText;
-    //console.log(todoIndex);
+    console.log(todos.indexOf(todoIndex));
     todos.splice(todos.indexOf(todoIndex),1); //1 的位置要填的數字，代表要刪幾個，只刪一個所以填一
 
     //最後，把結果傳回本地端
