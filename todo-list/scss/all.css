@@ -525,6 +525,89 @@ select {
   }
 }
 
+.modal {
+  display: none;
+}
+
+.modal-active {
+  display: block;
+  z-index: 2;
+  width: 300px;
+  height: 200px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  padding: 20px 16px;
+  background: #ffffff;
+  border-radius: 8px;
+  color: #023e8a;
+}
+
+@media (min-width: 375px) {
+  .modal-active {
+    width: 400px;
+    height: 400px;
+  }
+}
+
+@media (min-width: 768px) {
+  .modal-active {
+    width: 500px;
+    height: 400px;
+  }
+}
+
+@media (min-width: 992px) {
+  .modal-active {
+    width: 700px;
+    height: 500px;
+  }
+}
+
+.modal-title {
+  font-weight: bold;
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 42px;
+}
+
+.modal-content {
+  font-size: 16px;
+}
+
+.modal-body {
+  background: #00b4d8;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.modal-exit {
+  z-index: 2;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.modal-background {
+  z-index: 1;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #ffffff;
+  opacity: 0.5;
+}
+
+.fade {
+  -webkit-transition: opacity 0.15s linear;
+  transition: opacity 0.15s linear;
+}
+
 .header {
   z-index: 1;
 }
@@ -704,7 +787,7 @@ select {
   opacity: 0;
 }
 
-.toolbtn:hover {
+.analyze-btn:hover {
   background: #03045e;
 }
 /*# sourceMappingURL=all.css.map */

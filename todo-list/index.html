@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha512-9BwLAVqqt6oFdXohPLuNHxhx36BVj5uGSGmizkmGkgl3uMSgNalKc/smum+GJU/TTP0jy0+ruwC3xNAk3F759A==" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/confetti.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.7.18/c3.css">
     <link rel="stylesheet" href="./scss/all.css">
     <title>To Do List</title>
 </head>
@@ -43,7 +44,7 @@
                             </label>
                             <div class="dropdown w-100">
                                 <select class="bg-primary py-3 pl-3 h5-md h6 text-dark w-100 pointer" id="task-sort">
-                                    <option value="choose">選擇種類</option>
+                                    <option value="others">選擇種類</option>
                                     <option value="job">工作</option>
                                     <option value="housework">家事</option>
                                     <option value="sport">運動</option>
@@ -115,7 +116,7 @@
                     </div>
                 </li>
                 <li class="w-100 mb-3">
-                    <button class="toolbtn bg-dark w-100 py-2 rounded pointer">
+                    <button class="analyze-btn bg-dark w-100 py-2 rounded pointer">
                         <h3 class="h3 text-info text-center">
                             <span>
                                 <i class="fas fa-chart-pie"></i>
@@ -182,7 +183,7 @@
                 </div>
             </li>
             <li class="d-flex justify-center">
-                <button class="toolbtn bg-dark w-40 py-2 rounded pointer">
+                <button class="analyze-btn bg-dark w-40 py-2 rounded pointer">
                     <h3 class="h5 text-info text-center">
                         <span>
                             <i class="fas fa-chart-pie"></i>
@@ -197,9 +198,21 @@
                 </button>
             </li>
         </ul>
+        <!--modal-->
+        <div class="modal fade">
+            <div class="modal-exit">
+                <i class="far fa-times-circle"></i>
+            </div>
+            <h3 class="modal-title">待辦事項種類分析</h3>
+            <div class="modal-body">
+                <p class="modal-content"></p>
+            </div>
+        </div>
     </div>
     <script src="https://raw.githack.com/SortableJS/Sortable/master/Sortable.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.16.0/d3.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.7.18/c3.js"></script>
     <script src="./all.js"></script>
 </body>
 </html>

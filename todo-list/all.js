@@ -30,6 +30,11 @@ const filterDate = document.querySelectorAll('.filter-date');
 const filterSort = document.querySelectorAll('.filter-sort');
 const deleteAll = document.querySelectorAll('.deleteAll');
 
+const container = document.querySelector('.container');
+const analyzeBtn = document.querySelectorAll('.analyze-btn');
+const modal = document.querySelector('.modal');
+const modalExit = document.querySelector('.modal-exit');
+
 //event listeners
 document.addEventListener('DOMContentLoaded',getTodos); //網頁載好時，執行 getTodos function
 addButton.addEventListener('click',addTodo);
@@ -49,7 +54,10 @@ deleteAll.forEach(function(i){
     i.addEventListener('click',deleteAllTask);
 });
 clearCompleteNum.addEventListener('click',clearNumCheck);
-
+analyzeBtn.forEach(function(i){
+    i.addEventListener('click',analyzeSort);
+});
+modalExit.addEventListener('click',closeModal);
 //functions
 function addTodo(event){
     //避免 form 照著原本屬性規定的，直接 submit
@@ -57,7 +65,6 @@ function addTodo(event){
     //建立 to do li 把上方輸入的東西擺進裡面
     const todoLi = document.createElement('li');
     todoLi.classList.add("todo");
-    console.log(todoLi);
 
     /*想讓架構呈現如下
     <ul class="todo-list">
@@ -386,6 +393,65 @@ function showFilterSort(e){
     });
 }
 
+//analyze
+function analyzeSort(){
+    //彈出 modal 視窗
+    modal.classList.toggle("modal-active");
+    const modalBackground = document.createElement('div');
+    modalBackground.classList.add("modal-background");
+    container.appendChild(modalBackground);
+
+    //將 JSON 抓到的資料轉成d3.js 圖表、放進 modal 中
+    let todos;
+    todos = JSON.parse(localStorage.getItem('todos'));
+    if(localStorage.getItem('todos') === null){
+        modalContent.innerHTML = '暫無待辦事項';
+    }else{
+        let todoSortArray = [];
+        todos.forEach(function(todo){
+            todoSortArray.push(todo[2]);
+        })
+        //console.log(todoSortArray); 確定把所有種類都放進這個陣列了
+        let counts = {};
+        // 利用for迴圈遍歷arr並分析
+        for(let i=0;i<todoSortArray.length;i++){
+            let num = todoSortArray[i]; // num 會等於 todoSortArray[0]、todoSortArray[1]...(例如 job 、 choose ...)
+            counts[num] = counts[num]?counts[num]+1:1; // 看要比較哪個字，就在 num 的位置輸入，會比較 counts 物件，如相同則該物件存值+1，如不同則存值設為1 
+        }
+        let jobNum = parseInt(counts["job"]);
+        let houseworkNum = parseInt(counts["housework"]);
+        let sportNum = parseInt(counts["sport"]);
+        let routineNum = parseInt(counts["routine"]);
+        let othersNum = parseInt(counts["others"]);
+        let chart = c3.generate({
+            bindto: '.modal-body', //圖要放在html裡的chart這個class中
+            data:{
+                columns:[
+                    ['工作',jobNum],
+                    ['家事',houseworkNum], 
+                    ['運動',sportNum],
+                    ['例行公事',routineNum], 
+                    ['其他',othersNum],
+                ],
+                type:'pie', //圖的種類是圓餅圖
+                onclick:function(d,i){ //點擊圖時的效果
+                    console.log("onclick",d,i); //各自秀出男性20%、女性80%
+                },
+                onmouseover:function(d,i){ //滑鼠滑進圖的效果
+                    console.log("onmouseover",d,i); //各自秀出男性20%、女性80%
+                },
+                onmouseout:function(d,i){ //滑鼠滑出圖的效果
+                    console.log("onmouseout",d,i);
+                }
+            }
+        });
+    }
+}
+function closeModal(){
+    modal.classList.remove('modal-active');
+    const modalBackground = document.querySelector('.modal-background');
+    container.removeChild(modalBackground);
+}
 //儲存本地端
 function saveLocalTodos(todo) {
     let todos;
