@@ -573,14 +573,17 @@ select {
   margin-bottom: 42px;
 }
 
-.modal-content {
-  font-size: 16px;
-}
-
 .modal-body {
   background: #00b4d8;
   color: #ffffff;
   font-weight: bold;
+}
+
+.modal-content {
+  padding: 16px;
+  background: #db7472;
+  font-size: 16px;
+  text-align: center;
 }
 
 .modal-exit {
@@ -599,7 +602,7 @@ select {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: #ffffff;
+  background-color: #666;
   opacity: 0.5;
 }
 

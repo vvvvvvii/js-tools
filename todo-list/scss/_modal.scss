@@ -32,13 +32,16 @@
         font-size: 28px;
         margin-bottom: 42px;
     }
-    &-content{
-        font-size: 16px;
-    }
     &-body{
         background: $primary;
         color: $white;
         font-weight: bold;
+    }
+    &-content{
+        padding: 16px;
+        background: $danger;
+        font-size: 16px;
+        text-align: center;
     }
     &-exit{
         z-index: 2;
@@ -55,7 +58,7 @@
         left: 0;
         width: 100vw;
         height: 100vh;
-        background-color: $white;
+        background-color: #666;
         opacity: 0.5;
     }
 }
