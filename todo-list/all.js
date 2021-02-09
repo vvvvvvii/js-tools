@@ -189,9 +189,9 @@ function deleteCheck(e){
         };
         //讓本地端儲存的資料一併刪除，但紀錄完成了哪些事
         calculateTasks();
-        removeLocalTodos(todo); 
         let saveLocalComplete = [date,time,sort,detail];
         saveLocalCompleteTodos(saveLocalComplete);
+        removeLocalTodos(todo); 
     }
 }
 //完成的工作數量會被紀錄
@@ -619,21 +619,35 @@ function removeLocalTodos(todo){
     }else{
         todos = JSON.parse(localStorage.getItem('todos'));
     }
-    
-    /*
-    console.log(todo); //藉由這句知道，當我們點擊刪除按鈕， todo 這個參數對應到的是 .todo-btn fall 這個 div
-    console.log(todo.children); //todo.children 這個參數對應到的是一個陣列，包含：li.todo-item、button.complete-btn、button.danger-btn，裡面又各自包了很多東西，可以發現我們要刪除的項目資料放在 todoitem 的 innerText / innerHTML 底下
-    console.log(todo.children[0].innerText); //再次確認，用 children[0].innerText 的確能拿到要刪除的資料
-    console.log(todos.indexOf('real')); //這個詞在陣列上是第幾個位置
-    */
-    //把 todo 的文字叫出來，找到他在陣列上是第幾個位置，然後用 slice 把它切掉
-    console.log(todos);
-    const todoIndex = todo.children[0].innerText;
-    console.log(todos.indexOf(todoIndex));
-    todos.splice(todos.indexOf(todoIndex),1); //1 的位置要填的數字，代表要刪幾個，只刪一個所以填一
-
-    //最後，把結果傳回本地端
-    localStorage.setItem("todos",JSON.stringify(todos));
+    //因為todos是陣列包著陣列，todo是點下去的那段的程式碼，所以把todo轉成跟todos一樣的陣列方式
+    let date = todo.querySelector(".todo-date").innerText;
+    let time = todo.querySelector(".todo-time").innerText;
+    let detail = todo.querySelector(".todo-detail").innerText;
+    let sort = todo.querySelector(".todo-sort").innerHTML;
+    if (sort == `<i class="fas fa-briefcase"></i>`){
+        sort = "job";
+    }else if(sort == `<i class="fas fa-home"></i>`){
+        sort = "housework";
+    }else if(sort == `<i class="far fa-futbol"></i>`){
+        sort = "sport";
+    }else if(sort == `<i class="fas fa-hourglass"></i>`){
+        sort = "routine";
+    }else{
+        sort = "others";
+    };
+    let todoIndex = [date,time,sort,detail];
+    //接著要用indexOf找到他在陣列上是第幾個位置，然後用 slice 把它切掉。todos是陣列中又包著陣列，當要在陣列中包著陣列的形式中尋找特定陣列，使用indexOf會找不到，因為indexOf是用嚴格模式判斷，例如即使todos=[[3,0],[1,2]]，找todos.indexOf([3,0])也找不到。需要客製化indexOf:
+    function indexOfCustom (parentArray, searchElement) {
+        for (let i = 0; i < parentArray.length; i++ ) { //因為陣列是從0開始數，預設代表陣列位置的變數i=0。當i小於查找項目的長度，跑下面的迴圈，跑完加一再繼續跑，直到等於長度時停止。
+            if ( parentArray[i][0] == searchElement[0] && parentArray[i][1] == searchElement[1] && parentArray[i][2] == searchElement[2] && parentArray[i][3] == searchElement[3]) { //從查找陣列的第0項開始，當第0項陣列中的第0個位置的值，跟要找的陣列的第0個值相同，就讓i顯示0返回，藉此得知要找的就在第0的位置，依此類推，若都找不到則返回-1。
+                return i;
+            }
+        }
+        return -1;
+    }
+    //console.log(indexOfCustom(todos,todoIndex));
+    todos.splice(indexOfCustom(todos,todoIndex),1); //依上面寫好的程式代入 todo(被找的父陣列) 和 todoIndex(要找的內容)。1 的位置要填的數字，代表要刪幾個，只刪一個所以填一
+    localStorage.setItem("todos",JSON.stringify(todos)); //最後，把結果傳回本地端
 }
 
 //sortable setting 外掛
