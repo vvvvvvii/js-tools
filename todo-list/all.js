@@ -365,8 +365,8 @@ function showFilterDate(e){
 function showFilterSort(e){
     const todos = todoList.childNodes;
     todos.forEach(function(todo){
-        const sort = todo.childNodes[0].childNodes[3].childNodes[0];
-        // console.log(todo.childNodes[0].childNodes[3].childNodes[0]); 從這句找 node 所在位置
+        const sort = todo.childNodes[0].childNodes[2].childNodes[0];
+        //console.log(todo.childNodes[0].childNodes[2].childNodes[0]); //從這句找 node 所在位置
         switch(e.target.value){ 
             case "allSort": //點 all 時
                 todo.style.display = 'flex'; //全都秀
