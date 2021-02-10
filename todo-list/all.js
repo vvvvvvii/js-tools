@@ -188,28 +188,21 @@ function deleteCheck(e){
             sort = "others";
         };
         //讓本地端儲存的資料一併刪除，但紀錄完成了哪些事
-        calculateTasks();
         let saveLocalComplete = [date,time,sort,detail];
         saveLocalCompleteTodos(saveLocalComplete);
         removeLocalTodos(todo); 
     }
 }
-//完成的工作數量會被紀錄
-let completedTotalNum = 0;
-completedNum.innerHTML= `已完成 ${completedTotalNum} 項工作！`;
-function calculateTasks(){
-    completedTotalNum += 1;
-    completedNum.innerHTML = `已完成 ${completedTotalNum} 項工作！`;
-    saveLocalCompleteNum();
-    window.setTimeout(function () { //按完計算完成的數量後 500ms 重整一次
-        window.location.reload();
-    }, 500);
-}
+
 function clearNumCheck(){
-    if(confirm("確定刪除已完成的豐功偉業數量？")){
+    if(confirm("已完成的豐功偉業將會全數刪除，你確定要這麼做嗎？")){
         completedTotalNum = 0;
         completedNum.innerHTML= `尚未有完成的工作`;
         localStorage.removeItem('completeTask'); //連同本地端一起清空
+        localStorage.removeItem('complete'); //連同本地端一起清空
+        window.setTimeout(function () { //按完 500ms 重整一次
+            window.location.reload();
+        }, 500);
         return; 
     }else{
         return;
@@ -499,12 +492,16 @@ function saveLocalCompleteTodos(todo){
     completeTodos.push(todo);
     //將 todos 資料轉回字串，更新到資料庫中
     localStorage.setItem("complete", JSON.stringify(completeTodos));
-}
-function saveLocalCompleteNum(){
-    let completedNum;
-    completedNum = completedTotalNum;
-    //把結果傳回本地端
-    localStorage.setItem("completeTask",JSON.stringify(completedNum));
+    if (completeTodos.length != 0){
+        completedNum.innerHTML = `已完成 ${completeTodos.length} 項工作！`;
+    }else{
+        completedNum.innerHTML = `尚未有完成的工作！`;
+    }
+    localStorage.setItem("completeTask",JSON.stringify(completeTodos.length));
+
+    window.setTimeout(function () { //按完計算完成的數量後 500ms 重整一次
+        window.location.reload();
+    }, 500);
 }
 //叫出存在本地端的 todo-date 、 todo-time 、 todos 、完成數目
 function getTodos(){
@@ -514,6 +511,7 @@ function getTodos(){
     if(localStorage.getItem('todos') === null && localStorage.getItem('complete') === null){
         todos = [];
         completes = [];
+        completedNum.innerHTML = `尚未有完成的工作！`;
     }else if(localStorage.getItem('todos') === null && localStorage.getItem('complete') !== null){
         todos = [];
         completes = JSON.parse(localStorage.getItem("complete"));
@@ -647,7 +645,6 @@ function getTodos(){
         });
         todos.sort();
         completedNum.innerHTML = `尚未有完成的工作`;
-        completedTotalNum = 0;
     }else if(localStorage.getItem('complete') !== null && localStorage.getItem('todos') !== null){
         todos = JSON.parse(localStorage.getItem('todos'));
         completes = JSON.parse(localStorage.getItem("complete"));
