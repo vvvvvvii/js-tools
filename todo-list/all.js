@@ -244,21 +244,21 @@ function showFilterStatus(e){
     const todos = todoList.childNodes; //可用console.log得知，這句可以取得所有在to do list的項目
     todos.forEach(function(todo){
         //console.log(e.target.value);
-        switch(e.target.value){ //點擊時，跑迴圈並讓點擊的 value 值（會是 all completed uncompleted）進 switch 判斷式
+        switch(e.target.value){ //點擊時，跑迴圈並讓點擊的 value 值（會是all completed uncompleted）進 switch 判斷式
             case "all": //點 all 時
-                todo.style.display = 'flex'; //全都秀
+                todo.style.display = 'flex'; 
                 break;
             case "completed": //點 completed 時
-                if (todo.classList.contains('completed')){ //只秀出 class 中有加入 completed 這個 class 的
+                if(todo.classList.contains('completed')){
                     todo.style.display = 'flex'; 
-                } else { //其他的不要秀
+                } else { 
                     todo.style.display = 'none';
                 }
                 break;
             case "uncompleted": //點 uncompleted 時
                 if(!todo.classList.contains('completed')){
                     todo.style.display = 'flex'; 
-                } else { //其他的不要秀
+                } else { 
                     todo.style.display = 'none';
                 }
                 break;
@@ -510,14 +510,17 @@ function saveLocalCompleteNum(){
 function getTodos(){
     //確認本地端有沒有已存在的todo
     let todos;
+    let completes;
     //若還沒有，建立空陣列
     if(localStorage.getItem('todos') === null){
         todos = [];
     //若本地端已有，用 json 把已存在的 todos 拿來，並建立內容相同的陣列
     }else{
         todos = JSON.parse(localStorage.getItem('todos'));
+        completes = JSON.parse(localStorage.getItem("complete"));
     }
     todos.sort();
+    completes.sort();
     //console.log(todos); 檢查 todo 有被分成一條task一個陣列的狀態
     todos.forEach(function(todo) {
         //建立 li 
@@ -608,6 +611,46 @@ function getTodos(){
         completedTotalNum = JSON.parse(localStorage.getItem('completeTask'));
         completedNum.innerHTML = `已完成 ${completedTotalNum} 項工作！`;
     }
+    completes.forEach(function(complete){
+        const todoLi = document.createElement('li');
+        todoLi.classList.add("todo");
+        todoLi.classList.add("completed");
+    
+        const completeTodo = document.createElement('ul');
+        completeTodo.classList.add("todo-item");
+        todoLi.appendChild(completeTodo); 
+    
+        const doneTodoDate = document.createElement('li');
+        const doneTodoTime = document.createElement('li');
+        const doneTodoSort = document.createElement('li');
+        const doneTodoDetail = document.createElement('li');
+        doneTodoDate.classList.add("todo-date");
+        doneTodoTime.classList.add("todo-time");
+        doneTodoSort.classList.add("todo-sort");
+        doneTodoDetail.classList.add("todo-detail");
+        completeTodo.appendChild(doneTodoDate); //把 newTodo 放到 todoLi 的下方
+        completeTodo.appendChild(doneTodoTime); //把 newTodo 放到 todoLi 的下方
+        completeTodo.appendChild(doneTodoSort); //把 newTodo 放到 todoLi 的下方
+        completeTodo.appendChild(doneTodoDetail);//把 todoLi 放進 todoList 裡
+    
+        doneTodoDate.innerText = complete[0]; 
+        doneTodoTime.innerText = complete[1]; 
+        doneTodoDetail.innerText = complete[3];
+        if(complete[2] == "job"){
+            doneTodoSort.innerHTML += `<i class="fas fa-briefcase"></i>`;
+        }else if(complete[2] == "housework"){
+            doneTodoSort.innerHTML += `<i class="fas fa-home"></i>`;
+        }else if(complete[2] == "sport"){
+            doneTodoSort.innerHTML += `<i class="far fa-futbol"></i>`;
+        }else if(complete[2] == "routine"){
+            doneTodoSort.innerHTML += `<i class="fas fa-hourglass"></i>`;
+        }else if(complete[2] == "others"){
+            doneTodoSort.innerHTML += `<i class="fas fa-palette"></i>`;
+        }else{
+            doneTodoSort.innerHTML += `<i class="fas fa-times"></i>`;
+        };
+        todoList.appendChild(todoLi);//把 todoLi 放進 todoList 裡
+    })
 };
 function removeLocalTodos(todo){
     //確認本地端有沒有已存在的todo
