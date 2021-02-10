@@ -511,271 +511,148 @@ function getTodos(){
     if(localStorage.getItem('todos') === null && localStorage.getItem('complete') === null){
         todos = [];
         completes = [];
-        completedNum.innerHTML = `尚未有完成的工作！`;
     }else if(localStorage.getItem('todos') === null && localStorage.getItem('complete') !== null){
         todos = [];
         completes = JSON.parse(localStorage.getItem("complete"));
-        completes.forEach(function(complete){
-            const todoLi = document.createElement('li');
-            todoLi.classList.add("todo");
-            todoLi.classList.add("completed");
-        
-            const completeTodo = document.createElement('ul');
-            completeTodo.classList.add("todo-item");
-            todoLi.appendChild(completeTodo); 
-        
-            const doneTodoDate = document.createElement('li');
-            const doneTodoTime = document.createElement('li');
-            const doneTodoSort = document.createElement('li');
-            const doneTodoDetail = document.createElement('li');
-            doneTodoDate.classList.add("todo-date");
-            doneTodoTime.classList.add("todo-time");
-            doneTodoSort.classList.add("todo-sort");
-            doneTodoDetail.classList.add("todo-detail");
-            completeTodo.appendChild(doneTodoDate); //把 newTodo 放到 todoLi 的下方
-            completeTodo.appendChild(doneTodoTime); //把 newTodo 放到 todoLi 的下方
-            completeTodo.appendChild(doneTodoSort); //把 newTodo 放到 todoLi 的下方
-            completeTodo.appendChild(doneTodoDetail);//把 todoLi 放進 todoList 裡
-        
-            doneTodoDate.innerText = complete[0]; 
-            doneTodoTime.innerText = complete[1]; 
-            doneTodoDetail.innerText = complete[3];
-            if(complete[2] == "job"){
-                doneTodoSort.innerHTML += `<i class="fas fa-briefcase"></i>`;
-            }else if(complete[2] == "housework"){
-                doneTodoSort.innerHTML += `<i class="fas fa-home"></i>`;
-            }else if(complete[2] == "sport"){
-                doneTodoSort.innerHTML += `<i class="far fa-futbol"></i>`;
-            }else if(complete[2] == "routine"){
-                doneTodoSort.innerHTML += `<i class="fas fa-hourglass"></i>`;
-            }else if(complete[2] == "others"){
-                doneTodoSort.innerHTML += `<i class="fas fa-palette"></i>`;
-            }else{
-                doneTodoSort.innerHTML += `<i class="fas fa-times"></i>`;
-            };
-            todoList.appendChild(todoLi);//把 todoLi 放進 todoList 裡
-        })
-        completes.sort();
-        completedTotalNum = JSON.parse(localStorage.getItem('completeTask'));
-        completedNum.innerHTML = `已完成 ${completedTotalNum} 項工作！`;
     }else if(localStorage.getItem('complete') === null && localStorage.getItem('todos') !== null){
         todos = JSON.parse(localStorage.getItem('todos'));
         completes = [];
-        todos.forEach(function(todo) {
-            //建立 li 
-            const todoLi = document.createElement('li');
-            todoLi.classList.add("todo");
-            const newTodo = document.createElement('ul');
-            newTodo.classList.add("todo-item");
-            todoLi.appendChild(newTodo); //把 newTodo 放到 todoLi 的下方
-            
-            const newTodoDate = document.createElement('li');
-            const newTodoTime = document.createElement('li');
-            const newTodoSort = document.createElement('li');
-            const newTodoDetail = document.createElement('li');
-            newTodoDate.classList.add("todo-date");
-            newTodoTime.classList.add("todo-time");
-            newTodoSort.classList.add("todo-sort");
-            newTodoDetail.classList.add("todo-detail");
-            newTodoDate.innerText = todo[0]; //輸入什麼就呈現什麼
-            newTodoTime.innerText = todo[1]; //輸入什麼就呈現什麼
-            newTodoDetail.innerText = todo[3]; //輸入什麼就呈現什麼
-            
-            //看選到什麼種類，就秀相對應的圖案
-            if(todo[2] == "job"){
-                newTodoSort.innerHTML += `<i class="fas fa-briefcase"></i>`;
-            }else if(todo[2] == "housework"){
-                newTodoSort.innerHTML += `<i class="fas fa-home"></i>`;
-            }else if(todo[2] == "sport"){
-                newTodoSort.innerHTML += `<i class="far fa-futbol"></i>`;
-            }else if(todo[2] == "routine"){
-                newTodoSort.innerHTML += `<i class="fas fa-hourglass"></i>`;
-            }else if(todo[2] == "others"){
-                newTodoSort.innerHTML += `<i class="fas fa-palette"></i>`;
-            }else{
-                newTodoSort.innerHTML += `<i class="fas fa-times"></i>`;
-            };
-            
-            newTodo.appendChild(newTodoDate); //把 newTodoDate 放到 newTodo 的下方
-            newTodo.appendChild(newTodoTime); //把 newTodoTime 放到 newTodo 的下方
-            newTodo.appendChild(newTodoSort); //把 newTodoSort 放到 newTodo 的下方
-            newTodo.appendChild(newTodoDetail); //把 newTodoDetail 放到 newTodo 的下方
-            
-            //建 div 放兩個 btn
-            const newTodoButton = document.createElement('div');
-            newTodoButton.classList.add("todo-btn");
-            todoLi.appendChild(newTodoButton); //把 newTodoButton 放到 todoLi 的下方    
-            
-            //check mark btn
-            const completedButton = document.createElement('button');
-            completedButton.innerHTML = '<i class="fas fa-check"></i>';
-            completedButton.classList.add('complete-btn');
-            newTodoButton.appendChild(completedButton); //把 completedButton 放到 newTodoButton 的下方    
-                
-            //check trash btn
-            const trashButton = document.createElement('button');
-            trashButton.innerHTML = '<i class="fas fa-trash"></i>';
-            trashButton.classList.add('danger-btn');
-            newTodoButton.appendChild(trashButton); //把 trashButton 放到 newTodoButton 的下方    
-            todoList.appendChild(todoLi);//把 todoLi 放進 todoList 裡
-            
-            //過期呈現紅色
-            //取得目前日期與時間
-            let d = new Date();
-            //把目前日期和時間轉成數字
-            let thismonth = parseInt(`${d.getMonth()+1}`); 
-            let today = parseInt(`${d.getDate()}`); 
-            let hourNow = parseInt(`${d.getHours()}`);
-            let minNow = parseInt(`${d.getMinutes()}`);
-    
-            let taskDate= todo[0];
-            taskDate = taskDate.split("/",2); //以 / 開始拆開前後的月份和日期
-            let taskMonth = taskDate[0];
-            let taskDay = taskDate[1];
-    
-            let taskTime = todo[1];
-            taskTime = taskTime.split(":",2); //以 : 開始拆開前後的月份和日期
-            let taskHour = taskTime[0]; 
-            let taskMin = taskTime[1];
-    
-            if(taskMonth <= thismonth && taskDay <= today && taskHour < hourNow && taskMin < minNow){ //若過期
-                todoLi.classList.remove("todo");
-                todoLi.classList.add("overdue-todo");
-            }
-        });
-        todos.sort();
-        completedNum.innerHTML = `尚未有完成的工作`;
     }else if(localStorage.getItem('complete') !== null && localStorage.getItem('todos') !== null){
         todos = JSON.parse(localStorage.getItem('todos'));
         completes = JSON.parse(localStorage.getItem("complete"));
         //console.log(todos); 檢查 todo 有被分成一條task一個陣列的狀態
-        todos.forEach(function(todo) {
-            //建立 li 
-            const todoLi = document.createElement('li');
-            todoLi.classList.add("todo");
-            const newTodo = document.createElement('ul');
-            newTodo.classList.add("todo-item");
-            todoLi.appendChild(newTodo); //把 newTodo 放到 todoLi 的下方
-        
-            const newTodoDate = document.createElement('li');
-            const newTodoTime = document.createElement('li');
-            const newTodoSort = document.createElement('li');
-            const newTodoDetail = document.createElement('li');
-            newTodoDate.classList.add("todo-date");
-            newTodoTime.classList.add("todo-time");
-            newTodoSort.classList.add("todo-sort");
-            newTodoDetail.classList.add("todo-detail");
-            newTodoDate.innerText = todo[0]; //輸入什麼就呈現什麼
-            newTodoTime.innerText = todo[1]; //輸入什麼就呈現什麼
-            newTodoDetail.innerText = todo[3]; //輸入什麼就呈現什麼
-            
-            //看選到什麼種類，就秀相對應的圖案
-            if(todo[2] == "job"){
-                newTodoSort.innerHTML += `<i class="fas fa-briefcase"></i>`;
-            }else if(todo[2] == "housework"){
-                newTodoSort.innerHTML += `<i class="fas fa-home"></i>`;
-            }else if(todo[2] == "sport"){
-                newTodoSort.innerHTML += `<i class="far fa-futbol"></i>`;
-            }else if(todo[2] == "routine"){
-                newTodoSort.innerHTML += `<i class="fas fa-hourglass"></i>`;
-            }else if(todo[2] == "others"){
-                newTodoSort.innerHTML += `<i class="fas fa-palette"></i>`;
-            }else{
-                newTodoSort.innerHTML += `<i class="fas fa-times"></i>`;
-            };
-
-            newTodo.appendChild(newTodoDate); //把 newTodoDate 放到 newTodo 的下方
-            newTodo.appendChild(newTodoTime); //把 newTodoTime 放到 newTodo 的下方
-            newTodo.appendChild(newTodoSort); //把 newTodoSort 放到 newTodo 的下方
-            newTodo.appendChild(newTodoDetail); //把 newTodoDetail 放到 newTodo 的下方
-            
-            //建 div 放兩個 btn
-            const newTodoButton = document.createElement('div');
-            newTodoButton.classList.add("todo-btn");
-            todoLi.appendChild(newTodoButton); //把 newTodoButton 放到 todoLi 的下方    
-        
-            //check mark btn
-            const completedButton = document.createElement('button');
-            completedButton.innerHTML = '<i class="fas fa-check"></i>';
-            completedButton.classList.add('complete-btn');
-            newTodoButton.appendChild(completedButton); //把 completedButton 放到 newTodoButton 的下方    
-
-            //check trash btn
-            const trashButton = document.createElement('button');
-            trashButton.innerHTML = '<i class="fas fa-trash"></i>';
-            trashButton.classList.add('danger-btn');
-            newTodoButton.appendChild(trashButton); //把 trashButton 放到 newTodoButton 的下方    
-            todoList.appendChild(todoLi);//把 todoLi 放進 todoList 裡
-        
-            //過期呈現紅色
-            //取得目前日期與時間
-            let d = new Date();
-            //把目前日期和時間轉成數字
-            let thismonth = parseInt(`${d.getMonth()+1}`); 
-            let today = parseInt(`${d.getDate()}`); 
-            let hourNow = parseInt(`${d.getHours()}`);
-            let minNow = parseInt(`${d.getMinutes()}`);
-
-            let taskDate= todo[0];
-            taskDate = taskDate.split("/",2); //以 / 開始拆開前後的月份和日期
-            let taskMonth = taskDate[0];
-            let taskDay = taskDate[1];
-
-            let taskTime = todo[1];
-            taskTime = taskTime.split(":",2); //以 : 開始拆開前後的月份和日期
-            let taskHour = taskTime[0]; 
-            let taskMin = taskTime[1];
-
-            if(taskMonth <= thismonth && taskDay <= today && taskHour < hourNow && taskMin < minNow){ //若過期
-                todoLi.classList.remove("todo");
-                todoLi.classList.add("overdue-todo");
-            }
-        });
-        completes.forEach(function(complete){
-            const todoLi = document.createElement('li');
-            todoLi.classList.add("todo");
-            todoLi.classList.add("completed");
+    }
+    todos.sort();
+    completes.sort();
+    todos.forEach(function(todo) {
+        //建立 li 
+        const todoLi = document.createElement('li');
+        todoLi.classList.add("todo");
+        const newTodo = document.createElement('ul');
+        newTodo.classList.add("todo-item");
+        todoLi.appendChild(newTodo); //把 newTodo 放到 todoLi 的下方
     
-            const completeTodo = document.createElement('ul');
-            completeTodo.classList.add("todo-item");
-            todoLi.appendChild(completeTodo); 
+        const newTodoDate = document.createElement('li');
+        const newTodoTime = document.createElement('li');
+        const newTodoSort = document.createElement('li');
+        const newTodoDetail = document.createElement('li');
+        newTodoDate.classList.add("todo-date");
+        newTodoTime.classList.add("todo-time");
+        newTodoSort.classList.add("todo-sort");
+        newTodoDetail.classList.add("todo-detail");
+        newTodoDate.innerText = todo[0]; //輸入什麼就呈現什麼
+        newTodoTime.innerText = todo[1]; //輸入什麼就呈現什麼
+        newTodoDetail.innerText = todo[3]; //輸入什麼就呈現什麼
+        
+        //看選到什麼種類，就秀相對應的圖案
+        if(todo[2] == "job"){
+            newTodoSort.innerHTML += `<i class="fas fa-briefcase"></i>`;
+        }else if(todo[2] == "housework"){
+            newTodoSort.innerHTML += `<i class="fas fa-home"></i>`;
+        }else if(todo[2] == "sport"){
+            newTodoSort.innerHTML += `<i class="far fa-futbol"></i>`;
+        }else if(todo[2] == "routine"){
+            newTodoSort.innerHTML += `<i class="fas fa-hourglass"></i>`;
+        }else if(todo[2] == "others"){
+            newTodoSort.innerHTML += `<i class="fas fa-palette"></i>`;
+        }else{
+            newTodoSort.innerHTML += `<i class="fas fa-times"></i>`;
+        };
+
+        newTodo.appendChild(newTodoDate); //把 newTodoDate 放到 newTodo 的下方
+        newTodo.appendChild(newTodoTime); //把 newTodoTime 放到 newTodo 的下方
+        newTodo.appendChild(newTodoSort); //把 newTodoSort 放到 newTodo 的下方
+        newTodo.appendChild(newTodoDetail); //把 newTodoDetail 放到 newTodo 的下方
+        
+        //建 div 放兩個 btn
+        const newTodoButton = document.createElement('div');
+        newTodoButton.classList.add("todo-btn");
+        todoLi.appendChild(newTodoButton); //把 newTodoButton 放到 todoLi 的下方    
     
-            const doneTodoDate = document.createElement('li');
-            const doneTodoTime = document.createElement('li');
-            const doneTodoSort = document.createElement('li');
-            const doneTodoDetail = document.createElement('li');
-            doneTodoDate.classList.add("todo-date");
-            doneTodoTime.classList.add("todo-time");
-            doneTodoSort.classList.add("todo-sort");
-            doneTodoDetail.classList.add("todo-detail");
-            completeTodo.appendChild(doneTodoDate); //把 newTodo 放到 todoLi 的下方
-            completeTodo.appendChild(doneTodoTime); //把 newTodo 放到 todoLi 的下方
-            completeTodo.appendChild(doneTodoSort); //把 newTodo 放到 todoLi 的下方
-            completeTodo.appendChild(doneTodoDetail);//把 todoLi 放進 todoList 裡
+        //check mark btn
+        const completedButton = document.createElement('button');
+        completedButton.innerHTML = '<i class="fas fa-check"></i>';
+        completedButton.classList.add('complete-btn');
+        newTodoButton.appendChild(completedButton); //把 completedButton 放到 newTodoButton 的下方    
+
+        //check trash btn
+        const trashButton = document.createElement('button');
+        trashButton.innerHTML = '<i class="fas fa-trash"></i>';
+        trashButton.classList.add('danger-btn');
+        newTodoButton.appendChild(trashButton); //把 trashButton 放到 newTodoButton 的下方    
+        todoList.appendChild(todoLi);//把 todoLi 放進 todoList 裡
     
-            doneTodoDate.innerText = complete[0]; 
-            doneTodoTime.innerText = complete[1]; 
-            doneTodoDetail.innerText = complete[3];
-            if(complete[2] == "job"){
-                doneTodoSort.innerHTML += `<i class="fas fa-briefcase"></i>`;
-            }else if(complete[2] == "housework"){
-                doneTodoSort.innerHTML += `<i class="fas fa-home"></i>`;
-            }else if(complete[2] == "sport"){
-                doneTodoSort.innerHTML += `<i class="far fa-futbol"></i>`;
-            }else if(complete[2] == "routine"){
-                doneTodoSort.innerHTML += `<i class="fas fa-hourglass"></i>`;
-            }else if(complete[2] == "others"){
-                doneTodoSort.innerHTML += `<i class="fas fa-palette"></i>`;
-            }else{
-                doneTodoSort.innerHTML += `<i class="fas fa-times"></i>`;
-            };
-            todoList.appendChild(todoLi);//把 todoLi 放進 todoList 裡
-        })
-        todos.sort();
-        completes.sort();
+        //過期呈現紅色
+        //取得目前日期與時間
+        let d = new Date();
+        //把目前日期和時間轉成數字
+        let thismonth = parseInt(`${d.getMonth()+1}`); 
+        let today = parseInt(`${d.getDate()}`); 
+        let hourNow = parseInt(`${d.getHours()}`);
+        let minNow = parseInt(`${d.getMinutes()}`);
+
+        let taskDate= todo[0];
+        taskDate = taskDate.split("/",2); //以 / 開始拆開前後的月份和日期
+        let taskMonth = taskDate[0];
+        let taskDay = taskDate[1];
+
+        let taskTime = todo[1];
+        taskTime = taskTime.split(":",2); //以 : 開始拆開前後的月份和日期
+        let taskHour = taskTime[0]; 
+        let taskMin = taskTime[1];
+
+        if(taskMonth <= thismonth && taskDay <= today && taskHour < hourNow && taskMin < minNow){ //若過期
+            todoLi.classList.remove("todo");
+            todoLi.classList.add("overdue-todo");
+        }
+    });
+    completes.forEach(function(complete){
+        const todoLi = document.createElement('li');
+        todoLi.classList.add("todo");
+        todoLi.classList.add("completed");
+
+        const completeTodo = document.createElement('ul');
+        completeTodo.classList.add("todo-item");
+        todoLi.appendChild(completeTodo); 
+
+        const doneTodoDate = document.createElement('li');
+        const doneTodoTime = document.createElement('li');
+        const doneTodoSort = document.createElement('li');
+        const doneTodoDetail = document.createElement('li');
+        doneTodoDate.classList.add("todo-date");
+        doneTodoTime.classList.add("todo-time");
+        doneTodoSort.classList.add("todo-sort");
+        doneTodoDetail.classList.add("todo-detail");
+        completeTodo.appendChild(doneTodoDate); //把 newTodo 放到 todoLi 的下方
+        completeTodo.appendChild(doneTodoTime); //把 newTodo 放到 todoLi 的下方
+        completeTodo.appendChild(doneTodoSort); //把 newTodo 放到 todoLi 的下方
+        completeTodo.appendChild(doneTodoDetail);//把 todoLi 放進 todoList 裡
+
+        doneTodoDate.innerText = complete[0]; 
+        doneTodoTime.innerText = complete[1]; 
+        doneTodoDetail.innerText = complete[3];
+        if(complete[2] == "job"){
+            doneTodoSort.innerHTML += `<i class="fas fa-briefcase"></i>`;
+        }else if(complete[2] == "housework"){
+            doneTodoSort.innerHTML += `<i class="fas fa-home"></i>`;
+        }else if(complete[2] == "sport"){
+            doneTodoSort.innerHTML += `<i class="far fa-futbol"></i>`;
+        }else if(complete[2] == "routine"){
+            doneTodoSort.innerHTML += `<i class="fas fa-hourglass"></i>`;
+        }else if(complete[2] == "others"){
+            doneTodoSort.innerHTML += `<i class="fas fa-palette"></i>`;
+        }else{
+            doneTodoSort.innerHTML += `<i class="fas fa-times"></i>`;
+        };
+        todoList.appendChild(todoLi);//把 todoLi 放進 todoList 裡
+    })
+    if(completes = []){
+        completedNum.innerHTML = `尚未有完成的工作！`;
+    }else{
         completedTotalNum = JSON.parse(localStorage.getItem('completeTask'));
         completedNum.innerHTML = `已完成 ${completedTotalNum} 項工作！`;
     }
+    
 };
 function removeLocalTodos(todo){
     //確認本地端有沒有已存在的todo
