@@ -201,9 +201,6 @@ function clearNumCheck(){
         localStorage.removeItem('completeTask'); //連同本地端一起清空
         localStorage.removeItem('complete'); //連同本地端一起清空
         window.location.reload();
-        return; 
-    }else{
-        return;
     }
 }
 //刪除全部 task
@@ -211,9 +208,6 @@ function deleteAllTask(){
     if(confirm("確定刪除所有代辦事項？")){
         todoList.innerText = "";
         localStorage.removeItem('todos'); //連同本地端一起清空
-        return; 
-    }else{
-        return;
     }
 }
 
@@ -412,7 +406,7 @@ function analyzeSort(){
     //將 JSON 抓到的資料轉成d3.js 圖表、放進 modal 中
     let todos;
     todos = JSON.parse(localStorage.getItem('todos'));
-    if(localStorage.getItem('todos') === null){
+    if(todos.length == 0){
         const modalContent = document.querySelector('.modal-content');
         modalContent.innerHTML = '暫無待辦事項';
     }else{
