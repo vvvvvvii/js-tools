@@ -438,10 +438,10 @@ function analyzeSort(){
                 ],
                 type:'pie', //圖的種類是圓餅圖
                 onclick:function(d,i){ //點擊圖時的效果
-                    console.log("onclick",d,i); //各自秀出男性20%、女性80%
+                    console.log("onclick",d,i); 
                 },
                 onmouseover:function(d,i){ //滑鼠滑進圖的效果
-                    console.log("onmouseover",d,i); //各自秀出男性20%、女性80%
+                    console.log("onmouseover",d,i);
                 },
                 onmouseout:function(d,i){ //滑鼠滑出圖的效果
                     console.log("onmouseout",d,i);
