@@ -200,9 +200,7 @@ function clearNumCheck(){
         completedNum.innerHTML= `尚未有完成的工作`;
         localStorage.removeItem('completeTask'); //連同本地端一起清空
         localStorage.removeItem('complete'); //連同本地端一起清空
-        window.setTimeout(function () { //按完 500ms 重整一次
-            window.location.reload();
-        }, 500);
+        window.location.reload();
         return; 
     }else{
         return;
@@ -498,10 +496,7 @@ function saveLocalCompleteTodos(todo){
         completedNum.innerHTML = `尚未有完成的工作！`;
     }
     localStorage.setItem("completeTask",JSON.stringify(completeTodos.length));
-
-    window.setTimeout(function () { //按完計算完成的數量後 500ms 重整一次
-        window.location.reload();
-    }, 500);
+    window.location.reload();
 }
 //叫出存在本地端的 todo-date 、 todo-time 、 todos 、完成數目
 function getTodos(){
@@ -652,7 +647,6 @@ function getTodos(){
         completedTotalNum = JSON.parse(localStorage.getItem('completeTask'));
         completedNum.innerHTML = `已完成 ${completedTotalNum} 項工作！`;
     }
-    
 };
 function removeLocalTodos(todo){
     //確認本地端有沒有已存在的todo
