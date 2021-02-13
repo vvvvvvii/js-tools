@@ -641,10 +641,10 @@ function getTodos(){
         };
         todoList.appendChild(todoLi);//把 todoLi 放進 todoList 裡
     })
-    if(completes == []){
+    completedTotalNum = JSON.parse(localStorage.getItem('completeTask'));
+    if(completedTotalNum == null){
         completedNum.innerHTML = `尚未有完成的工作！`;
     }else{
-        completedTotalNum = JSON.parse(localStorage.getItem('completeTask'));
         completedNum.innerHTML = `已完成 ${completedTotalNum} 項工作！`;
     }
 };
