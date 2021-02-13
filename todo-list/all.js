@@ -641,7 +641,7 @@ function getTodos(){
         };
         todoList.appendChild(todoLi);//把 todoLi 放進 todoList 裡
     })
-    if(completes = []){
+    if(completes == []){
         completedNum.innerHTML = `尚未有完成的工作！`;
     }else{
         completedTotalNum = JSON.parse(localStorage.getItem('completeTask'));
