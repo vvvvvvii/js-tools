@@ -1,3 +1,12 @@
-.bg-playing{
-    background-image: url('');
+body{
+    background-image: url('https://raw.githubusercontent.com/vvvvvvii/js-tools/627b91d08721de41660c80b2417fa554ed2c8ced/solitaire-game/image/background-Start.svg');
+    background-repeat:no-repeat;
+    background-attachment:fixed;
+    background-position:center;
+}
+    
+.container{
+    padding: 40px 0 30px;
+    display: flex;
+    justify-content: center;
 }

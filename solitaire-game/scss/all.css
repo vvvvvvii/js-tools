@@ -121,15 +121,41 @@ body {
   color: #316F9E;
 }
 
+.d-flex {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.ml-sm {
+  margin-left: 10px;
+}
+
+.ml-m {
+  margin-left: 26px;
+}
+
 .start-cell, .cell, .foundation {
   border: 3px solid #FAFAFA;
   border-radius: 15px;
-  position: absolute;
-  width: 169px;
-  height: 225px;
+  width: 100px;
+  height: 133px;
 }
 
-.bg-playing {
-  background-image: url("");
+body {
+  background-image: url("https://raw.githubusercontent.com/vvvvvvii/js-tools/627b91d08721de41660c80b2417fa554ed2c8ced/solitaire-game/image/background-Start.svg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+}
+
+.container {
+  padding: 40px 0 30px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 /*# sourceMappingURL=all.css.map */
