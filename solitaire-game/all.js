@@ -33,6 +33,7 @@ function addCard(){
                 let positionTop = `${30*j}px`; //讓牌依第幾排往下露出一點點
                 card.style.top = positionTop;
                 card.style.backgroundImage = 'image/'+newNum[0]+newNum[1]+'.svg'
+                console.log()
                 //"url('image/Card_club%2010.svg')";
                 card.innerHTML = newNum;
                 card.classList.add("card");    
