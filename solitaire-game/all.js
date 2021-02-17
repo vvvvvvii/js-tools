@@ -32,10 +32,8 @@ function addCard(){
                 const card = document.createElement('div'); //這句記得放在for迴圈中，放在外面只會新增一次
                 let positionTop = `${30*j}px`; //讓牌依第幾排往下露出一點點
                 card.style.top = positionTop;
-                card.style.backgroundImage = 'image/'+newNum[0]+newNum[1]+'.svg'
-                console.log()
-                //"url('image/Card_club%2010.svg')";
-                card.innerHTML = newNum;
+                let url = 'url(' + 'image/'+newNum[0]+newNum[1]+'.svg' + ')';
+                card.style.backgroundImage = url;
                 card.classList.add("card");    
                 startCells[i].appendChild(card);
             }
@@ -50,7 +48,8 @@ function addCard(){
                 const card = document.createElement('div');
                 let positionTop = `${30*j}px`; //讓牌依第幾排往下露出一點點
                 card.style.top = positionTop; 
-                card.innerHTML = newNum;
+                let url = 'url(' + 'image/'+newNum[0]+newNum[1]+'.svg' + ')';
+                card.style.backgroundImage = url;
                 card.classList.add("card");    
                 startCells[i].appendChild(card);
             }
