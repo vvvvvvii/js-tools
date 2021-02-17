@@ -173,6 +173,10 @@ body {
   height: 133px;
 }
 
+.start-cell {
+  position: relative;
+}
+
 .foundation {
   background: #ffffff28;
   display: -webkit-box;
@@ -184,6 +188,19 @@ body {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+}
+
+.card {
+  width: 100px;
+  height: 133px;
+  background: #FAFAFA;
+  -webkit-box-shadow: 0px -2px 4px rgba(0, 0, 0, 0.25);
+          box-shadow: 0px -2px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 15px;
+  position: absolute;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
 }
 
 body {
