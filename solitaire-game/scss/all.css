@@ -66,23 +66,23 @@ body {
 }
 
 .font-xs {
-  font-size: 25px;
+  font-size: 16px;
 }
 
 .font-sm {
-  font-size: 32px;
+  font-size: 20px;
 }
 
 .font-m {
-  font-size: 34px;
+  font-size: 22px;
 }
 
 .font-lg {
-  font-size: 50px;
+  font-size: 32px;
 }
 
 .font-xl {
-  font-size: 70px;
+  font-size: 45px;
 }
 
 .font-xs, .font-lg {
@@ -121,18 +121,49 @@ body {
   color: #316F9E;
 }
 
+.text-gray {
+  color: #28282873;
+}
+
 .d-flex {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
 }
 
-.ml-sm {
+.flex-column {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.justify-end {
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+}
+
+.align-center {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.ml-1 {
   margin-left: 10px;
 }
 
-.ml-m {
+.ml-3 {
   margin-left: 26px;
+}
+
+.ml-4 {
+  margin-left: 32px;
+}
+
+.mb-1 {
+  margin-bottom: 10px;
 }
 
 .start-cell, .cell, .foundation {
@@ -140,6 +171,19 @@ body {
   border-radius: 15px;
   width: 100px;
   height: 133px;
+}
+
+.foundation {
+  background: #ffffff28;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 body {
@@ -150,12 +194,32 @@ body {
 }
 
 .container {
-  padding: 40px 0 30px;
+  height: 100vh;
+  padding: 8px 0;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.icon-btn {
+  width: 45px;
+  height: 45px;
+  cursor: pointer;
+}
+
+.icon-btn:hover {
+  opacity: 0.8;
+  border: 4px solid #2A4254;
+  border-radius: 50%;
 }
 /*# sourceMappingURL=all.css.map */

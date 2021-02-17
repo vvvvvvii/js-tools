@@ -2,11 +2,25 @@
 .d-flex{
     display: flex;
 }
-
+.flex-column{
+    flex-direction: column;
+}
+.justify-end{
+    justify-content: flex-end;
+} 
+.align-center{
+    align-items: center;
+}
 //spacing
-.ml-sm{
+.ml-1{
     margin-left: 10px;
 }
-.ml-m{
+.ml-3{
     margin-left: 26px;
+}
+.ml-4{
+    margin-left: 32px;
+}
+.mb-1{
+    margin-bottom: 10px;
 }

@@ -6,7 +6,21 @@ body{
 }
     
 .container{
-    padding: 40px 0 30px;
+    height: 100vh;
+    padding: 8px 0;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.icon-btn{
+    width: 45px;
+    height: 45px;
+    cursor: pointer;
+    &:hover{
+        opacity: 0.8;
+        border: 4px solid $primary;
+        border-radius: 50%;
+    }
 }

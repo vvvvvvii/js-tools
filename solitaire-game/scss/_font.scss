@@ -4,19 +4,19 @@ body{
 }
 //font-size
 .font-xs{
-    font-size: 25px;
+    font-size: 16px; //25
 }
 .font-sm{
-    font-size: 32px;
+    font-size: 20px; //32
 }
 .font-m{
-    font-size: 34px;
+    font-size: 22px;  //34
 }
 .font-lg{
-    font-size: 50px;
+    font-size: 32px;  //50
 }
 .font-xl{
-    font-size: 70px;
+    font-size: 45px;  //70
 }
 //line-height
 .font-xs, .font-lg{
@@ -47,4 +47,7 @@ body{
 }
 .text-dark{
     color: $dark;
+}
+.text-gray{
+    color: $gray;
 }
