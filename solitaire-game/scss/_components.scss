@@ -24,4 +24,9 @@
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
+    &:hover,&:active{
+        opacity: .95;
+        border: 3px solid #f7f461e7;
+        cursor: pointer;
+    }
 }

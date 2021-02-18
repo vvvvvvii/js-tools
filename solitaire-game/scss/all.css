@@ -204,6 +204,12 @@ body {
   background-size: contain;
 }
 
+.card:hover, .card:active {
+  opacity: .95;
+  border: 3px solid #f7f461e7;
+  cursor: pointer;
+}
+
 body {
   background-image: url("https://raw.githubusercontent.com/vvvvvvii/js-tools/627b91d08721de41660c80b2417fa554ed2c8ced/solitaire-game/image/background-Start.svg");
   background-repeat: no-repeat;
