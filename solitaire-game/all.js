@@ -12,9 +12,6 @@ const container = document.querySelector('.container');
 //event listener
 document.addEventListener('DOMContentLoaded',addCard);
 container.addEventListener('dragstart',dragCard); //因為直接在上面寫 const cards=document.querySelectorAll選不到（下面還沒跑完），會跳空陣列，所以用這種方式搭配e.target去選card的div
-container.addEventListener('dragover',dragoverCard); 
-container.addEventListener('drop',dropCard); 
-container.addEventListener('dragend',dragendCard);
 //function
 function addCard(){
     //初始化撲克牌
@@ -39,8 +36,11 @@ function addCard(){
                 card.style.top = positionTop;
                 let url = 'url(' + 'image/'+newNum[0]+newNum[1]+'.svg' + ')';
                 card.style.backgroundImage = url;
-                card.classList.add("card");    
+                card.classList.add("card");   
+                card.classList.add("draggable");    
+                card.classList.add("dropzone");    
                 card.setAttribute("draggable","true"); //在html加上這個屬性，宣告可被拖曳
+                card.setAttribute("id",`${newNum[0]}${newNum[1]}`); //拖曳時可以用id去重建新的div
                 card.setAttribute("data-suit",`${newNum[0]}`); //在html加上這個屬性，讓花色可被比對
                 card.setAttribute("data-number",`${newNum[1]}`); //在html加上這個屬性，讓大小可被比對
                 startCells[i].appendChild(card);
@@ -59,7 +59,10 @@ function addCard(){
                 let url = 'url(' + 'image/'+newNum[0]+newNum[1]+'.svg' + ')';
                 card.style.backgroundImage = url;
                 card.classList.add("card");    
+                card.classList.add("draggable"); 
+                card.classList.add("dropzone");    
                 card.setAttribute("draggable","true");
+                card.setAttribute("id",`${newNum[0]}${newNum[1]}`); 
                 card.setAttribute("data-suit",`${newNum[0]}`); 
                 card.setAttribute("data-number",`${newNum[1]}`); 
                 startCells[i].appendChild(card);
@@ -68,51 +71,52 @@ function addCard(){
     }
     //console.log(cascadesArr);
 }
-function dragCard(e){ 
-    const item = e.target;
-    if(item.classList[0]==="card"){
-        e.dataTransfer.setData("text",[item.dataset.suit,item.dataset.number,item.style.backgroundImage]); //存放資料
-    }else{
-        e.preventDefault(); //其他不能拖曳
-    }
-}
-function dragoverCard(e){
-    e.preventDefault();
-}
-function dropCard(e){
-    e.preventDefault();
-    const item = e.target;
-    const cell = item.parentNode;
-    let draggableData = e.dataTransfer.getData("text"); //取出資料
-    draggableData = draggableData.split(","); //將資料轉成陣列
-
-    if(item.classList[0]==="card"){
-        const card = document.createElement('div'); 
-        let positionTop = `${30+parseInt(item.style.top)}px`; //拖過去的卡片要低原本卡片 30px
-        card.style.top = positionTop;
-        card.style.backgroundImage = draggableData[2]; //讓取出的圖片資料等同背景圖案
-        card.classList.add("card");    
-        card.setAttribute("draggable","true"); //在html加上這個屬性，宣告可被拖曳
-        card.setAttribute("data-suit",`${draggableData[0]}`); //在html加上這個屬性，讓花色可被比對
-        card.setAttribute("data-number",`${draggableData[1]}`); //在html加上這個屬性，讓大小可被比對
-        cell.appendChild(card); //回到父層再加上東西
-    }else if(item.classList[0]==="cell" && item.classList[1]!=="full"){
-        const card = document.createElement('div'); 
-        card.style.backgroundImage = draggableData[2];
-        card.classList.add("card");    
-        card.setAttribute("draggable","true");
-        card.setAttribute("data-suit",`${draggableData[0]}`); 
-        card.setAttribute("data-number",`${draggableData[1]}`); 
-        cell.appendChild(card); 
-        item.classList.add("full");
-    }else if(item.classList[0]==="foundation"){
-        const card = document.createElement('div');
-        card.style.backgroundImage = draggableData[2]; 
-        card.classList.add("card");    
-        cell.appendChild(card);
-    }
-}
-function dragendCard(e){
-    const item = e.target;
-    item.remove();
+function dragCard(){
+    let draggable = document.querySelectorAll('.draggable');
+    //console.log(draggable);
+    draggable.forEach(function(card){
+        card.addEventListener('dragstart',function(e){
+            e.dataTransfer.setData('text/plain', e.target.id);
+            e.target.style.opacity = ".5";
+        });
+        card.addEventListener("dragend",function(e){
+            e.target.style.opacity = "";
+        });
+    })
+    let dropzones = document.querySelectorAll('.dropzone');
+    //console.log(dropzone);
+    dropzones.forEach(function(dropzone){
+        dropzone.addEventListener('dragenter',function(e){
+            e.preventDefault();
+            dropzone.style.borderStyle = 'dashed';
+            return false;
+        });
+        dropzone.addEventListener('dragover',function(e){
+            e.preventDefault();
+            return false;
+        });
+        dropzone.addEventListener('dragleave',function(e){
+            dropzone.style.borderStyle = 'solid';
+        });
+        dropzone.addEventListener('drop',function(e){
+            e.preventDefault();
+            e.target.style.borderStyle = 'solid';
+            const sourceId = e.dataTransfer.getData('text/plain');
+            let card = document.getElementById(sourceId)
+            e.target.appendChild(card);
+            //console.log(e.path[0].classList[0]);
+            if(e.path[0].classList[0] == "card"){
+                //console.log(e.target.style.top);
+                //console.log(e.target.childNodes);
+                e.target.childNodes[0].style.top = "30px";
+                e.target.childNodes[0].style.left = "0px";
+            }else if(e.path[0].classList[0] == "cell"){
+                card.style.top = "inherit";
+                card.style.left = "inherit";
+            }else if(e.path[0].classList[0] == "foundation"){
+                card.style.top = "inherit";
+                card.style.left = "inherit";
+            }
+        })
+    });
 }
