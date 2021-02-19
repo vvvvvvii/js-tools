@@ -101,21 +101,19 @@ function dragCard(){
         dropzone.addEventListener('drop',function(e){
             e.preventDefault();
             e.target.style.borderStyle = 'solid';
+            //console.log(e.target);
             const sourceId = e.dataTransfer.getData('text/plain');
-            let card = document.getElementById(sourceId)
+            let card = document.getElementById(sourceId);
             e.target.appendChild(card);
-            //console.log(e.path[0].classList[0]);
-            if(e.path[0].classList[0] == "card"){
-                //console.log(e.target.style.top);
-                //console.log(e.target.childNodes);
-                e.target.childNodes[0].style.top = "30px";
-                e.target.childNodes[0].style.left = "0px";
-            }else if(e.path[0].classList[0] == "cell"){
+            if(e.path[0].classList[0] == "cell"){
                 card.style.top = "inherit";
                 card.style.left = "inherit";
             }else if(e.path[0].classList[0] == "foundation"){
                 card.style.top = "inherit";
                 card.style.left = "inherit";
+            }else if(e.path[0].classList[0] == "card"){
+                e.target.childNodes[0].style.top = "30px";
+                e.target.childNodes[0].style.left = "0px";
             }
         })
     });

@@ -12,6 +12,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    &:after{ //用偽元素寫A避免要拖曳牌的時候div被加到A的標籤下面
+        content: "A";
+        z-index: -1;
+        font-size: 45px;
+        font-weight: 900px;
+        color: $gray;
+    }
 }
 .card{
     width: 100px;

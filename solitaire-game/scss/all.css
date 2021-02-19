@@ -190,6 +190,14 @@ body {
           align-items: center;
 }
 
+.foundation:after {
+  content: "A";
+  z-index: -1;
+  font-size: 45px;
+  font-weight: 900px;
+  color: #28282873;
+}
+
 .card {
   width: 100px;
   height: 133px;
