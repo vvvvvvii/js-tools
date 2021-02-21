@@ -101,11 +101,11 @@ function dragCard(){
         dropzone.addEventListener('drop',function(e){
             const dropTarget = e.path[0].classList[0]; //e.path[0].classList[0] 代表目的地
             if(dropTarget == "cell"){ //移動到cell時
-                if(e.path[0].innerHTML == ""){ //cell是空的
+                const sourceId = e.dataTransfer.getData('text/plain'); //必須放判斷式裡，條件成立才取值
+                let card = document.getElementById(sourceId);
+                if(e.path[0].innerHTML == "" && card.children.length == 0){ //cell是空的，且移過來的牌只有一張，不是兩張以上
                     e.preventDefault();
                     e.target.style.borderStyle = 'solid';
-                    const sourceId = e.dataTransfer.getData('text/plain'); //必須放判斷式裡，條件成立才取值
-                    let card = document.getElementById(sourceId);
                     e.target.appendChild(card);
                     card.style.top = "inherit";
                     card.style.left = "inherit";
@@ -130,7 +130,6 @@ function dragCard(){
                     e.target.childNodes[0].style.top = "30px";
                     e.target.childNodes[0].style.left = "0px";
                 }
-                
             }
         })
     });
