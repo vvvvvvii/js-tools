@@ -99,21 +99,38 @@ function dragCard(){
             dropzone.style.borderStyle = 'solid';
         });
         dropzone.addEventListener('drop',function(e){
-            e.preventDefault();
-            e.target.style.borderStyle = 'solid';
-            //console.log(e.target);
-            const sourceId = e.dataTransfer.getData('text/plain');
-            let card = document.getElementById(sourceId);
-            e.target.appendChild(card);
-            if(e.path[0].classList[0] == "cell"){
+            const dropTarget = e.path[0].classList[0]; //e.path[0].classList[0] 代表目的地
+            if(dropTarget == "cell"){ //移動到cell時
+                if(e.path[0].innerHTML == ""){ //cell是空的
+                    e.preventDefault();
+                    e.target.style.borderStyle = 'solid';
+                    const sourceId = e.dataTransfer.getData('text/plain'); //必須放判斷式裡，條件成立才取值
+                    let card = document.getElementById(sourceId);
+                    e.target.appendChild(card);
+                    card.style.top = "inherit";
+                    card.style.left = "inherit";
+                }
+            }else if(dropTarget == "foundation"){ //移動到foundation時
+                e.preventDefault();
+                e.target.style.borderStyle = 'solid';
+                const sourceId = e.dataTransfer.getData('text/plain');
+                let card = document.getElementById(sourceId);
+                e.target.appendChild(card);
                 card.style.top = "inherit";
                 card.style.left = "inherit";
-            }else if(e.path[0].classList[0] == "foundation"){
-                card.style.top = "inherit";
-                card.style.left = "inherit";
-            }else if(e.path[0].classList[0] == "card"){
-                e.target.childNodes[0].style.top = "30px";
-                e.target.childNodes[0].style.left = "0px";
+            }else if(dropTarget == "card"){ //移動到card時
+                //須先判斷card在cell?foundation?card?
+                console.log(e.path[0].parentElement.classList[0]); //只適用cell的判斷 因為只上一層
+                if(e.path[0].parentElement.classList[0] != "cell"){ //移動到的那張牌，如果他的父層不是cell才能移動過去（cell有牌就不能放第二張上去）
+                    e.preventDefault();
+                    e.target.style.borderStyle = 'solid';
+                    const sourceId = e.dataTransfer.getData('text/plain');
+                    let card = document.getElementById(sourceId);
+                    e.target.appendChild(card);
+                    e.target.childNodes[0].style.top = "30px";
+                    e.target.childNodes[0].style.left = "0px";
+                }
+                
             }
         })
     });
