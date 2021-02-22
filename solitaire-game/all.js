@@ -107,7 +107,7 @@ function dragCard(){
         });
         dropzone.addEventListener('drop',function(e){
             const dropTarget = e.path[0].classList[0]; //e.path[0].classList[0] 代表目的地
-            let sourceData = e.dataTransfer.getData('text/plain'); //必須放判斷式裡，條件成立才取值
+            let sourceData = e.dataTransfer.getData('text/plain'); 
             console.log(e.dataTransfer);
             sourceData = sourceData.split(",");
             const sourceId = sourceData[0];
