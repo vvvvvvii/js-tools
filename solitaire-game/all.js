@@ -14,6 +14,11 @@ document.addEventListener('DOMContentLoaded',addCard);
 container.addEventListener('dragstart',dragCard); //因為直接在上面寫 const cards=document.querySelectorAll選不到（下面還沒跑完），會跳空陣列，所以用這種方式搭配e.target去選card的div
 
 //function
+function dragAttributeAdd(card){
+    card.setAttribute("draggable","true"); //在html加上這個屬性，宣告可被拖曳
+    card.classList.add("draggable"); 
+    card.classList.add("dropzone");    
+}
 function addCard(){
     //初始化撲克牌
     for (let i = 0; i < 4; i++) {
@@ -43,7 +48,7 @@ function addCard(){
                 card.setAttribute("data-number",`${newNum[1]}`); //在html加上這個屬性，讓大小可被比對
                 startCells[i].appendChild(card);
                 if(j==6){
-                    draggable(card); 
+                    dragAttributeAdd(card); 
                 }
             }
         }else{ //後四列
@@ -63,17 +68,13 @@ function addCard(){
                 card.setAttribute("data-number",`${newNum[1]}`); 
                 startCells[i].appendChild(card);
                 if(j==5){
-                    draggable(card); 
+                    dragAttributeAdd(card); 
                 }
             }
         }
     }
 }
-function draggable(card){
-    card.setAttribute("draggable","true"); //在html加上這個屬性，宣告可被拖曳
-    card.classList.add("draggable"); 
-    card.classList.add("dropzone");    
-}
+
 function dragCard(){
     let draggable = document.querySelectorAll('.draggable');
     //console.log(draggable);
@@ -81,8 +82,8 @@ function dragCard(){
         card.addEventListener('dragstart',function(e){
             //console.log(card.parentElement.classList[0]);//紀錄這張牌是從哪來的、父層本來是什麼
             let length =  card.parentElement.childNodes.length;
-            let lastChild = card.parentElement.childNodes[length-2].id; //-2是因為他會記錄到還沒拖曳成功前的狀態，若寫-1會記錄到正要拖曳的那張
-            e.dataTransfer.setData('text/plain', [e.target.id,card.parentElement.classList[0],e.target.dataset.suit,e.target.dataset.number,lastChild]);
+            let lastChild = card.parentElement.childNodes[length-2]; //-2是因為他會記錄到還沒拖曳成功前的狀態，若寫-1會記錄到正要拖曳的那張
+            e.dataTransfer.setData('text/plain', [e.target.id,card.parentElement.classList[0],e.target.dataset.suit,e.target.dataset.number,lastChild.id]);
             e.target.style.opacity = ".5";
         });
         card.addEventListener("dragend",function(e){
@@ -106,13 +107,23 @@ function dragCard(){
         });
         dropzone.addEventListener('drop',function(e){
             const dropTarget = e.path[0].classList[0]; //e.path[0].classList[0] 代表目的地
+            let sourceData = e.dataTransfer.getData('text/plain'); //必須放判斷式裡，條件成立才取值
+            console.log(e.dataTransfer);
+            sourceData = sourceData.split(",");
+            const sourceId = sourceData[0];
+            const sourceFrom = sourceData[1];
+            let sourceSuit = sourceData[2];
+            let sourceNum = sourceData[3];
+            let sourceSuitColor;
+
+            let targetSuit = e.path[0].dataset.suit;
+            let targetNum = e.path[0].dataset.number;
+            let targetSuitColor;
+
+            let card = document.getElementById(sourceId);
+
             if(dropTarget == "cell"){ //移動到cell時
-                let sourceData = e.dataTransfer.getData('text/plain'); //必須放判斷式裡，條件成立才取值
-                sourceData = sourceData.split(",");
-                const sourceId = sourceData[0];
-                const sourceFrom = sourceData[1];
-                let card = document.getElementById(sourceId);
-                if(e.path[0].innerHTML == "" && card.children.length == 0 && sourceFrom != "foundation"){ //cell是空的;移過來的牌只有一張，不是兩張以上;不是從foundation移過來的。
+                if(card.children.length == 0 && sourceFrom != "foundation"){ //cell是空的;移過來的牌只有一張，不是兩張以上;不是從foundation移過來的。
                     e.preventDefault();
                     e.target.style.borderStyle = 'solid';
                     e.target.appendChild(card);
@@ -120,15 +131,11 @@ function dragCard(){
                     card.style.left = "inherit";
                     let sourceLastChild = sourceData[4]; //取得移動後最後一個牌加上可被拖曳或放牌的屬性
                     let addDraggableCard = document.getElementById(sourceLastChild);
-                    addDraggableCard.setAttribute("draggable","true"); //在html加上這個屬性，宣告可被拖曳
-                    addDraggableCard.classList.add("draggable"); 
-                    addDraggableCard.classList.add("dropzone"); 
+                    dragAttributeAdd(addDraggableCard);
+                }else{
+                    console.log("dropTarget == cell went wrong");
                 }
             }else if(dropTarget == "foundation"){ //移動到foundation時
-                let sourceData = e.dataTransfer.getData('text/plain'); //必須放判斷式裡，條件成立才取值
-                sourceData = sourceData.split(",");
-                const sourceId = sourceData[0];
-                let card = document.getElementById(sourceId);
                 if(card.children.length == 0){ //限制一次只能移一張過來
                     if(sourceId == "clubA" || sourceId == "heartA" || sourceId == "diamondA" || sourceId == "spadeA"){ //移到foundation代表裡面本來沒卡片，在此情況下能移過去的只有各花色的Ａ
                         e.preventDefault();
@@ -139,25 +146,11 @@ function dragCard(){
                         card.style.left = "inherit";
                         let sourceLastChild = sourceData[4]; //取得移動後最後一個牌加上可被拖曳或放牌的屬性
                         let addDraggableCard = document.getElementById(sourceLastChild);
-                        addDraggableCard.setAttribute("draggable","true"); //在html加上這個屬性，宣告可被拖曳
-                        addDraggableCard.classList.add("draggable"); 
-                        addDraggableCard.classList.add("dropzone"); 
+                        dragAttributeAdd(addDraggableCard);
                     }
                 }
             }else if(dropTarget == "card"){ //移動到card時
                 //須先判斷那張card在cell?foundation?card?
-                //console.log(e.path[0].parentElement.classList[0]); //只適用cell的判斷 因為只上一層
-                let sourceData = e.dataTransfer.getData('text/plain'); //必須放判斷式裡，條件成立才取值
-                sourceData = sourceData.split(",");
-                const sourceId = sourceData[0];
-                const sourceFrom = sourceData[1];
-                let sourceSuit = sourceData[2];
-                let sourceNum = sourceData[3];
-                let sourceSuitColor;
-
-                let targetSuit = e.path[0].dataset.suit;
-                let targetNum = e.path[0].dataset.number;
-                let targetSuitColor;
                 //要讓Ａ對應1、j對應11、Q對應12、K對應13
                 switch(sourceNum){
                     case"A": sourceNum = 1; break;
@@ -184,12 +177,12 @@ function dragCard(){
                     case"diamond": targetSuitColor = "red"; break;
                     case"spade": targetSuitColor = "black"; break;
                 }
-                let card = document.getElementById(sourceId);
+                //console.log(e.path[0].parentElement.classList[0]); //只適用cell的判斷 因為只上一層
                 if(e.path[0].parentElement.classList[0] != "cell" && sourceFrom != "foundation"){ //限制cell不能放兩張以上的牌，且不是從foundation移來的
                     if(e.path[0].classList[3] == "finish-card"){
                         card.classList.add("finish-card"); //只要移到foundation都要加上這個class，讓後面能判斷父層
                     }
-                    //移到foundation的情況
+                    //移到foundation裡的card的情況
                     if(e.path[0].classList[3] == "finish-card" && sourceSuit == targetSuit && sourceNum-targetNum==1){ //花色相同才可移動到foundation，移動過去的牌只比目的地的數字大一
                         e.preventDefault();
                         e.target.style.borderStyle = 'solid';
@@ -198,9 +191,7 @@ function dragCard(){
                         e.target.childNodes[0].style.left = "inherit";
                         let sourceLastChild = sourceData[4]; //取得移動後最後一個牌加上可被拖曳或放牌的屬性
                         let addDraggableCard = document.getElementById(sourceLastChild);
-                        addDraggableCard.setAttribute("draggable","true"); //在html加上這個屬性，宣告可被拖曳
-                        addDraggableCard.classList.add("draggable"); 
-                        addDraggableCard.classList.add("dropzone"); 
+                        dragAttributeAdd(addDraggableCard);
                     //移到其他卡上的情況
                     }else if(e.path[0].classList[3] != "finish-card" && sourceSuitColor != targetSuitColor && targetNum-sourceNum==1){ //顏色不同，移動過去的牌只比目的地的數字小一，可移動到其他卡上
                         e.preventDefault();
@@ -210,9 +201,13 @@ function dragCard(){
                         e.target.childNodes[0].style.left = "0px";
                         let sourceLastChild = sourceData[4]; //取得移動後最後一個牌加上可被拖曳或放牌的屬性
                         let addDraggableCard = document.getElementById(sourceLastChild);
-                        addDraggableCard.setAttribute("draggable","true"); //在html加上這個屬性，宣告可被拖曳
-                        addDraggableCard.classList.add("draggable"); 
-                        addDraggableCard.classList.add("dropzone"); 
+                        dragAttributeAdd(addDraggableCard);
+                    }else{
+                        console.log(e.path[0].classList[3]);
+                        console.log(sourceSuitColor);
+                        console.log(targetSuitColor);
+                        console.log(sourceNum);
+                        console.log(targetNum);
                     }
                 }
             }
