@@ -136,10 +136,13 @@ function dragCard(){
                 sourceData = sourceData.split(",");
                 const sourceId = sourceData[0];
                 const sourceFrom = sourceData[1];
-                const sourceSuit = sourceData[2];
+                let sourceSuit = sourceData[2];
                 let sourceNum = sourceData[3];
-                const targetSuit = e.path[0].dataset.suit;
+                let sourceSuitColor;
+
+                let targetSuit = e.path[0].dataset.suit;
                 let targetNum = e.path[0].dataset.number;
+                let targetSuitColor;
                 //要讓Ａ對應1、j對應11、Q對應12、K對應13
                 switch(sourceNum){
                     case"A": sourceNum = 1; break;
@@ -153,26 +156,39 @@ function dragCard(){
                     case"Q": targetNum = 12; break;
                     case"K": targetNum = 13; break;
                 }
+                //讓花色對應顏色
+                switch(sourceSuit){
+                    case"club": sourceSuitColor = "black"; break;
+                    case"heart": sourceSuitColor = "red"; break;
+                    case"diamond": sourceSuitColor = "red"; break;
+                    case"spade": sourceSuitColor = "black"; break;
+                }
+                switch(targetSuit){
+                    case"club": targetSuitColor = "black"; break;
+                    case"heart": targetSuitColor = "red"; break;
+                    case"diamond": targetSuitColor = "red"; break;
+                    case"spade": targetSuitColor = "black"; break;
+                }
                 let card = document.getElementById(sourceId);
                 if(e.path[0].parentElement.classList[0] != "cell" && sourceFrom != "foundation"){ //限制cell不能放兩張以上的牌，且不是從foundation移來的
-                    if(sourceSuit == targetSuit && sourceNum-targetNum==1){ //花色相同才可移動到foundation，移動過去的牌只比目的地的數字大一
+                    if(e.path[0].classList[3] == "finish-card"){
+                        card.classList.add("finish-card"); //只要移到foundation都要加上這個class，讓後面能判斷父層
+                    }
+                    //移到foundation的情況
+                    if(e.path[0].classList[3] == "finish-card" && sourceSuit == targetSuit && sourceNum-targetNum==1){ //花色相同才可移動到foundation，移動過去的牌只比目的地的數字大一
                         e.preventDefault();
                         e.target.style.borderStyle = 'solid';
                         e.target.appendChild(card);
-                        if(e.path[0].classList[3] == "finish-card"){
-                            card.classList.add("finish-card"); //只要移到foundation都要加上這個class，讓後面能判斷父層
-                        }
-                        if(e.path[0].classList[3] != "finish-card"){
-                            e.target.childNodes[0].style.top = "30px";
-                            e.target.childNodes[0].style.left = "0px";
-                        }else{
-                            e.target.childNodes[0].style.top = "inherit";
-                            e.target.childNodes[0].style.left = "inherit";
-                        }
-                    }else if(sourceSuit != targetSuit){ //花色不同但顏色相同，可移動到其他卡上
-
+                        e.target.childNodes[0].style.top = "inherit";
+                        e.target.childNodes[0].style.left = "inherit";
+                    //移到其他卡上的情況
+                    }else if(e.path[0].classList[3] != "finish-card" && sourceSuitColor != targetSuitColor && targetNum-sourceNum==1){ //花色不同但顏色相同，移動過去的牌只比目的地的數字小一，可移動到其他卡上
+                        e.preventDefault();
+                        e.target.style.borderStyle = 'solid';
+                        e.target.appendChild(card);
+                        e.target.childNodes[0].style.top = "30px";
+                        e.target.childNodes[0].style.left = "0px";
                     }
-                    
                 }
             }
         })
