@@ -12,6 +12,7 @@ const container = document.querySelector('.container');
 //event listener
 document.addEventListener('DOMContentLoaded',addCard);
 container.addEventListener('dragstart',dragCard); //因為直接在上面寫 const cards=document.querySelectorAll選不到（下面還沒跑完），會跳空陣列，所以用這種方式搭配e.target去選card的div
+
 //function
 function addCard(){
     //初始化撲克牌
@@ -36,40 +37,42 @@ function addCard(){
                 card.style.top = positionTop;
                 let url = 'url(' + 'image/'+newNum[0]+newNum[1]+'.svg' + ')';
                 card.style.backgroundImage = url;
-                card.classList.add("card");   
-                card.classList.add("draggable");    
-                card.classList.add("dropzone");    
-                card.setAttribute("draggable","true"); //在html加上這個屬性，宣告可被拖曳
+                card.classList.add("card");     
                 card.setAttribute("id",`${newNum[0]}${newNum[1]}`); //拖曳時可以用id去重建新的div
                 card.setAttribute("data-suit",`${newNum[0]}`); //在html加上這個屬性，讓花色可被比對
                 card.setAttribute("data-number",`${newNum[1]}`); //在html加上這個屬性，讓大小可被比對
                 startCells[i].appendChild(card);
+                if(j==6){
+                    draggable(card); 
+                }
             }
         }else{ //後四列
             for(let j = 0; j < 6; j++){ //每個陣列共要放六個數
                 let random = Math.floor(Math.random() * initPoker.length); //Math.floor()會將所有小數無條件捨去只取最小整數，Math.random() * x 隨機產生 0-x 間的數（含0但不含x）
-                //對應poker陣列得到對應的花色及陣列
                 let newNum = initPoker[random]; 
                 cascadesArr[i].push(newNum);
                 initPoker.splice(random, 1); 
-                //對應cascadesArr陣列產生div顯示在螢幕上
                 const card = document.createElement('div');
-                let positionTop = `${30*j}px`; //讓牌依第幾排往下露出一點點
+                let positionTop = `${30*j}px`; 
                 card.style.top = positionTop; 
                 let url = 'url(' + 'image/'+newNum[0]+newNum[1]+'.svg' + ')';
                 card.style.backgroundImage = url;
                 card.classList.add("card");    
-                card.classList.add("draggable"); 
-                card.classList.add("dropzone");    
-                card.setAttribute("draggable","true");
                 card.setAttribute("id",`${newNum[0]}${newNum[1]}`); 
                 card.setAttribute("data-suit",`${newNum[0]}`); 
                 card.setAttribute("data-number",`${newNum[1]}`); 
                 startCells[i].appendChild(card);
+                if(j==5){
+                    draggable(card); 
+                }
             }
         }
     }
-    //console.log(cascadesArr);
+}
+function draggable(card){
+    card.setAttribute("draggable","true"); //在html加上這個屬性，宣告可被拖曳
+    card.classList.add("draggable"); 
+    card.classList.add("dropzone");    
 }
 function dragCard(){
     let draggable = document.querySelectorAll('.draggable');
@@ -77,7 +80,9 @@ function dragCard(){
     draggable.forEach(function(card){
         card.addEventListener('dragstart',function(e){
             //console.log(card.parentElement.classList[0]);//紀錄這張牌是從哪來的、父層本來是什麼
-            e.dataTransfer.setData('text/plain', [e.target.id,card.parentElement.classList[0],e.target.dataset.suit,e.target.dataset.number]);
+            let length =  card.parentElement.childNodes.length;
+            let lastChild = card.parentElement.childNodes[length-2].id; //-2是因為他會記錄到還沒拖曳成功前的狀態，若寫-1會記錄到正要拖曳的那張
+            e.dataTransfer.setData('text/plain', [e.target.id,card.parentElement.classList[0],e.target.dataset.suit,e.target.dataset.number,lastChild]);
             e.target.style.opacity = ".5";
         });
         card.addEventListener("dragend",function(e){
@@ -113,6 +118,11 @@ function dragCard(){
                     e.target.appendChild(card);
                     card.style.top = "inherit";
                     card.style.left = "inherit";
+                    let sourceLastChild = sourceData[4]; //取得移動後最後一個牌加上可被拖曳或放牌的屬性
+                    let addDraggableCard = document.getElementById(sourceLastChild);
+                    addDraggableCard.setAttribute("draggable","true"); //在html加上這個屬性，宣告可被拖曳
+                    addDraggableCard.classList.add("draggable"); 
+                    addDraggableCard.classList.add("dropzone"); 
                 }
             }else if(dropTarget == "foundation"){ //移動到foundation時
                 let sourceData = e.dataTransfer.getData('text/plain'); //必須放判斷式裡，條件成立才取值
@@ -127,6 +137,11 @@ function dragCard(){
                         card.classList.add("finish-card"); //只要移到foundation都要加上這個class，讓後面能判斷父層
                         card.style.top = "inherit";
                         card.style.left = "inherit";
+                        let sourceLastChild = sourceData[4]; //取得移動後最後一個牌加上可被拖曳或放牌的屬性
+                        let addDraggableCard = document.getElementById(sourceLastChild);
+                        addDraggableCard.setAttribute("draggable","true"); //在html加上這個屬性，宣告可被拖曳
+                        addDraggableCard.classList.add("draggable"); 
+                        addDraggableCard.classList.add("dropzone"); 
                     }
                 }
             }else if(dropTarget == "card"){ //移動到card時
@@ -181,13 +196,23 @@ function dragCard(){
                         e.target.appendChild(card);
                         e.target.childNodes[0].style.top = "inherit";
                         e.target.childNodes[0].style.left = "inherit";
+                        let sourceLastChild = sourceData[4]; //取得移動後最後一個牌加上可被拖曳或放牌的屬性
+                        let addDraggableCard = document.getElementById(sourceLastChild);
+                        addDraggableCard.setAttribute("draggable","true"); //在html加上這個屬性，宣告可被拖曳
+                        addDraggableCard.classList.add("draggable"); 
+                        addDraggableCard.classList.add("dropzone"); 
                     //移到其他卡上的情況
-                    }else if(e.path[0].classList[3] != "finish-card" && sourceSuitColor != targetSuitColor && targetNum-sourceNum==1){ //花色不同但顏色相同，移動過去的牌只比目的地的數字小一，可移動到其他卡上
+                    }else if(e.path[0].classList[3] != "finish-card" && sourceSuitColor != targetSuitColor && targetNum-sourceNum==1){ //顏色不同，移動過去的牌只比目的地的數字小一，可移動到其他卡上
                         e.preventDefault();
                         e.target.style.borderStyle = 'solid';
                         e.target.appendChild(card);
                         e.target.childNodes[0].style.top = "30px";
                         e.target.childNodes[0].style.left = "0px";
+                        let sourceLastChild = sourceData[4]; //取得移動後最後一個牌加上可被拖曳或放牌的屬性
+                        let addDraggableCard = document.getElementById(sourceLastChild);
+                        addDraggableCard.setAttribute("draggable","true"); //在html加上這個屬性，宣告可被拖曳
+                        addDraggableCard.classList.add("draggable"); 
+                        addDraggableCard.classList.add("dropzone"); 
                     }
                 }
             }
