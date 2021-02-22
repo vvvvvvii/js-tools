@@ -76,7 +76,8 @@ function dragCard(){
     //console.log(draggable);
     draggable.forEach(function(card){
         card.addEventListener('dragstart',function(e){
-            e.dataTransfer.setData('text/plain', e.target.id);
+            //console.log(card.parentElement.classList[0]);//紀錄這張牌是從哪來的、父層本來是什麼
+            e.dataTransfer.setData('text/plain', [e.target.id,card.parentElement.classList[0]]);
             e.target.style.opacity = ".5";
         });
         card.addEventListener("dragend",function(e){
@@ -101,9 +102,12 @@ function dragCard(){
         dropzone.addEventListener('drop',function(e){
             const dropTarget = e.path[0].classList[0]; //e.path[0].classList[0] 代表目的地
             if(dropTarget == "cell"){ //移動到cell時
-                const sourceId = e.dataTransfer.getData('text/plain'); //必須放判斷式裡，條件成立才取值
+                let sourceData = e.dataTransfer.getData('text/plain'); //必須放判斷式裡，條件成立才取值
+                sourceData = sourceData.split(",");
+                const sourceId = sourceData[0];
+                const sourceFrom = sourceData[1];
                 let card = document.getElementById(sourceId);
-                if(e.path[0].innerHTML == "" && card.children.length == 0){ //cell是空的，且移過來的牌只有一張，不是兩張以上
+                if(e.path[0].innerHTML == "" && card.children.length == 0 && sourceFrom != "foundation"){ //cell是空的;移過來的牌只有一張，不是兩張以上;不是從foundation移過來的。
                     e.preventDefault();
                     e.target.style.borderStyle = 'solid';
                     e.target.appendChild(card);
@@ -111,24 +115,40 @@ function dragCard(){
                     card.style.left = "inherit";
                 }
             }else if(dropTarget == "foundation"){ //移動到foundation時
-                e.preventDefault();
-                e.target.style.borderStyle = 'solid';
-                const sourceId = e.dataTransfer.getData('text/plain');
+                let sourceData = e.dataTransfer.getData('text/plain'); //必須放判斷式裡，條件成立才取值
+                sourceData = sourceData.split(",");
+                const sourceId = sourceData[0];
                 let card = document.getElementById(sourceId);
-                e.target.appendChild(card);
-                card.style.top = "inherit";
-                card.style.left = "inherit";
-            }else if(dropTarget == "card"){ //移動到card時
-                //須先判斷card在cell?foundation?card?
-                console.log(e.path[0].parentElement.classList[0]); //只適用cell的判斷 因為只上一層
-                if(e.path[0].parentElement.classList[0] != "cell"){ //移動到的那張牌，如果他的父層不是cell才能移動過去（cell有牌就不能放第二張上去）
+                if(card.children.length == 0){ //限制一次只能移一張過來
                     e.preventDefault();
                     e.target.style.borderStyle = 'solid';
-                    const sourceId = e.dataTransfer.getData('text/plain');
-                    let card = document.getElementById(sourceId);
                     e.target.appendChild(card);
-                    e.target.childNodes[0].style.top = "30px";
-                    e.target.childNodes[0].style.left = "0px";
+                    card.classList.add("finish-card"); //只要移到foundation都要加上這個class，讓後面能判斷父層
+                    card.style.top = "inherit";
+                    card.style.left = "inherit";
+                }
+            }else if(dropTarget == "card"){ //移動到card時
+                //須先判斷那張card在cell?foundation?card?
+                console.log(e.path[0].parentElement.classList[0]); //只適用cell的判斷 因為只上一層
+                let sourceData = e.dataTransfer.getData('text/plain'); //必須放判斷式裡，條件成立才取值
+                sourceData = sourceData.split(",");
+                const sourceId = sourceData[0];
+                const sourceFrom = sourceData[1];
+                let card = document.getElementById(sourceId);
+                if(e.path[0].parentElement.classList[0] != "cell" && sourceFrom != "foundation"){ //移動到的那張牌，如果他的父層不是cell才能移動過去（cell有牌就不能放第二張上去），且不是從foundation移來的
+                    e.preventDefault();
+                    e.target.style.borderStyle = 'solid';
+                    e.target.appendChild(card);
+                    if(e.path[0].classList[3] == "finish-card"){
+                        card.classList.add("finish-card"); //只要移到foundation都要加上這個class，讓後面能判斷父層
+                    }
+                    if(e.path[0].classList[3] != "finish-card"){
+                        e.target.childNodes[0].style.top = "30px";
+                        e.target.childNodes[0].style.left = "0px";
+                    }else{
+                        e.target.childNodes[0].style.top = "inherit";
+                        e.target.childNodes[0].style.left = "inherit";
+                    }
                 }
             }
         })
