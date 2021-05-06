@@ -1,0 +1,68 @@
+//font style & css reset
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap"); //英文
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap"); //中文
+@import "reset";
+
+body {
+  background: #b7b7a4;
+  padding: 32px;
+  line-height: 1.2;
+}
+h1 {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 24px;
+}
+h2 {
+  margin-bottom: 8px;
+}
+input {
+  font-size: 20px;
+  padding: 4px;
+  margin-left: 4px;
+  color: #283618;
+}
+
+.d-flex {
+  display: flex;
+}
+.justify-content-center {
+  justify-content: center;
+}
+.align-items-center {
+  align-items: center;
+}
+
+.wrap {
+  width: 1000px;
+  padding: 16px;
+  margin: 0 auto;
+  text-align: center;
+  background: #a5a58d;
+  color: #283618;
+  border-radius: 10px;
+}
+.content {
+  margin-top: 8px;
+  width: 305px;
+}
+.submit {
+  font-size: 20px;
+  padding: 4px 20px;
+  margin-left: 12px;
+  color: #b7b7a4;
+  background: #283618;
+  border: 1px solid #b7b7a4;
+  border-radius: 20px;
+  &:hover {
+    opacity: 0.8;
+    cursor: pointer;
+  }
+}
+.doneList {
+  margin-top: 32px;
+  margin-bottom: 28px;
+}
+.doneItem {
+  margin-bottom: 12px;
+}

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/all.css">
+    <title>⁽⁽ଘ( ˙꒳˙ )ଓ⁾⁾仕事中⁽⁽ଘ( ˙꒳˙ )ଓ⁾⁾</title>
+</head>
+<body>
+    <div class="wrap">
+        <h1>每日進度</h1>
+        <div class="d-flex justify-content-center align-items-center">
+          <div>
+            <!--開始的小時-->
+            <label for="startHour">開始時間</label>
+            <input type="number" min="0" max="23" id="startHour">
+            <!--開始的分-->
+            <input type="number" min="0" max="59" id="startMin">
+            <label for="endHour">結束時間</label>
+            <!--結束的小時-->
+            <input type="number" min="0" max="23" id="endHour">
+            <!--結束的分-->
+            <input type="number" min="0" max="59" id="endMin">
+            <br>
+            <!--達成事項-->
+            <label for="content">完成事項</label>
+            <input type="text" id="content" class="content">
+          </div>
+          <button type="submit" class="submit" id="submit">送出</button>
+        </div>
+        <ul id="doneList" class="doneList">
+          <!--插入完成的事項-->
+        </ul>
+        <!--插入工作時數-->
+        <div id="subtotal"></div>
+      </div>
+    <script src="all.js"></script>
+</body>
+</html>
