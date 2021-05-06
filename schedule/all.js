@@ -6,12 +6,8 @@ const endMin = document.querySelector('#endMin');
 const content = document.querySelector('#content');
 const submit = document.querySelector('#submit');
 const subtotal = document.querySelector('#subtotal');
+const deleteAllBtn = document.querySelector('#deleteAllBtn');
 
-/*let data={
-    list: [],
-    totalTime : 0,
-    cheerUpStr : ''
-}*/
 let data={};
 
 //functions
@@ -79,7 +75,14 @@ function calculateTime(newItem){
 function saveLocalStorage(){
     localStorage.setItem('doneList',JSON.stringify(data));
 }
+function clearLocalStorage(){
+    if(confirm("是否確定開始新的一天？舊的紀錄會跟喝下孟婆湯一樣回不來ㄛ！")){
+        localStorage.clear(); //local storage 資料歸 0
+        init();
+    }
+}
 //event Listener
-submit.addEventListener('click',submitNewItem)
+submit.addEventListener('click',submitNewItem);
+deleteAllBtn.addEventListener('click',clearLocalStorage);
 window.addEventListener('load',init);
 

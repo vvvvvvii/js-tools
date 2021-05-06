@@ -34,7 +34,7 @@ input {
 }
 
 .wrap {
-  width: 1000px;
+  width: 800px;
   padding: 16px;
   margin: 0 auto;
   text-align: center;
@@ -42,27 +42,47 @@ input {
   color: #283618;
   border-radius: 10px;
 }
-.content {
-  margin-top: 8px;
-  width: 305px;
+.inputSection {
+  text-align: left;
 }
-.submit {
+.submitSection {
+  margin-left: 20px;
+}
+.timeInput {
+  width: 50px;
+}
+.contentInput {
+  margin-top: 8px;
+  width: 300px;
+}
+.btn {
   font-size: 20px;
   padding: 4px 20px;
-  margin-left: 12px;
   color: #b7b7a4;
   background: #283618;
   border: 1px solid #b7b7a4;
   border-radius: 20px;
+  display: flex;
+  align-items: center;
   &:hover {
     opacity: 0.8;
     cursor: pointer;
   }
 }
+.icon {
+  margin-right: 4px;
+}
+.addBtn {
+  margin-bottom: 4px;
+}
+
 .doneList {
   margin-top: 32px;
   margin-bottom: 28px;
 }
 .doneItem {
   margin-bottom: 12px;
+}
+.subtotal {
+  margin-bottom: 24px;
 }
