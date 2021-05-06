@@ -10,25 +10,24 @@
 </head>
 <body>
     <div class="wrap">
-        <h1>每日進度</h1>
         <div class="d-flex justify-content-center align-items-center">
             <div class="inputSection">
                 <div>
                     <!--開始的小時-->
                     <label for="startHour">開始時間</label>
-                    <input type="number" min="0" max="23" id="startHour" class="timeInput">
+                    <input type="number" min="0" max="23" id="startHour" class="timeInput" placeholder="7">
                     <!--開始的分-->
-                    <input type="number" min="0" max="59" id="startMin" class="timeInput">
+                    <input type="number" min="0" max="59" id="startMin" class="timeInput" placeholder="25">
                     <label for="endHour">結束時間</label>
                     <!--結束的小時-->
-                    <input type="number" min="0" max="23" id="endHour" class="timeInput">
+                    <input type="number" min="0" max="23" id="endHour" class="timeInput" placeholder="8">
                     <!--結束的分-->
-                    <input type="number" min="0" max="59" id="endMin" class="timeInput">
+                    <input type="number" min="0" max="59" id="endMin" class="timeInput" placeholder="50">
                 </div>
                 <div>
                     <!--達成事項-->
                     <label for="content">完成事項</label>
-                    <input type="text" id="content" class="contentInput">
+                    <input type="text" id="content" class="contentInput" placeholder="今天做了些什麼？">
                 </div>
             </div>
             <div class="submitSection">
@@ -46,9 +45,8 @@
                 </button>
             </div>
         </div>
-        <ul id="doneList" class="doneList">
-          <!--插入完成的事項-->
-        </ul>
+        <!--插入完成的事項-->
+        <ul id="doneList" class="doneList"></ul>
         <!--插入工作時數-->
         <div id="subtotal" class="subtotal"></div>
     </div>

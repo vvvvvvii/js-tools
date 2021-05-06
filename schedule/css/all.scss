@@ -4,23 +4,24 @@
 @import "reset";
 
 body {
-  background: #b7b7a4;
+  background-image: url("https://github.com/vvvvvvii/js-tools/blob/main/schedule/img/hope-house-press-leather-diary-studio-PJzc7LOt2Ig-unsplash.jpg?raw=true");
+  background-position: 0 -150px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  opacity: 0.8;
   padding: 32px;
   line-height: 1.2;
-}
-h1 {
-  font-size: 28px;
-  font-weight: bold;
-  margin-bottom: 24px;
 }
 h2 {
   margin-bottom: 8px;
 }
 input {
-  font-size: 20px;
   padding: 4px;
   margin-left: 4px;
+  border: 1px solid #283618;
+  border-radius: 5px;
   color: #283618;
+  font-size: 20px;
 }
 
 .d-flex {
@@ -35,7 +36,7 @@ input {
 
 .wrap {
   width: 800px;
-  padding: 16px;
+  padding: 48px;
   margin: 0 auto;
   text-align: center;
   background: #a5a58d;
@@ -65,8 +66,10 @@ input {
   display: flex;
   align-items: center;
   &:hover {
-    opacity: 0.8;
     cursor: pointer;
+    width: 200px;
+    transition: 1s;
+    background: #1d180d;
   }
 }
 .icon {
