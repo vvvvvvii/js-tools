@@ -40,19 +40,24 @@ function resetInput(){
   content.value = "";
 }
 function submitNewItem(e){
-  e.preventDefault();
-  if(startHour.value>23 || endHour.value>23 || startMin.value>59 || endMin.value>59 || startHour.value=="" || endHour.value=="" || startMin.value=="" || endMin.value=="" || (startHour.value==endHour.value&&startMin.value==endMin.value) || Number(startHour.value)> Number(endHour.value) || (startHour.value==endHour.value&&Number(startMin.value)> Number(endMin.value))){ 
-      alert('請輸入正確的時間');
-      return;
-  }else if(content.value==""){
-      alert('請填入完成事項');
-      return;
-  }
+    e.preventDefault();
+    let startHourValue = Number(startHour.value);
+    let startMinValue = Number(startMin.value);
+    let endHourValue = Number(endHour.value);
+    let endMinValue = Number(endMin.value);
+    if(startHourValue>23 || endHourValue>23 || startMinValue>59 || endMinValue>59 || startHour.value=="" || endHour.value=="" || startMin.value=="" || endMin.value=="" || (startHourValue==endHourValue&&startMinValue==endMinValue) || startHourValue> endHourValue || (startHourValue==endHourValue&& startMinValue>endMinValue)){  
+        //測試是否為空值的判斷式，要用沒被 Number() 轉過的，不然 0 會被判斷成空值
+        alert('請輸入正確的時間');
+        return;
+    }else if(content.value==""){
+        alert('請填入完成事項');
+        return;
+    }
   let newItem = {};
-  newItem.startHour = Number(startHour.value);
-  newItem.startMin = Number(startMin.value);
-  newItem.endHour = Number(endHour.value);
-  newItem.endMin = Number(endMin.value);
+  newItem.startHour = startHourValue;
+  newItem.startMin = startMinValue;
+  newItem.endHour = endHourValue;
+  newItem.endMin = endMinValue;
   newItem.content = content.value;
   data.list.push(newItem);
   resetInput(); //清空表單
