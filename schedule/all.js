@@ -12,7 +12,11 @@ let data={};
 
 //functions
 function init(){
-    doneList.innerHTML = '';
+    const month = new Date().getMonth()+1;
+    const date = new Date().getDate();
+    const day = new Date().getDay();
+    const dayName = ["日","一","二","三","四","五","六"];
+    doneList.innerHTML = `<h3 class="fz-m mb-3">${month}/${date}（${dayName[day]}）</h3>`;
     if(JSON.parse(localStorage.getItem('doneList'))!=null){
         //如果 local storage 有東西， data 是 local storage 裡的東西
         data = JSON.parse(localStorage.getItem('doneList'));
@@ -25,12 +29,10 @@ function init(){
         }
   }
   data.list.forEach(item=>{
-    doneList.innerHTML += `<li class="doneItem">${item.startHour}:${item.startMin} ~ ${item.endHour}:${item.endMin} ${item.content}</li>`
+    doneList.innerHTML += `<li class="mb-3">${item.startHour}:${item.startMin} ~ ${item.endHour}:${item.endMin} ${item.content}</li>`
   })
-  subtotal.innerHTML = `
-    <h2>今天總共工作了 ${(data.totalTime/60).toFixed(1)} 小時</h2>
-    <p>${data.cheerUpStr}</p>
-  `
+  //data.totalTime 不是 0 才秀今天總工時
+  subtotal.innerHTML = data.totalTime==0 ? `<h2 class="fz-lg mb-2">趕緊開始紀錄今天的工作吧！</h2>` : `<h2 class="fz-lg mb-2">今天總共工作了 ${(data.totalTime/60).toFixed(1)} 小時</h2> <p>${data.cheerUpStr}</p>`
 }
 function resetInput(){
   startHour.value = "";
