@@ -41,7 +41,7 @@ function resetInput(){
 }
 function submitNewItem(e){
   e.preventDefault();
-  if(startHour.value>23 || endHour.value>23 || startMin.value>59 || endMin.value>59 || startHour.value=="" || endHour.value=="" || startMin.value=="" || endMin.value=="" || (startHour.value==endHour.value&&startMin.value==endMin.value) || startHour.value> endHour.value || (startHour.value==endHour.value&&startMin.value> endMin.value)){ 
+  if(startHour.value>23 || endHour.value>23 || startMin.value>59 || endMin.value>59 || startHour.value=="" || endHour.value=="" || startMin.value=="" || endMin.value=="" || (startHour.value==endHour.value&&startMin.value==endMin.value) || Number(startHour.value)> Number(endHour.value) || (startHour.value==endHour.value&&Number(startMin.value)> Number(endMin.value))){ 
       alert('請輸入正確的時間');
       return;
   }else if(content.value==""){
