@@ -1,3 +1,5 @@
+const loader= document.querySelector('#loader');
+const wrap= document.querySelector('.wrap');
 const doneList = document.querySelector('#doneList');
 const startHour = document.querySelector('#startHour');
 const startMin = document.querySelector('#startMin');
@@ -11,22 +13,29 @@ const deleteAllBtn = document.querySelector('#deleteAllBtn');
 let data={};
 
 //functions
+function loadingEffect(){
+  wrap.classList.remove('d-flex');
+  wrap.classList.add('d-none');
+}
 function init(){
-    const month = new Date().getMonth()+1;
-    const date = new Date().getDate();
-    const day = new Date().getDay();
-    const dayName = ["日","一","二","三","四","五","六"];
-    doneList.innerHTML = `<h3 class="fz-m mb-3">${month}/${date}（${dayName[day]}）</h3>`;
-    if(JSON.parse(localStorage.getItem('doneList'))!=null){
-        //如果 local storage 有東西， data 是 local storage 裡的東西
-        data = JSON.parse(localStorage.getItem('doneList'));
-    }else{
-        //如果 local storage 沒東西，新增空白 data
-        data={
-            list: [],
-            totalTime : 0,
-            cheerUpStr : ''
-        }
+  loader.classList.add('d-none');
+  wrap.classList.remove('d-none');
+  wrap.classList.add('d-flex');
+  const month = new Date().getMonth()+1;
+  const date = new Date().getDate();
+  const day = new Date().getDay();
+  const dayName = ["日","一","二","三","四","五","六"];
+  doneList.innerHTML = `<h3 class="fz-m mb-3">${month}/${date}（${dayName[day]}）</h3>`;
+  if(JSON.parse(localStorage.getItem('doneList'))!=null){
+    //如果 local storage 有東西， data 是 local storage 裡的東西
+    data = JSON.parse(localStorage.getItem('doneList'));
+  }else{
+    //如果 local storage 沒東西，新增空白 data
+    data={
+      list: [],
+        totalTime : 0,
+        cheerUpStr : ''
+    }
   }
   data.list.forEach(item=>{
     doneList.innerHTML += `<li class="mb-3">${item.startHour}:${item.startMin} ~ ${item.endHour}:${item.endMin} ${item.content}</li>`
@@ -89,7 +98,8 @@ function clearLocalStorage(){
     }
 }
 //event Listener
+window.addEventListener('DOMContentLoaded',loadingEffect);
+window.addEventListener('load',init);
 submit.addEventListener('click',submitNewItem);
 deleteAllBtn.addEventListener('click',clearLocalStorage);
-window.addEventListener('load',init);
 
