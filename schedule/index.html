@@ -13,41 +13,60 @@
         <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
     </div>
     <div class="wrap d-flex">
-        <div class="section mb-7">
-            <div class="d-flex justify-content-center align-items-center">
-                <div class="inputSection">
-                    <div>
-                        <!--開始的小時-->
-                        <label for="startHour" class="fz-m">開始時間</label>
-                        <input type="number" min="0" max="23" id="startHour" class="timeInput" placeholder="7" data-num="1">
-                        <!--開始的分-->
-                        <input type="number" min="0" max="59" id="startMin" class="timeInput" placeholder="25" data-num="2">
-                        <label for="endHour" class="fz-m">結束時間</label>
-                        <!--結束的小時-->
-                        <input type="number" min="0" max="23" id="endHour" class="timeInput" placeholder="8" data-num="3">
-                        <!--結束的分-->
-                        <input type="number" min="0" max="59" id="endMin" class="timeInput" placeholder="50" data-num="4">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="automaticModeTab" data-bs-toggle="tab" data-bs-target="#automatic" type="button" role="tab" aria-controls="automatic" aria-selected="true">自動計時模式</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="manualModeTab" data-bs-toggle="tab" data-bs-target="#manual" type="button" role="tab" aria-controls="manual" aria-selected="false">手動輸入模式</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="reportTab" data-bs-toggle="tab" data-bs-target="#report" type="button" role="tab" aria-controls="report" aria-selected="false">查看報表</button>
+            </li>
+        </ul>
+        <div class="section tab-content mb-7" id="myTabContent">
+            <div class="tab-pane fade show active" id="automatic" role="tabpanel" aria-labelledby="automaticModeTab">
+
+            </div>
+            <div class="tab-pane fade" id="manual" role="tabpanel" aria-labelledby="manualModeTab">
+                <div class="d-flex justify-content-center align-items-center">
+                    <div class="inputSection">
+                        <div>
+                            <!--開始的小時-->
+                            <label for="startHour" class="fz-m">開始時間</label>
+                            <input type="number" min="0" max="23" id="startHour" class="timeInput" placeholder="7" data-num="1">
+                            <!--開始的分-->
+                            <input type="number" min="0" max="59" id="startMin" class="timeInput" placeholder="25" data-num="2">
+                            <label for="endHour" class="fz-m">結束時間</label>
+                            <!--結束的小時-->
+                            <input type="number" min="0" max="23" id="endHour" class="timeInput" placeholder="8" data-num="3">
+                            <!--結束的分-->
+                            <input type="number" min="0" max="59" id="endMin" class="timeInput" placeholder="50" data-num="4">
+                        </div>
+                        <div>
+                            <!--達成事項-->
+                            <label for="content" class="fz-m">完成事項</label>
+                            <input type="text" id="content" class="contentInput" placeholder="今天做了些什麼？">
+                        </div>
                     </div>
-                    <div>
-                        <!--達成事項-->
-                        <label for="content" class="fz-m">完成事項</label>
-                        <input type="text" id="content" class="contentInput" placeholder="今天做了些什麼？">
+                    <div class="submitSection mr-1">
+                        <button type="button"" class="btn mb-1" id="submit">
+                            <span class="material-icons">
+                                send
+                            </span>
+                            送出
+                        </button>
+                        <button type="button" class="btn" id="deleteAllBtn">
+                            <span class="material-icons">
+                                delete
+                            </span>
+                            新的一天！
+                        </button>
                     </div>
                 </div>
-                <div class="submitSection mr-1">
-                    <button type="button"" class="btn mb-1" id="submit">
-                        <span class="material-icons">
-                            send
-                        </span>
-                        送出
-                    </button>
-                    <button type="button" class="btn" id="deleteAllBtn">
-                        <span class="material-icons">
-                            delete
-                        </span>
-                        新的一天！
-                    </button>
-                </div>
+            </div>
+            <div class="tab-pane fade" id="report" role="tabpanel" aria-labelledby="reportTab">
+
             </div>
         </div>
         <div class="section">
@@ -58,6 +77,7 @@
         </div>
     </div>
     <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+    <script src="bootstrap.min.js"></script>
     <script src="all.js"></script>
 </body>
 </html>
