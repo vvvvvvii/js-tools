@@ -8,7 +8,7 @@ const startHour = document.querySelector('#startHour');
 const startMin = document.querySelector('#startMin');
 const endHour = document.querySelector('#endHour');
 const endMin = document.querySelector('#endMin');
-const content = document.querySelector('#content');
+const contentInput = document.querySelectorAll('.contentInput');
 const submit = document.querySelector('.submit');
 const subtotal = document.querySelector('#subtotal');
 const deleteAllBtn = document.querySelectorAll('.deleteAllBtn');
@@ -52,7 +52,7 @@ function resetInput(){
   startMin.value = "";
   endHour.value = "";
   endMin.value = "";
-  content.value = "";
+  contentInput[1].value = "";
 }
 function countTime(){
   nowTime.innerHTML = '';
@@ -85,7 +85,7 @@ function submitNewItem(e){
         //測試是否為空值的判斷式，要用沒被 Number() 轉過的，不然 0 會被判斷成空值
         alert('請輸入正確的時間');
         return;
-    }else if(content.value==""){
+    }else if(contentInput[1].value==""){
         alert('請填入完成事項');
         return;
     }
@@ -94,7 +94,7 @@ function submitNewItem(e){
   newItem.startMin = startMinValue;
   newItem.endHour = endHourValue;
   newItem.endMin = endMinValue;
-  newItem.content = content.value;
+  newItem.content = contentInput[1].value;
   data.list.push(newItem);
   resetInput(); //清空表單
   calculateTime(newItem);
@@ -128,7 +128,7 @@ function inputFocusEffect(e){
     if(e.target.dataset.num<4){ //按 enter 且不是停在最後一個 timeInput 時
       nextItem = timeInput[e.target.dataset.num]; //下一個物件在 timeInput 陣列的 index 位置為 e.target.dataset.num 
     }else if(e.target.dataset.num==4){ //點到最後一個 timeInput 要跳 contentInput
-      nextItem = content;
+      nextItem = contentInput[1];
     }else{
       nextItem = submit;
     }
@@ -142,4 +142,4 @@ timing.addEventListener('click',countNumOfClick);
 submit.addEventListener('click',submitNewItem);
 deleteAllBtn.forEach(item=>item.addEventListener('click',clearLocalStorage));
 timeInput.forEach(item=>item.addEventListener('keydown',inputFocusEffect)); //input 點 enter 會自動跳下一個 input
-content.addEventListener('keydown',inputFocusEffect); //contentinput 點 enter 會自動跳送出
+contentInput.forEach(item=>item.addEventListener('keydown',inputFocusEffect)); //contentinput 點 enter 會自動跳送出
