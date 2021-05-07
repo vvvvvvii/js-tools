@@ -1,6 +1,7 @@
 const loader= document.querySelector('#loader');
 const wrap= document.querySelector('.wrap');
 const doneList = document.querySelector('#doneList');
+const timeInput = document.querySelectorAll('.timeInput')
 const startHour = document.querySelector('#startHour');
 const startMin = document.querySelector('#startMin');
 const endHour = document.querySelector('#endHour');
@@ -97,9 +98,25 @@ function clearLocalStorage(){
         init();
     }
 }
+function inputFocusEffect(e){
+  if(e.keyCode == 13){
+    let nextItem;
+    if(e.target.dataset.num<4){ //按 enter 且不是停在最後一個 timeInput 時
+      nextItem = timeInput[e.target.dataset.num]; //下一個物件在 timeInput 陣列的 index 位置為 e.target.dataset.num 
+    }else if(e.target.dataset.num==4){ //點到最後一個 timeInput 要跳 contentInput
+      nextItem = content;
+    }else{
+      nextItem = submit;
+    }
+    nextItem.focus(); //HTMLElement.focus() 讓特定 element 被 focus
+  }
+}
 //event Listener
-window.addEventListener('DOMContentLoaded',loadingEffect);
+window.addEventListener('DOMContentLoaded',loadingEffect); //loader effect
 window.addEventListener('load',init);
 submit.addEventListener('click',submitNewItem);
 deleteAllBtn.addEventListener('click',clearLocalStorage);
-
+timeInput.forEach(item=>{ //input 點 enter 會自動跳下一個 input
+  item.addEventListener('keydown',inputFocusEffect);
+}) 
+content.addEventListener('keydown',inputFocusEffect); //contentinput 點 enter 會自動跳送出
