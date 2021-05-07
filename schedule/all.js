@@ -1,17 +1,20 @@
 const loader= document.querySelector('#loader');
 const wrap= document.querySelector('.wrap');
 const doneList = document.querySelector('#doneList');
+const timing = document.querySelector('.timing');
+const nowTime = document.querySelector('#nowTime');
 const timeInput = document.querySelectorAll('.timeInput')
 const startHour = document.querySelector('#startHour');
 const startMin = document.querySelector('#startMin');
 const endHour = document.querySelector('#endHour');
 const endMin = document.querySelector('#endMin');
 const content = document.querySelector('#content');
-const submit = document.querySelector('#submit');
+const submit = document.querySelector('.submit');
 const subtotal = document.querySelector('#subtotal');
-const deleteAllBtn = document.querySelector('#deleteAllBtn');
+const deleteAllBtn = document.querySelectorAll('.deleteAllBtn');
 
 let data={};
+let countTimeNumOfClick=0;
 
 //functions
 function loadingEffect(){
@@ -50,6 +53,27 @@ function resetInput(){
   endHour.value = "";
   endMin.value = "";
   content.value = "";
+}
+function countTime(){
+  nowTime.innerHTML = '';
+  let time = new Date();
+  let hours = time.getHours();
+  let mins = time.getMinutes();
+  let secs = time.getSeconds();
+  nowTime.innerHTML = `${hours}:${mins}:${secs}`;
+  nowTime.classList.add('text-center');
+}
+function countLoop(){
+  if(countTimeNumOfClick%2){
+    countTime();
+    requestAnimationFrame(countLoop);
+  }else{
+    cancelAnimationFrame(countLoop);
+  }
+}
+function countNumOfClick(){ //不能放在 countLoop() 因為迴圈會重複加 countTimeNumOfClick 導致報錯
+  countTimeNumOfClick++;
+  countLoop();
 }
 function submitNewItem(e){
     e.preventDefault();
@@ -114,9 +138,8 @@ function inputFocusEffect(e){
 //event Listener
 window.addEventListener('DOMContentLoaded',loadingEffect); //loader effect
 window.addEventListener('load',init);
+timing.addEventListener('click',countNumOfClick);
 submit.addEventListener('click',submitNewItem);
-deleteAllBtn.addEventListener('click',clearLocalStorage);
-timeInput.forEach(item=>{ //input 點 enter 會自動跳下一個 input
-  item.addEventListener('keydown',inputFocusEffect);
-}) 
+deleteAllBtn.forEach(item=>item.addEventListener('click',clearLocalStorage));
+timeInput.forEach(item=>item.addEventListener('keydown',inputFocusEffect)); //input 點 enter 會自動跳下一個 input
 content.addEventListener('keydown',inputFocusEffect); //contentinput 點 enter 會自動跳送出

@@ -25,46 +25,66 @@
             </li>
         </ul>
         <div class="section tab-content mb-7" id="myTabContent">
+            <!--自動計時模式-->
             <div class="tab-pane fade show active" id="automatic" role="tabpanel" aria-labelledby="automaticModeTab">
-
-            </div>
-            <div class="tab-pane fade" id="manual" role="tabpanel" aria-labelledby="manualModeTab">
-                <div class="d-flex justify-content-center align-items-center">
-                    <div class="inputSection">
-                        <div>
-                            <!--開始的小時-->
-                            <label for="startHour" class="fz-m">開始時間</label>
-                            <input type="number" min="0" max="23" id="startHour" class="timeInput" placeholder="7" data-num="1">
-                            <!--開始的分-->
-                            <input type="number" min="0" max="59" id="startMin" class="timeInput" placeholder="25" data-num="2">
-                            <label for="endHour" class="fz-m">結束時間</label>
-                            <!--結束的小時-->
-                            <input type="number" min="0" max="23" id="endHour" class="timeInput" placeholder="8" data-num="3">
-                            <!--結束的分-->
-                            <input type="number" min="0" max="59" id="endMin" class="timeInput" placeholder="50" data-num="4">
-                        </div>
-                        <div>
-                            <!--達成事項-->
-                            <label for="content" class="fz-m">完成事項</label>
-                            <input type="text" id="content" class="contentInput" placeholder="今天做了些什麼？">
-                        </div>
-                    </div>
-                    <div class="submitSection mr-1">
-                        <button type="button"" class="btn mb-1" id="submit">
-                            <span class="material-icons">
-                                send
-                            </span>
-                            送出
-                        </button>
-                        <button type="button" class="btn" id="deleteAllBtn">
-                            <span class="material-icons">
-                                delete
-                            </span>
-                            新的一天！
-                        </button>
-                    </div>
+                <div class="inputSection">
+                    <p class="fz-m mb-1" id="nowTime">尚未開始計時</p>
+                    <!--達成事項-->
+                    <label for="content" class="fz-m">完成事項</label>
+                    <input type="text" id="content" class="contentInput" placeholder="今天做了些什麼？">
+                </div>
+                <div class="submitSection mr-1">
+                    <button type="button" class="timing btn mb-1">
+                        <span class="material-icons">
+                            play_arrow
+                        </span>
+                        開始
+                    </button>
+                    <button type="button" class="deleteAllBtn btn">
+                        <span class="material-icons">
+                            delete
+                        </span>
+                        新的一天！
+                    </button>
                 </div>
             </div>
+            <!--手動輸入模式-->
+            <div class="tab-pane fade" id="manual" role="tabpanel" aria-labelledby="manualModeTab">
+                <div class="inputSection">
+                    <div>
+                        <!--開始的小時-->
+                        <label for="startHour" class="fz-m">開始時間</label>
+                        <input type="number" min="0" max="23" id="startHour" class="timeInput" placeholder="7" data-num="1">
+                        <!--開始的分-->
+                        <input type="number" min="0" max="59" id="startMin" class="timeInput" placeholder="25" data-num="2">
+                        <label for="endHour" class="fz-m">結束時間</label>
+                        <!--結束的小時-->
+                        <input type="number" min="0" max="23" id="endHour" class="timeInput" placeholder="8" data-num="3">
+                        <!--結束的分-->
+                        <input type="number" min="0" max="59" id="endMin" class="timeInput" placeholder="50" data-num="4">
+                    </div>
+                    <div>
+                        <!--達成事項-->
+                        <label for="content" class="fz-m">完成事項</label>
+                        <input type="text" id="content" class="contentInput" placeholder="今天做了些什麼？">
+                    </div>
+                </div>
+                <div class="submitSection mr-1">
+                    <button type="button" class="submit btn mb-1">
+                        <span class="material-icons">
+                            send
+                        </span>
+                        送出
+                    </button>
+                    <button type="button" class="deleteAllBtn btn">
+                        <span class="material-icons">
+                            delete
+                        </span>
+                        新的一天！
+                    </button>
+                </div>
+            </div>
+            <!--報表模式-->
             <div class="tab-pane fade" id="report" role="tabpanel" aria-labelledby="reportTab">
 
             </div>
