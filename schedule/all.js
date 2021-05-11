@@ -92,8 +92,7 @@ function submitNewItem(e) {
       // 測試是否為空值的判斷式，要用沒被 Number() 轉過的，不然 0 會被判斷成空值
       alert('請輸入正確的時間');
       return;
-    }
-    if (contentInput[1].value === '') {
+    } else if (contentInput[1].value === '') {
       alert('請填入完成事項');
       return;
     }
@@ -131,6 +130,10 @@ function countLoop() {
   }
 }
 function countTimeStatus() { // 不能放在 countLoop() 會計算錯誤
+  if (contentInput[0].value === '') {
+    alert('請先填入事項內容');
+    return;
+  }
   countTimeStart = !countTimeStart;
   if (countTimeStart) {
     nowTime.innerHTML = '';
@@ -153,9 +156,9 @@ function checkBtnType(e) {
 function inputFocusEffect(e) {
   if (e.keyCode === 13) {
     let nextItem;
-    if (e.target.dataset.num < 4) { // 按 enter 且不是停在最後一個 timeInput 時
+    if (Number(e.target.dataset.num) < 4) { // 按 enter 且不是停在最後一個 timeInput 時
       nextItem = timeInput[e.target.dataset.num]; // 下個物件在 timeInput 陣列的 index 為e.target.dataset.num
-    } else if (e.target.dataset.num === 4) { // 點到最後一個 timeInput 要跳 contentInput
+    } else if (Number(e.target.dataset.num) === 4) { // 點到最後一個 timeInput 要跳 contentInput
       nextItem = contentInput[1];
     } else {
       nextItem = submit;
