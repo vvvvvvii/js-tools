@@ -362,6 +362,15 @@ input {
   background: #1d180d;
 }
 
+.btn-sm {
+  vertical-align: middle;
+}
+
+.btn-sm:hover {
+  cursor: pointer;
+  color: #7c0d0d;
+}
+
 .loader {
   position: absolute;
   top: 50%;

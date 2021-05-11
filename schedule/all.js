@@ -1,7 +1,6 @@
 const loader = document.querySelector('#loader');
 const wrap = document.querySelector('.wrap');
 const doneList = document.querySelector('#doneList');
-const timing = document.querySelector('.timing');
 const nowTime = document.querySelector('#nowTime');
 const timeInput = document.querySelectorAll('.timeInput');
 const startHourInput = document.querySelector('#startHour');
@@ -56,8 +55,13 @@ function init() {
       cheerUpStr: '',
     };
   }
-  data.list.forEach((item) => {
-    doneList.innerHTML += `<li class="mb-3">${item.startHour}:${item.startMin} ~ ${item.endHour}:${item.endMin} ${item.content}</li>`;
+  data.list.forEach((item, index) => {
+    doneList.innerHTML += `<li class="mb-3">
+      ${item.startHour}:${item.startMin} ~ ${item.endHour}:${item.endMin} ${item.content}
+        <span class="material-icons btn-sm deleteSingleBtn" data-btn="delete-single" data-listindex="${index}">
+          delete
+        </span>
+    </li>`;
   });
   // data.totalTime 不是 0 才秀今天總工時
   subtotal.innerHTML = data.totalTime === 0 ? '<h2 class="fz-lg mb-2">趕緊開始紀錄今天的工作吧！</h2>' : `<h2 class="fz-lg mb-2">今天總共工作了 ${(data.totalTime / 60).toFixed(1)} 小時</h2> <p>${data.cheerUpStr}</p>`;
@@ -129,6 +133,15 @@ function deleteList() {
   localStorage.setItem('doneList', JSON.stringify(data));
   init();
 }
+function deleteItem(e) {
+  const index = e.target.dataset.listindex;
+  const item = data.list[index];
+  // 刪除項目時，總工時也要減少
+  data.totalTime -= 60 * (item.endHour - item.startHour) + (item.endMin - item.startMin); 
+  data.list.splice(index, 1);
+  localStorage.setItem('doneList', JSON.stringify(data));
+  init();
+}
 function countLoop() {
   if (countTimeStart) {
     const time = new Date();
@@ -163,6 +176,8 @@ function checkBtnType(e) {
     submitNewItem('submit');
   } else if (e.target.dataset.btn === 'timing') {
     countTimeStatus();
+  } else if (e.target.dataset.btn === 'delete-single') {
+    deleteItem(e);
   }
 }
 function inputFocusEffect(e) {
@@ -182,8 +197,7 @@ function inputFocusEffect(e) {
 // event Listener
 window.addEventListener('DOMContentLoaded', loadingEffect); // loader effect
 window.addEventListener('load', init);
-timing.addEventListener('click', checkBtnType);
-submit.addEventListener('click', checkBtnType);
+window.addEventListener('click', checkBtnType);
 deleteAllBtn.forEach((item) => item.addEventListener('click', deleteList));
 timeInput.forEach((item) => item.addEventListener('keydown', inputFocusEffect)); // input 點 enter 會自動跳下一個 input
 contentInput.forEach((item) => item.addEventListener('keydown', inputFocusEffect)); // contentinput 點 enter 會自動跳送出

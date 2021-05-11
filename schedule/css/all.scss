@@ -103,6 +103,13 @@ input {
     transition: 1s;
     background: #1d180d;
   }
+  &-sm {
+    vertical-align: middle;
+    &:hover {
+      cursor: pointer;
+      color: #7c0d0d;
+    }
+  }
 }
 
 //loader css
