@@ -22,6 +22,15 @@ function loadingEffect() {
   wrap.classList.remove('d-flex');
   wrap.classList.add('d-none');
 }
+function startNewDay() {
+  const newHistoryListItem = {
+    date: `${new Date().getMonth() + 1}/${new Date().getDate()}`,
+    list: data.list,
+    totalTime: data.totalTime,
+  };
+  data.historyList.push(newHistoryListItem);
+  deleteList();
+}
 function init() {
   loader.classList.add('d-none');
   wrap.classList.remove('d-none');
@@ -31,12 +40,17 @@ function init() {
   const day = new Date().getDay();
   const dayName = ['日', '一', '二', '三', '四', '五', '六'];
   doneList.innerHTML = `<h3 class="fz-m mb-3">${month}/${date}（${dayName[day]}）</h3>`;
+  if (new Date().getHours() === 0 && new Date().getMinutes() === 0
+  && new Date().getSeconds() === 0 && new Date().getMilliseconds() === 0) {
+    startNewDay();
+  }
   if (JSON.parse(localStorage.getItem('doneList')) != null) {
     // 如果 local storage 有東西， data 是 local storage 裡的東西
     data = JSON.parse(localStorage.getItem('doneList'));
   } else {
     // 如果 local storage 沒東西，新增空白 data
     data = {
+      historyList: [],
       list: [],
       totalTime: 0,
       cheerUpStr: '',
@@ -57,7 +71,8 @@ function resetInput() {
   contentInput[1].value = '';
 }
 function calculateTime(newItem) {
-  data.totalTime += 60 * (newItem.endHour - newItem.startHour) + (newItem.endMin - newItem.startMin);
+  data.totalTime
+  += 60 * (newItem.endHour - newItem.startHour) + (newItem.endMin - newItem.startMin);
   if (data.totalTime / 60 <= 4) {
     data.cheerUpStr = '是不是對自己太好了呢？加油加油！';
   } else if (data.totalTime / 60 <= 6) {
@@ -66,15 +81,6 @@ function calculateTime(newItem) {
     data.cheerUpStr = '哇！今天的工作時數達標啦！';
   } else {
     data.cheerUpStr = '好像有點努力過頭了～今天辛苦了，早點休息唷！';
-  }
-}
-function saveLocalStorage() {
-  localStorage.setItem('doneList', JSON.stringify(data));
-}
-function clearLocalStorage() {
-  if (window.confirm('是否確定開始新的一天？舊的紀錄會跟喝下孟婆湯一樣回不來ㄛ！')) {
-    localStorage.clear(); // local storage 資料歸 0
-    init();
   }
 }
 function submitNewItem(e) {
@@ -114,8 +120,14 @@ function submitNewItem(e) {
   resetInput(); // 清空表單
   nowTime.innerHTML = '尚未開始計時'; // 確定結束時間被紀錄後，調回預設文字
   calculateTime(newItem);
-  saveLocalStorage();
+  localStorage.setItem('doneList', JSON.stringify(data));
   init(); // 初始化
+}
+function deleteList() {
+  data.list = [];
+  data.totalTime = 0;
+  localStorage.setItem('doneList', JSON.stringify(data));
+  init();
 }
 function countLoop() {
   if (countTimeStart) {
@@ -172,6 +184,6 @@ window.addEventListener('DOMContentLoaded', loadingEffect); // loader effect
 window.addEventListener('load', init);
 timing.addEventListener('click', checkBtnType);
 submit.addEventListener('click', checkBtnType);
-deleteAllBtn.forEach((item) => item.addEventListener('click', clearLocalStorage));
+deleteAllBtn.forEach((item) => item.addEventListener('click', deleteList));
 timeInput.forEach((item) => item.addEventListener('keydown', inputFocusEffect)); // input 點 enter 會自動跳下一個 input
 contentInput.forEach((item) => item.addEventListener('keydown', inputFocusEffect)); // contentinput 點 enter 會自動跳送出
