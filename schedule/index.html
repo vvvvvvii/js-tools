@@ -28,13 +28,13 @@
             <!--自動計時模式-->
             <div class="tab-pane fade show active" id="automatic" role="tabpanel" aria-labelledby="automaticModeTab">
                 <div class="inputSection">
-                    <p class="fz-m mb-1" id="nowTime">尚未開始計時</p>
+                    <p class="fz-m mb-1 text-center" id="nowTime">尚未開始計時</p>
                     <!--達成事項-->
                     <label for="contentAuto" class="fz-m">完成事項</label>
                     <input type="text" id="contentAuto" class="contentInput" placeholder="今天做了些什麼？">
                 </div>
                 <div class="submitSection mr-1">
-                    <button type="button" class="timing btn mb-1">
+                    <button type="button" class="timing btn mb-1" data-btn="timing">
                         <span class="material-icons">
                             play_arrow
                         </span>
@@ -70,7 +70,7 @@
                     </div>
                 </div>
                 <div class="submitSection mr-1">
-                    <button type="button" class="submit btn mb-1">
+                    <button type="button" class="submit btn mb-1" data-btn="submit">
                         <span class="material-icons">
                             send
                         </span>
