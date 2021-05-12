@@ -39,8 +39,8 @@ function init() {
   const day = new Date().getDay();
   const dayName = ['日', '一', '二', '三', '四', '五', '六'];
   doneList.innerHTML = `<h3 class="fz-m mb-3">${month}/${date}（${dayName[day]}）</h3>`;
-  if (new Date().getHours() === 0 && new Date().getMinutes() === 0
-  && new Date().getSeconds() === 0 && new Date().getMilliseconds() === 0) {
+  if (new Date().getHours() === 23 && new Date().getMinutes() === 59
+  && new Date().getSeconds() === 59 && new Date().getMilliseconds() === 59) {
     startNewDay();
   }
   if (JSON.parse(localStorage.getItem('doneList')) != null) {
@@ -137,7 +137,7 @@ function deleteItem(e) {
   const index = e.target.dataset.listindex;
   const item = data.list[index];
   // 刪除項目時，總工時也要減少
-  data.totalTime -= 60 * (item.endHour - item.startHour) + (item.endMin - item.startMin); 
+  data.totalTime -= 60 * (item.endHour - item.startHour) + (item.endMin - item.startMin);
   data.list.splice(index, 1);
   localStorage.setItem('doneList', JSON.stringify(data));
   init();
