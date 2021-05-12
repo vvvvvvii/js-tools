@@ -12,6 +12,12 @@ const submit = document.querySelector('.submit');
 const subtotal = document.querySelector('#subtotal');
 const deleteAllBtn = document.querySelectorAll('.deleteAllBtn');
 
+const month = new Date().getMonth() + 1;
+const date = new Date().getDate();
+const day = new Date().getDay();
+const dayName = ['日', '一', '二', '三', '四', '五', '六'];
+const today = `${month}/${date}`;
+
 let data = {};
 let countTimeStart = false; // 自動計時是否開始
 let countstartTimeArr = [];
@@ -23,7 +29,7 @@ function loadingEffect() {
 }
 function startNewDay() {
   const newHistoryListItem = {
-    date: `${new Date().getMonth() + 1}/${new Date().getDate()}`,
+    date: data.today,
     list: data.list,
     totalTime: data.totalTime,
   };
@@ -34,15 +40,7 @@ function init() {
   loader.classList.add('d-none');
   wrap.classList.remove('d-none');
   wrap.classList.add('d-flex');
-  const month = new Date().getMonth() + 1;
-  const date = new Date().getDate();
-  const day = new Date().getDay();
-  const dayName = ['日', '一', '二', '三', '四', '五', '六'];
   doneList.innerHTML = `<h3 class="fz-m mb-3">${month}/${date}（${dayName[day]}）</h3>`;
-  if (new Date().getHours() === 23 && new Date().getMinutes() === 59
-  && new Date().getSeconds() === 59 && new Date().getMilliseconds() === 59) {
-    startNewDay();
-  }
   if (JSON.parse(localStorage.getItem('doneList')) != null) {
     // 如果 local storage 有東西， data 是 local storage 裡的東西
     data = JSON.parse(localStorage.getItem('doneList'));
@@ -51,9 +49,13 @@ function init() {
     data = {
       historyList: [],
       list: [],
+      today,
       totalTime: 0,
       cheerUpStr: '',
     };
+  }
+  if (data.today !== `${month}/${date}`) {
+    startNewDay();
   }
   data.list.forEach((item, index) => {
     doneList.innerHTML += `<li class="mb-3">
@@ -129,6 +131,7 @@ function submitNewItem(e) {
 }
 function deleteList() {
   data.list = [];
+  data.today = today;
   data.totalTime = 0;
   localStorage.setItem('doneList', JSON.stringify(data));
   init();
